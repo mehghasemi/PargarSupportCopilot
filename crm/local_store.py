@@ -61,6 +61,8 @@ class LocalStore:
                 service TEXT,
                 category TEXT,
                 subcategory TEXT,
+                owner_crm_id TEXT,
+                owner_name TEXT,
                 state_code INTEGER,
                 status_code INTEGER,
                 created_on TEXT,
@@ -123,6 +125,13 @@ class LocalStore:
         )
         self.connection.commit()
 
+        columns = {row[1] for row in self.connection.execute("PRAGMA table_info(cases)")}
+        if "owner_crm_id" not in columns:
+            self.connection.execute("ALTER TABLE cases ADD COLUMN owner_crm_id TEXT")
+        if "owner_name" not in columns:
+            self.connection.execute("ALTER TABLE cases ADD COLUMN owner_name TEXT")
+        self.connection.commit()
+
     def replace_snapshot(
         self,
         cases: list[dict[str, Any]],
@@ -150,9 +159,9 @@ class LocalStore:
                     """
                     INSERT INTO cases(
                         crm_id, ticket_number, title, description, service,
-                        category, subcategory, state_code, status_code,
-                        created_on, modified_on, raw_json
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        category, subcategory, owner_crm_id, owner_name,
+                        state_code, status_code, created_on, modified_on, raw_json
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     """,
                     (
                         row.get("incidentid"),
@@ -162,6 +171,8 @@ class LocalStore:
                         _field(row, "case_service", "brd_productservice", "casetypecode"),
                         _field(row, "category", "brd_productcategory"),
                         _field(row, "subcategory", "brd_incidenttype"),
+                        row.get("_ownerid_value"),
+                        _field(row, "_ownerid_value"),
                         _field(row, "statecode"),
                         _field(row, "statuscode"),
                         row.get("createdon"),
@@ -261,15 +272,28 @@ class LocalStore:
             self.connection.commit()
             raise
 
-    def list_cases(self) -> list[dict[str, Any]]:
-        return [dict(row) for row in self.connection.execute(
-            "SELECT * FROM cases ORDER BY modified_on DESC, id DESC"
-        )]
+    def list_cases(self, owner_crm_id: str | None = None) -> list[dict[str, Any]]:
+        if owner_crm_id:
+            rows = self.connection.execute(
+                "SELECT * FROM cases WHERE owner_crm_id=? ORDER BY modified_on DESC, id DESC",
+                (owner_crm_id,),
+            )
+        else:
+            rows = self.connection.execute(
+                "SELECT * FROM cases ORDER BY modified_on DESC, id DESC"
+            )
+        return [dict(row) for row in rows]
 
-    def get_case(self, crm_id: str) -> dict[str, Any] | None:
-        case = self.connection.execute(
-            "SELECT * FROM cases WHERE crm_id=?", (crm_id,)
-        ).fetchone()
+    def get_case(self, crm_id: str, owner_crm_id: str | None = None) -> dict[str, Any] | None:
+        if owner_crm_id:
+            case = self.connection.execute(
+                "SELECT * FROM cases WHERE crm_id=? AND owner_crm_id=?",
+                (crm_id, owner_crm_id),
+            ).fetchone()
+        else:
+            case = self.connection.execute(
+                "SELECT * FROM cases WHERE crm_id=?", (crm_id,)
+            ).fetchone()
         if not case:
             return None
         result = dict(case)
@@ -315,9 +339,13 @@ class LocalStore:
             "SELECT * FROM knowledge_articles WHERE content IS NOT NULL"
         )]
 
-    def discovery_summary(self) -> dict[str, Any]:
+    def discovery_summary(self, owner_crm_id: str | None = None) -> dict[str, Any]:
         """Return a preliminary, read-only inventory for Release 0 discovery."""
-        total = self.connection.execute("SELECT COUNT(*) FROM cases").fetchone()[0]
+        where_clause = " WHERE owner_crm_id=?" if owner_crm_id else ""
+        query_params = (owner_crm_id,) if owner_crm_id else ()
+        total = self.connection.execute(
+            f"SELECT COUNT(*) FROM cases{where_clause}", query_params
+        ).fetchone()[0]
         complete = self.connection.execute(
             """
             SELECT COUNT(*) FROM cases
@@ -326,7 +354,7 @@ class LocalStore:
               AND NULLIF(TRIM(COALESCE(service, '')), '') IS NOT NULL
               AND NULLIF(TRIM(COALESCE(category, '')), '') IS NOT NULL
               AND created_on IS NOT NULL
-            """
+            """ + (" AND owner_crm_id=?" if owner_crm_id else ""), query_params
         ).fetchone()[0]
 
         def grouped(column: str) -> list[dict[str, Any]]:
@@ -335,9 +363,10 @@ class LocalStore:
                 SELECT COALESCE(NULLIF(TRIM({column}), ''), 'بدون مقدار') AS label,
                        COUNT(*) AS count
                 FROM cases
+                {where_clause}
                 GROUP BY COALESCE(NULLIF(TRIM({column}), ''), 'بدون مقدار')
                 ORDER BY count DESC, label
-                """
+                """, query_params
             )
             return [dict(row) for row in rows]
 

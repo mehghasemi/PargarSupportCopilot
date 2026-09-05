@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import argparse
 import sys
+import time
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
@@ -30,6 +31,20 @@ MAX_QUERY_LENGTH = 500
 MAX_SCENARIOS_PAYLOAD = 2_000_000
 ALLOWED_FEEDBACK_ACTIONS = {"accepted", "edited", "rejected"}
 ALLOWED_FEEDBACK_TYPES = {"suggestion", "article", "missing-field", "scenario-step"}
+_identity_cache: dict[str, object] = {"user_id": None, "expires_at": 0.0}
+
+
+def current_crm_user_id() -> str:
+    now = time.monotonic()
+    cached = _identity_cache.get("user_id")
+    if cached and now < float(_identity_cache.get("expires_at", 0.0)):
+        return str(cached)
+    identity = CrmClient().who_am_i()
+    user_id = identity.get("UserId")
+    if not user_id:
+        raise CrmError("شناسه کاربر فعلی از CRM دریافت نشد.")
+    _identity_cache.update({"user_id": user_id, "expires_at": now + 300})
+    return str(user_id)
 
 
 class Handler(SimpleHTTPRequestHandler):
@@ -68,10 +83,20 @@ class Handler(SimpleHTTPRequestHandler):
         try:
             store.initialize()
             if path == "/api/cases":
-                self._json(store.list_cases())
+                try:
+                    owner_id = current_crm_user_id()
+                except CrmError:
+                    self._json({"error": "هویت کاربر در CRM تأیید نشد؛ فهرست Caseها نمایش داده نمی‌شود."}, 503)
+                    return
+                self._json(store.list_cases(owner_id))
                 return
             if path == "/api/release-0/discovery-summary":
-                self._json({"data": store.discovery_summary()})
+                try:
+                    owner_id = current_crm_user_id()
+                except CrmError:
+                    self._json({"error": "هویت کاربر در CRM تأیید نشد؛ خلاصه داده نمایش داده نمی‌شود."}, 503)
+                    return
+                self._json({"data": store.discovery_summary(owner_id)})
                 return
             if path == "/api/scenario-kb":
                 query = parse_qs(parsed.query).get("q", [""])[0]
@@ -107,16 +132,21 @@ class Handler(SimpleHTTPRequestHandler):
                 ])
                 return
             if path.startswith("/api/cases/"):
+                try:
+                    owner_id = current_crm_user_id()
+                except CrmError:
+                    self._json({"error": "هویت کاربر در CRM تأیید نشد؛ دسترسی به Case ممکن نیست."}, 503)
+                    return
                 case_path = path[len("/api/cases/"):]
                 if case_path.endswith("/analysis"):
                     case_path = case_path[:-len("/analysis")].rstrip("/")
-                    case = store.get_case(case_path)
+                    case = store.get_case(case_path, owner_id)
                     self._json(
                         analyze_case(case) if case else {"error": "Case پیدا نشد"},
                         200 if case else 404,
                     )
                     return
-                case = store.get_case(case_path)
+                case = store.get_case(case_path, owner_id)
                 self._json(case or {"error": "Case پیدا نشد"}, 200 if case else 404)
                 return
         finally:
@@ -135,7 +165,11 @@ class Handler(SimpleHTTPRequestHandler):
                 view, case_payload = client.load_view_cases(
                     view_id, top=100, view_type=view_type
                 )
-                cases = case_payload.get("value", [])
+                owner_id = current_crm_user_id()
+                cases = [
+                    item for item in case_payload.get("value", [])
+                    if item.get("_ownerid_value") == owner_id
+                ]
                 notes = []
                 tasks = []
                 posts = []
@@ -165,6 +199,7 @@ class Handler(SimpleHTTPRequestHandler):
                     "knowledge_articles": len(articles),
                     "stored_records": count,
                     "crm_write_operations": 0,
+                    "owner_filter": owner_id,
                 })
             except (CrmError, ValueError, json.JSONDecodeError) as exc:
                 self._json({"ok": False, "error": str(exc)}, 400)

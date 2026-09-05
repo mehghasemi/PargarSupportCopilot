@@ -22,12 +22,22 @@ def main() -> int:
         parser = argparse.ArgumentParser()
         parser.add_argument("--view-id")
         args = parser.parse_args()
+        identity = client.who_am_i()
+        current_user_id = identity.get("UserId")
+        if not current_user_id:
+            raise CrmError("شناسه کاربر فعلی از CRM دریافت نشد.")
         selected_view = None
         if args.view_id:
             selected_view, case_payload = client.load_view_cases(args.view_id, top=100)
-            cases = case_payload.get("value", [])
+            cases = [
+                item for item in case_payload.get("value", [])
+                if item.get("_ownerid_value") == current_user_id
+            ]
         else:
-            cases = client.list_cases(top=10).get("value", [])
+            cases = client.list_cases(
+                filter_expression=f"_ownerid_value eq {current_user_id}",
+                top=100,
+            ).get("value", [])
         notes = []
         tasks = []
         posts = []
@@ -55,6 +65,7 @@ def main() -> int:
             "crm_write_operations": 0,
             "selected_view": selected_view.get("name") if selected_view else None,
             "selected_view_id": selected_view.get("savedqueryid") if selected_view else None,
+            "owner_filter": current_user_id,
         }, ensure_ascii=False, indent=2))
         return 0
     except CrmError as exc:

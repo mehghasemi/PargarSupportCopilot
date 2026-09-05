@@ -114,6 +114,7 @@ class CrmClient:
                 "incidentid", "ticketnumber", "title", "description",
                 "createdon", "modifiedon", "statecode", "statuscode",
                 "casetypecode", "brd_productcategory", "brd_incidenttype",
+                "_ownerid_value",
             ],
             filter_expression=filter_expression,
             top=top,
