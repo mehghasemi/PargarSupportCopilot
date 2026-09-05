@@ -120,6 +120,15 @@
     .case-info-body { display:none; padding:0 16px 16px; border-top:1px solid var(--line); }
     .case-info-accordion.open .case-info-body { display:grid; gap:14px; }
     .case-info-body > .card { box-shadow:none; border-radius:12px; margin-top:14px; }
+    .activity-drawer { padding: 0; overflow: hidden; }
+    .activity-drawer-toggle { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 16px; border: 0; padding: 17px 20px; background: linear-gradient(135deg, #eaf3ff, #f8fbff); color: var(--ink); text-align: right; cursor: pointer; font: inherit; }
+    .activity-drawer-toggle:hover { background: linear-gradient(135deg, #dbeafe, #eff6ff); }
+    .activity-drawer-title { display: block; color: #1e3a8a; font-size: .96rem; font-weight: 800; }
+    .activity-drawer-summary { display: block; color: var(--muted); font-size: .74rem; margin-top: 3px; }
+    .activity-drawer-icon { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: #dbeafe; color: #1d4ed8; font-size: 1.1rem; flex: 0 0 auto; transition: transform .18s ease; }
+    .activity-drawer.open .activity-drawer-icon { transform: rotate(180deg); }
+    .activity-drawer-body { display: none; padding: 0 16px 16px; border-top: 1px solid var(--line); }
+    .activity-drawer.open .activity-drawer-body { display: block; }
     .missing-card { border-color:#fbbf24; background:linear-gradient(135deg,#fffaf0,#fff); }
     .missing-card .section-title { margin-top:0; }
     .case-picker-card .card-header { align-items: center; }
@@ -441,13 +450,19 @@
           </div>
         </article>
 
-        <article class="card">
-          <div class="section-title" style="margin-top:0">
-            <h3>متعلقات مورد</h3>
-            <span class="muted">Snapshot داخلی CRM</span>
-          </div>
-          <div id="relatedActivities" class="activity-timeline" aria-live="polite">
-            <div class="timeline-empty">برای این مورد متعلقی در Snapshot ثبت نشده است.</div>
+        <article class="card activity-drawer" id="activityDrawer">
+          <button class="activity-drawer-toggle" id="activityDrawerToggle" type="button" aria-expanded="false" aria-controls="activityDrawerBody">
+            <span><span class="activity-drawer-title">متعلقات مورد</span><span class="activity-drawer-summary" id="activityDrawerSummary">برای مشاهده Note، Post و Task، کشو را باز کنید.</span></span>
+            <span class="activity-drawer-icon" aria-hidden="true">⌄</span>
+          </button>
+          <div class="activity-drawer-body" id="activityDrawerBody">
+            <div class="section-title" style="margin-top:14px">
+              <h3>Timeline متعلقات مورد</h3>
+              <span class="muted">Snapshot داخلی CRM</span>
+            </div>
+            <div id="relatedActivities" class="activity-timeline" aria-live="polite">
+              <div class="timeline-empty">برای این مورد متعلقی در Snapshot ثبت نشده است.</div>
+            </div>
           </div>
         </article>
 
@@ -468,8 +483,6 @@
           <div class="actions" style="margin-top: 12px">
             <button class="btn" id="editNoteBtn">ویرایش پیش‌نویس</button>
             <button class="btn primary" id="acceptNoteBtn">پذیرش برای ثبت</button>
-          </div>
-        </article>
           </div>
         </article>
 
@@ -590,12 +603,20 @@
     const noKbMessage = document.getElementById('noKbMessage');
     const caseInfoAccordion = document.getElementById('caseInfoAccordion');
     const caseInfoToggle = document.getElementById('caseInfoToggle');
+    const activityDrawer = document.getElementById('activityDrawer');
+    const activityDrawerToggle = document.getElementById('activityDrawerToggle');
     let currentCaseId = null;
 
     caseInfoToggle?.addEventListener('click', () => {
       const open = !caseInfoAccordion.classList.contains('open');
       caseInfoAccordion.classList.toggle('open', open);
       caseInfoToggle.setAttribute('aria-expanded', String(open));
+    });
+
+    activityDrawerToggle?.addEventListener('click', () => {
+      const open = !activityDrawer.classList.contains('open');
+      activityDrawer.classList.toggle('open', open);
+      activityDrawerToggle.setAttribute('aria-expanded', String(open));
     });
 
     function toFaNumber(value) {
