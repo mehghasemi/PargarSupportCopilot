@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="fa-IR" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>مرکز برنامه دستیار پشتیبانی پرگار</title>
+  <style>
+    :root{--nav:#102052;--primary:#2563eb;--ink:#172033;--muted:#64748b;--line:#dbe5f2;--surface:#fff;--bg:#eef4ff;--green:#047857}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;color:var(--ink);font-family:"Vazirmatn",Tahoma,Arial,sans-serif;background:radial-gradient(circle at 10% 0%,#dbeafe 0,transparent 32%),linear-gradient(135deg,#eef4ff,#f8fafc 52%,#ecfdf5);line-height:1.8}
+    .shell{max-width:1180px;margin:auto;padding:28px 20px 36px}.hero{position:relative;overflow:hidden;color:#fff;border-radius:26px;padding:38px 42px;background:linear-gradient(125deg,#0f1f4d,#1d4ed8 62%,#2563eb);box-shadow:0 22px 46px rgba(30,64,175,.25)}.hero:after{content:"";position:absolute;width:280px;height:280px;left:-70px;bottom:-150px;border-radius:50%;background:rgba(255,255,255,.1)}.eyebrow{display:inline-block;padding:4px 11px;border:1px solid rgba(255,255,255,.3);border-radius:999px;color:#dbeafe;font-size:.75rem}.hero h1{margin:12px 0 4px;font-size:clamp(1.55rem,3vw,2.2rem)}.hero p{max-width:730px;margin:8px 0;color:#dbeafe;font-size:.95rem}.hero-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:22px}.btn{display:inline-flex;align-items:center;justify-content:center;border:1px solid #cbd8e8;border-radius:11px;padding:9px 15px;background:#fff;color:var(--ink);text-decoration:none;font-size:.82rem;font-weight:700;cursor:pointer;transition:.18s}.btn:hover{transform:translateY(-1px);border-color:#60a5fa;box-shadow:0 6px 14px rgba(37,99,235,.14)}.btn.primary{border-color:#fff;background:#fff;color:#1d4ed8}.btn.ghost{border-color:rgba(255,255,255,.35);background:rgba(255,255,255,.1);color:#fff}.statusbar{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:18px 0}.status{padding:7px 12px;border-radius:999px;background:#ecfdf5;border:1px solid #a7f3d0;color:var(--green);font-size:.78rem}.status.muted{background:#fff7ed;border-color:#fed7aa;color:#9a3412}.status-text{color:var(--muted);font-size:.8rem}.modules{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.module{display:flex;flex-direction:column;min-height:220px;background:rgba(255,255,255,.93);border:1px solid var(--line);border-radius:18px;padding:19px;box-shadow:0 12px 30px rgba(30,64,175,.08);transition:.2s}.module:hover{transform:translateY(-3px);border-color:#93c5fd;box-shadow:0 16px 34px rgba(30,64,175,.15)}.module-icon{display:grid;place-items:center;width:43px;height:43px;border-radius:13px;background:linear-gradient(135deg,#dbeafe,#c7d2fe);color:#1d4ed8;font-size:1.2rem}.module h2{margin:14px 0 3px;font-size:1rem}.module p{margin:0 0 16px;color:var(--muted);font-size:.78rem}.module .btn{margin-top:auto;width:100%}.workflow{margin-top:18px;background:rgba(255,255,255,.9);border:1px solid var(--line);border-radius:18px;padding:20px}.workflow h2{margin:0 0 12px;font-size:1rem}.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.flow-step{position:relative;padding:11px 13px;border-radius:12px;background:#f8fbff;border:1px solid #dbeafe;font-size:.78rem}.flow-step strong{display:block;color:var(--primary);font-size:.72rem;margin-bottom:3px}.foot{margin-top:17px;text-align:center;color:var(--muted);font-size:.72rem}@media(max-width:900px){.modules{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:560px){.shell{padding:14px}.hero{padding:28px 22px;border-radius:20px}.modules,.flow{grid-template-columns:1fr}.hero-actions{flex-direction:column}.hero-actions .btn{width:100%}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <span class="eyebrow">نسخه عملیاتی Read-Only · اتصال به CRM</span>
+      <h1>مرکز برنامه دستیار پشتیبانی پرگار</h1>
+      <p>از این صفحه همه مسیرهای کاری در دسترس است: مشاهده Caseها، اجرای عیب‌یابی مرحله‌ای، مدیریت سناریوها و مشاهده وضعیت داده‌های محلی.</p>
+      <div class="hero-actions"><a class="btn primary" href="index.html">شروع با Caseها</a><a class="btn ghost" href="app-shell.html">مشاهده داشبورد</a></div>
+    </section>
+    <div class="statusbar"><span id="serverStatus" class="status">در حال بررسی اتصال داخلی...</span><span id="dataStatus" class="status-text">در حال بررسی داده‌های Snapshot...</span></div>
+    <section class="modules" aria-label="ماژول‌های برنامه">
+      <article class="module"><div class="module-icon">▣</div><h2>Case Review</h2><p>انتخاب View، واکشی Case و مشاهده Note، Post، Task و پیشنهادهای مبتنی بر داده.</p><a class="btn primary" href="index.html">باز کردن Caseها</a></article>
+      <article class="module"><div class="module-icon">✓</div><h2>اجرای سناریو</h2><p>انتخاب سناریو و اجرای مرحله‌به‌مرحله برای بررسی مشکل و تولید متن قابل کپی.</p><a class="btn primary" href="scenarios.html">اجرای سناریوها</a></article>
+      <article class="module"><div class="module-icon">⚙</div><h2>مدیریت سناریو</h2><p>ساخت، ویرایش، تنظیم پاسخ‌های آماده و تعریف مراحل سناریوهای جدید.</p><a class="btn" href="scenario-management.html">مدیریت سناریوها</a></article>
+      <article class="module"><div class="module-icon">◈</div><h2>داشبورد و وضعیت</h2><p>مشاهده تعداد Caseها، وضعیت Snapshot و نمای کلی جریان کاری برنامه.</p><a class="btn" href="app-shell.html">باز کردن داشبورد</a></article>
+    </section>
+    <section class="workflow"><h2>جریان کاری پیشنهادی</h2><div class="flow"><div class="flow-step"><strong>گام ۱</strong>انتخاب View و واکشی Snapshot</div><div class="flow-step"><strong>گام ۲</strong>انتخاب Case و بررسی Timeline</div><div class="flow-step"><strong>گام ۳</strong>انتخاب سناریوی مرتبط</div><div class="flow-step"><strong>گام ۴</strong>تکمیل بررسی و کپی خروجی</div></div></section>
+    <p class="foot">این نسخه برای استفاده عملیاتیِ خواندنی آماده است؛ ثبت یا تغییر نهایی در CRM انجام نمی‌شود.</p>
+  </main>
+  <script>
+    (async function(){
+      const server=document.getElementById('serverStatus');const data=document.getElementById('dataStatus');
+      try{const response=await fetch('/api/cases');if(!response.ok)throw new Error();const cases=await response.json();server.textContent='اتصال داخلی آماده است';data.textContent=`${cases.length} Case در Snapshot محلی موجود است.`}catch(_){server.textContent='سرور داخلی اجرا نیست';server.classList.add('muted');data.textContent='برای استفاده از Caseها، سرور محلی را اجرا کنید.'}
+    }());
+  </script>
+</body>
+</html>

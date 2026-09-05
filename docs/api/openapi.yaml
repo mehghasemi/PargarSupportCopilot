@@ -1,0 +1,92 @@
+openapi: 3.0.3
+info:
+  title: Pargar Support Copilot API
+  version: 0.1.0
+  description: API محلی Release 0 برای خواندن Snapshot و ثبت بازخورد محلی؛ هیچ عملیات نوشتن در CRM ندارد.
+servers:
+  - url: http://127.0.0.1:8765
+paths:
+  /api/version-history:
+    get:
+      summary: دریافت تاریخچه نگارش برنامه
+      responses:
+        '200': { description: موفق }
+        '500': { description: تاریخچه در دسترس نیست }
+  /api/scenarios:
+    get:
+      summary: دریافت تنظیمات و سناریوهای ذخیره‌شده در فایل قابل انتقال
+      responses:
+        '200': { description: موفق }
+    put:
+      summary: ذخیره نسخه جدید سناریوها و تنظیمات
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { type: object }
+      responses:
+        '200': { description: ذخیره موفق }
+        '400': { description: ورودی نامعتبر }
+  /api/scenarios/export:
+    get:
+      summary: خروجی قابل انتقال سناریوها و تنظیمات
+      responses:
+        '200': { description: موفق }
+  /api/cases:
+    get:
+      summary: فهرست Caseهای Snapshot محلی
+      responses:
+        '200':
+          description: موفق
+  /api/cases/{caseId}:
+    get:
+      summary: دریافت Case و Timeline مرتبط
+      parameters:
+        - in: path
+          name: caseId
+          required: true
+          schema: { type: string, maxLength: 100 }
+      responses:
+        '200': { description: موفق }
+        '404': { description: Case پیدا نشد }
+  /api/cases/{caseId}/analysis:
+    get:
+      summary: تحلیل مستند به داده Case
+      parameters:
+        - in: path
+          name: caseId
+          required: true
+          schema: { type: string, maxLength: 100 }
+      responses:
+        '200': { description: موفق }
+        '404': { description: Case پیدا نشد }
+  /api/scenario-kb:
+    get:
+      summary: جست‌وجوی مقاله در KB Snapshot
+      parameters:
+        - in: query
+          name: q
+          required: true
+          schema: { type: string, maxLength: 500 }
+      responses:
+        '200': { description: موفق }
+        '400': { description: ورودی نامعتبر }
+  /api/feedback:
+    post:
+      summary: ثبت بازخورد محلی کاربر
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [case_crm_id, item_type, action]
+              properties:
+                case_crm_id: { type: string, maxLength: 100 }
+                item_type: { type: string, enum: [suggestion, article, missing-field, scenario-step] }
+                item_id: { type: string, maxLength: 100 }
+                action: { type: string, enum: [accepted, edited, rejected] }
+                comment: { type: string, maxLength: 2000 }
+      responses:
+        '200': { description: ذخیره محلی موفق }
+        '400': { description: ورودی نامعتبر }

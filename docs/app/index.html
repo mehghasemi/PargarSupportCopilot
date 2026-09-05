@@ -1,0 +1,1069 @@
+<!doctype html>
+<html lang="fa-IR" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>دستیار عملیاتی پشتیبانی پرگار</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --surface: #fff;
+      --ink: #172033;
+      --muted: #64748b;
+      --line: #dbe3ef;
+      --primary: #2563eb;
+      --primary-soft: #eff6ff;
+      --warning: #b45309;
+      --warning-soft: #fff7ed;
+      --success: #047857;
+      --success-soft: #ecfdf5;
+      --danger: #b91c1c;
+      --shadow: 0 12px 32px rgba(30, 64, 175, .08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--bg);
+      font-family: "Vazirmatn", Tahoma, Arial, sans-serif;
+      line-height: 1.8;
+    }
+    button, input, textarea { font: inherit; }
+    button { cursor: pointer; }
+    .topbar {
+      color: #fff;
+      background: #172554;
+      padding: 18px 5vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    .topbar h1 { margin: 0; font-size: 1.2rem; }
+    .topbar small { color: #bfdbfe; }
+    .badge {
+      border: 1px solid rgba(255,255,255,.28);
+      border-radius: 999px;
+      padding: 5px 12px;
+      color: #dbeafe;
+      white-space: nowrap;
+      font-size: .8rem;
+    }
+    main { max-width: 1440px; margin: 28px auto; padding: 0 20px; }
+    .notice {
+      background: #fffbeb;
+      color: #92400e;
+      border: 1px solid #fde68a;
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      font-size: .9rem;
+    }
+    .demo-guide {
+      background: var(--surface);
+      border: 1px solid #bfdbfe;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 20px;
+    }
+    .demo-guide h2 { color: #1e40af; margin-bottom: 6px; }
+    .demo-guide ol { margin: 6px 0 0; padding-right: 22px; color: var(--muted); font-size: .82rem; }
+    .demo-guide li { margin: 2px 0; }
+    .discovery-card { margin-bottom: 20px; }
+    .discovery-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+    .discovery-metric { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; background: #f8fbff; }
+    .discovery-metric strong { display: block; color: var(--primary); font-size: 1.15rem; }
+    .discovery-metric span { color: var(--muted); font-size: .76rem; }
+    .discovery-breakdown { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+    .discovery-breakdown ul { margin: 6px 0 0; padding-right: 20px; font-size: .8rem; }
+    .discovery-footnote { margin: 12px 0 0; color: var(--muted); font-size: .76rem; }
+    .test-step {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 4px 6px 4px 0;
+      padding: 6px 10px;
+      border-radius: 8px;
+      background: #f8fafc;
+      color: var(--ink);
+      font-size: .82rem;
+    }
+    .test-step strong {
+      display: inline-grid;
+      place-items: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #fff;
+      font-size: .75rem;
+    }
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(360px, .95fr);
+      gap: 20px;
+      align-items: start;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      padding: 20px;
+    }
+    .card + .card { margin-top: 16px; }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    h2, h3 { margin: 0 0 4px; }
+    h2 { font-size: 1.05rem; }
+    h3 { font-size: .95rem; }
+    .muted { color: var(--muted); font-size: .82rem; }
+    .case-id { color: var(--muted); font-size: .8rem; direction: ltr; }
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: .78rem;
+      font-weight: bold;
+      background: var(--warning-soft);
+      color: var(--warning);
+      white-space: nowrap;
+    }
+    .status.complete { background: var(--success-soft); color: var(--success); }
+    .fields {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .field { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+    .field.full { grid-column: 1 / -1; }
+    .field-label { color: var(--muted); font-size: .76rem; display: block; }
+    .field-value { font-size: .88rem; }
+    .field.missing { border-color: #fdba74; background: #fffaf5; }
+    .field.missing .field-value { color: var(--warning); }
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 22px 0 10px;
+    }
+    .section-title h3 { margin: 0; }
+    .count {
+      min-width: 24px;
+      text-align: center;
+      border-radius: 8px;
+      padding: 1px 7px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-size: .78rem;
+    }
+    .alert {
+      border-right: 4px solid #f59e0b;
+      background: var(--warning-soft);
+      padding: 10px 12px;
+      border-radius: 8px;
+      color: #92400e;
+      font-size: .84rem;
+    }
+    .suggestion {
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+    .suggestion-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: start;
+    }
+    .suggestion strong { font-size: .88rem; }
+    .source {
+      color: var(--success);
+      font-size: .75rem;
+      margin-top: 4px;
+    }
+    .confidence {
+      color: var(--primary);
+      background: var(--primary-soft);
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: .72rem;
+      white-space: nowrap;
+    }
+    .reason { color: var(--muted); font-size: .78rem; margin: 5px 0; }
+    .actions { display: flex; gap: 7px; flex-wrap: wrap; }
+    .btn {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 6px 11px;
+      background: #fff;
+      color: var(--ink);
+      font-size: .78rem;
+    }
+    .btn:hover { border-color: var(--primary); color: var(--primary); }
+    .btn.primary { border-color: var(--primary); background: var(--primary); color: #fff; }
+    .btn.danger { color: var(--danger); }
+    .btn:disabled { opacity: .55; cursor: not-allowed; }
+    .note {
+      white-space: pre-line;
+      border: 1px dashed #93c5fd;
+      background: #f8fbff;
+      border-radius: 10px;
+      padding: 13px;
+      color: #1e3a8a;
+      font-size: .82rem;
+    }
+    .footer {
+      color: var(--muted);
+      text-align: center;
+      padding: 28px 0 8px;
+      font-size: .76rem;
+    }
+    .toast {
+      position: fixed;
+      left: 20px;
+      bottom: 20px;
+      background: #172554;
+      color: #fff;
+      padding: 10px 15px;
+      border-radius: 9px;
+      transform: translateY(100px);
+      transition: transform .2s ease;
+      font-size: .8rem;
+      box-shadow: var(--shadow);
+    }
+    .toast.show { transform: translateY(0); }
+    .activity-list { margin: 0; padding: 0; list-style: none; }
+    .activity-list li {
+      border-bottom: 1px solid var(--line);
+      padding: 7px 0;
+      color: var(--muted);
+      font-size: .78rem;
+    }
+    .activity-list li:last-child { border-bottom: 0; }
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin: 10px 0 14px;
+    }
+    .metric {
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      text-align: center;
+      padding: 7px;
+    }
+    .metric strong { display: block; font-size: 1.1rem; color: var(--primary); }
+    .metric span { color: var(--muted); font-size: .7rem; }
+    .demo-select {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 6px 9px;
+      color: var(--ink);
+      background: #fff;
+      font-size: .78rem;
+    }
+    #caseSelector{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+    .case-search{margin-top:12px;padding:14px;border:1px solid #bfdbfe;border-radius:14px;background:linear-gradient(120deg,#eff6ff,#f8fbff)}
+    .case-search label{display:block;color:#1e3a8a;font-size:.78rem;font-weight:700;margin-bottom:5px}
+    .case-search-row{display:flex;gap:7px}.case-search input{flex:1;min-width:0;border:1px solid #93c5fd;border-radius:8px;padding:9px 11px;background:#fff;color:var(--ink);font:inherit;font-size:.8rem}.case-search input:focus{outline:3px solid #bfdbfe;outline-offset:1px}.case-search .btn{white-space:nowrap}.case-search .muted{margin-top:6px;font-size:.72rem}.case-results{display:grid;gap:8px;margin-top:12px;max-height:390px;overflow:auto;padding:2px}.case-result{width:100%;text-align:right;border:1px solid #dbe5f2;border-radius:12px;padding:10px 12px;background:#fff;color:var(--ink);cursor:pointer;transition:.18s}.case-result:hover{border-color:#60a5fa;background:#f8fbff;transform:translateY(-1px);box-shadow:0 5px 14px rgba(37,99,235,.12)}.case-result.selected{border:2px solid #2563eb;background:linear-gradient(120deg,#eff6ff,#fff);box-shadow:0 5px 15px rgba(37,99,235,.14)}.case-result-head{display:flex;justify-content:space-between;gap:10px;align-items:center}.case-result-ticket{color:#1d4ed8;font-size:.75rem;font-weight:800;direction:ltr}.case-result-title{font-size:.82rem;font-weight:700}.case-result-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:5px}.case-result-meta span{padding:2px 7px;border-radius:999px;background:#f1f5f9;color:#475569;font-size:.68rem}.case-results-empty{padding:22px;text-align:center;border:1px dashed #93c5fd;border-radius:11px;color:#64748b;background:#f8fbff;font-size:.8rem}
+    @media (max-width: 900px) {
+      .workspace { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 520px) {
+      .topbar { align-items: flex-start; flex-direction: column; }
+      .fields { grid-template-columns: 1fr; }
+      .case-search-row{flex-direction:column}.case-search-row .btn{width:100%}
+      .field.full { grid-column: auto; }
+      main { padding: 0 12px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>دستیار هوشمند پشتیبانی پرگار</h1>
+      <small>نسخه عملیاتی Read-Only — خواندن CRM و ذخیره‌سازی داخلی</small>
+    </div>
+    <span class="badge">CRM Read-Only · ذخیره‌سازی محلی</span>
+  </header>
+
+  <main>
+    <div class="notice">
+      این صفحه برای تست واقعیِ بدون تغییر در CRM است. Caseها از View انتخاب‌شده خوانده و در دیتابیس داخلی ذخیره می‌شوند؛ هیچ داده‌ای در CRM ثبت یا تغییر نمی‌کند.
+    </div>
+    <section class="demo-guide" aria-label="راهنمای بررسی">
+      <h2>تست را از اینجا شروع کنید</h2>
+      <p class="muted">شما لازم نیست فرم مدیریتی را پر کنید. فقط نتیجه پیشنهادها را با Case واقعی مقایسه کنید.</p>
+      <div>
+        <span class="test-step"><strong>۱</strong> View را انتخاب کنید</span>
+        <span class="test-step"><strong>۲</strong> Caseها را واکشی کنید</span>
+        <span class="test-step"><strong>۳</strong> یک Case را انتخاب کنید</span>
+        <span class="test-step"><strong>۴</strong> پیشنهادها را بررسی کنید</span>
+      </div>
+      <p class="muted">سؤال ساده تست: «آیا پیشنهاد، مقاله و کمبود اطلاعاتی واقعاً برای همین Case درست است؟»</p>
+    </section>
+
+    <section class="card discovery-card" aria-labelledby="discoveryTitle">
+      <div class="card-header">
+        <div>
+          <h2 id="discoveryTitle">نمای Discovery و Baseline اولیه</h2>
+          <div class="muted">فقط از Snapshot داخلی خوانده می‌شود؛ این عددها Baseline رسمی نیستند.</div>
+        </div>
+        <button class="btn" id="refreshDiscoveryBtn" type="button">به‌روزرسانی</button>
+      </div>
+      <div id="discoveryLoading" class="muted">در حال خواندن Snapshot...</div>
+      <div id="discoveryContent" style="display:none">
+        <div class="discovery-grid">
+          <div class="discovery-metric"><strong id="discoveryTotal">—</strong><span>کل Caseهای Snapshot</span></div>
+          <div class="discovery-metric"><strong id="discoveryComplete">—</strong><span>Case کاملِ مقدماتی</span></div>
+          <div class="discovery-metric"><strong id="discoveryRate">—</strong><span>نرخ کامل‌بودن مقدماتی</span></div>
+          <div class="discovery-metric"><strong id="discoverySync">—</strong><span>آخرین همگام‌سازی</span></div>
+        </div>
+        <div class="discovery-breakdown">
+          <div><h3>تفکیک بر اساس Case Service</h3><ul id="discoveryServices"></ul></div>
+          <div><h3>تفکیک بر اساس Category</h3><ul id="discoveryCategories"></ul></div>
+        </div>
+        <p id="discoveryFootnote" class="discovery-footnote"></p>
+      </div>
+    </section>
+
+    <div class="workspace">
+      <section>
+        <article class="card">
+          <div class="card-header">
+            <div>
+              <h2>انتخاب View کیس از CRM</h2>
+          <span class="muted">برای شروع فقط View را انتخاب و Caseها را واکشی کنید.</span>
+            </div>
+          </div>
+          <select id="viewSelector" class="demo-select" style="width:100%">
+            <option value="">در حال واکشی Viewها...</option>
+          </select>
+          <div class="actions" style="margin-top: 10px">
+            <button class="btn primary" id="loadViewBtn">۱. واکشی Caseهای این View</button>
+          </div>
+          <div id="viewStatus" class="muted" style="margin-top:8px">هیچ Viewی انتخاب نشده است.</div>
+        </article>
+        <article class="card">
+          <div class="card-header">
+            <div>
+              <h2>۲. انتخاب Case برای بازبینی</h2>
+              <span class="muted">Caseها از دیتابیس داخلی خوانده می‌شوند؛ CRM فقط منبع Read-Only است.</span>
+            </div>
+          </div>
+          <select id="caseSelector" class="demo-select" style="width:100%">
+            <option value="">در حال آماده‌سازی Caseها...</option>
+          </select>
+          <div class="case-search" role="search" aria-label="جست‌وجوی Case">
+            <label for="caseSearch">جست‌وجوی Case</label>
+            <div class="case-search-row"><input id="caseSearch" type="search" placeholder="شماره، عنوان، شرح، Service یا Category را وارد کنید"><button id="clearCaseSearch" class="btn" type="button">پاک‌کردن</button></div>
+            <div id="caseSearchStatus" class="muted" aria-live="polite">برای شروع جست‌وجو، بخشی از شماره یا عنوان را وارد کنید.</div>
+          </div>
+          <div id="caseResults" class="case-results" aria-live="polite"></div>
+          <div id="snapshotStatus" class="muted" style="margin-top:8px">در حال بررسی Snapshot داخلی...</div>
+        </article>
+        <article class="card">
+          <div class="card-header">
+            <div>
+              <h2 id="caseTitle">Case انتخاب نشده است</h2>
+              <span id="caseId" class="case-id">—</span>
+            </div>
+            <span id="caseStatus" class="status">● نیازمند تکمیل</span>
+          </div>
+          <label class="muted" for="demoMode" style="display:none">حالت نمایشی:
+            <select id="demoMode" class="demo-select">
+              <option value="incomplete">Case ناقص</option>
+              <option value="complete">Case تکمیل‌شده</option>
+              <option value="no-kb">بدون KB معتبر</option>
+            </select>
+          </label>
+
+          <div class="fields">
+            <div class="field">
+              <span class="field-label">Case Service</span>
+              <span id="serviceValue" class="field-value">ثبت نشده در CRM</span>
+            </div>
+            <div class="field">
+              <span class="field-label">وضعیت</span>
+              <span id="statusValue" class="field-value">ثبت نشده در CRM</span>
+            </div>
+            <div class="field">
+              <span class="field-label">Category</span>
+              <span id="categoryValue" class="field-value">ثبت نشده در CRM</span>
+            </div>
+            <div class="field missing" id="versionField">
+              <span class="field-label">نسخه محصول</span>
+              <span id="versionValue" class="field-value">ثبت نشده در CRM</span>
+            </div>
+            <div class="field full" id="titleField">
+              <span class="field-label">عنوان</span>
+              <span id="caseTitleValue" class="field-value">ثبت نشده در CRM</span>
+            </div>
+            <div class="field full missing" id="descriptionField">
+              <span class="field-label">شرح مسئله</span>
+              <span id="caseDescriptionValue" class="field-value">ثبت نشده در CRM</span>
+            </div>
+          </div>
+
+          <div class="section-title">
+            <h3>کمبودهای اطلاعاتی</h3>
+            <span id="missingCount" class="count">۰</span>
+          </div>
+          <div id="missingBox" class="alert">
+            تحلیل Case انتخاب‌شده در حال آماده‌سازی است.
+          </div>
+          <div class="fields" id="sampleInputs" style="display:none;margin-top: 12px">
+            <label class="field">
+              <span class="field-label">ماژول نمونه</span>
+              <input id="moduleInput" value="" placeholder="مثلاً فروش" style="width:100%;border:0;outline:0;color:var(--ink);background:transparent">
+            </label>
+            <label class="field">
+              <span class="field-label">نسخه نمونه</span>
+              <input id="versionInput" value="" placeholder="مثلاً ۱۴۰۵.۱" style="width:100%;border:0;outline:0;color:var(--ink);background:transparent">
+            </label>
+          </div>
+          <div class="actions" style="margin-top: 12px">
+            <button class="btn primary" id="completeBtn">بازبینی دوباره این Case</button>
+            <button class="btn" id="resetBtn">بارگذاری دوباره Caseها</button>
+            <a class="btn primary" id="runScenarioBtn" href="scenarios.html" style="display:none">اجرای سناریو برای این Case</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="section-title" style="margin-top:0">
+            <h3>متعلقات Case</h3>
+            <span class="muted">Snapshot داخلی CRM</span>
+          </div>
+          <ul id="relatedActivities" class="activity-list">
+            <li>برای این Case متعلقی در Snapshot ثبت نشده است.</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <div class="section-title" style="margin-top:0">
+            <h3>پیش‌نویس Note</h3>
+            <span class="status">پیش‌نویس</span>
+          </div>
+          <div class="note" id="noteText">خلاصه مسئله:
+مشتری درباره تنظیم گزارش فروش پایان ماه راهنمایی درخواست کرده است.
+
+اطلاعات تکمیل‌شده:
+- ماژول: ثبت نشده
+- نسخه: ثبت نشده
+- محیط: ثبت نشده
+
+وضعیت: نیازمند بازبینی و تأیید کارشناس</div>
+          <div class="actions" style="margin-top: 12px">
+            <button class="btn" id="editNoteBtn">ویرایش پیش‌نویس</button>
+            <button class="btn primary" id="acceptNoteBtn">پذیرش برای ثبت</button>
+          </div>
+        </article>
+      </section>
+
+      <aside>
+        <article class="card">
+          <div class="card-header">
+            <div>
+              <h2>Pargar Support Copilot</h2>
+              <span class="muted">تحلیل کمکی با منبع و سطح اتکا</span>
+            </div>
+            <span class="status">Human-in-the-Loop</span>
+          </div>
+
+          <div class="section-title" style="margin-top:0">
+            <h3>۳. پیشنهادهای اصلاحی</h3>
+            <span id="questionCount" class="count">۰</span>
+          </div>
+          <div id="followupSuggestions"></div>
+
+          <div class="section-title">
+            <h3>۴. مقالات مرتبط از KB</h3>
+            <span id="kbCount" class="count">۰</span>
+          </div>
+          <div id="kbSuggestions"></div>
+          <div id="noKbMessage" class="alert" style="display:none;border-right-color:#64748b;background:#f8fafc;color:#475569">
+            مقاله معتبر و تأییدشده‌ای برای این نمونه پیدا نشد؛ Copilot پاسخ قطعی ارائه نمی‌کند.
+          </div>
+
+          <div class="section-title">
+            <h3>نتیجه پیشنهادی برای این Case</h3>
+            <span class="status">پیش‌نویس</span>
+          </div>
+          <div id="answerDraft" class="note">
+            پس از انتخاب Case، پاسخ پیشنهادی بر اساس شواهد همان Case ساخته می‌شود.
+          </div>
+
+          <div class="section-title">
+            <h3>اقدام پیشنهادی متناسب با این Case</h3>
+            <span id="recommendationCount" class="count">۰</span>
+          </div>
+          <div id="recommendations"></div>
+
+          <div class="alert" style="border-right-color:#2563eb;background:#eff6ff;color:#1e40af;margin-top:14px">
+            Copilot تصمیم نهایی نمی‌گیرد. هر پیشنهاد باید توسط کارشناس بررسی، ویرایش یا رد شود.
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>ثبت بازخورد نمونه</h3>
+          <p class="muted">این رویداد فقط در همین صفحه نمایش داده می‌شود و ذخیره نمی‌شود.</p>
+          <div class="metric-grid" aria-label="خلاصه تعاملات">
+            <div class="metric"><strong id="acceptedCount">۰</strong><span>پذیرفته</span></div>
+            <div class="metric"><strong id="editedCount">۰</strong><span>ویرایش‌شده</span></div>
+            <div class="metric"><strong id="rejectedCount">۰</strong><span>ردشده</span></div>
+          </div>
+          <div class="actions">
+            <button class="btn" data-feedback="بازخورد: مفید">مفید بود</button>
+            <button class="btn" data-feedback="بازخورد: نیازمند اصلاح">نیازمند اصلاح</button>
+            <button class="btn danger" data-feedback="بازخورد: نامرتبط">نامرتبط بود</button>
+          </div>
+          <div class="section-title">
+            <h3>گزارش تعاملات</h3>
+            <span class="muted">فقط نمایشی</span>
+          </div>
+          <ul id="activityList" class="activity-list">
+            <li>هنوز تعاملی ثبت نشده است.</li>
+          </ul>
+        </article>
+      </aside>
+    </div>
+    <div class="footer">Pargar Support Copilot · نسخه عملیاتی Read-Only</div>
+  </main>
+  <div id="toast" class="toast" role="status"></div>
+
+  <script>
+    const toast = document.getElementById('toast');
+    const status = document.getElementById('caseStatus');
+    const missingBox = document.getElementById('missingBox');
+    const missingCount = document.getElementById('missingCount');
+    const versionField = document.getElementById('versionField');
+    const descriptionField = document.getElementById('descriptionField');
+    const noteText = document.getElementById('noteText');
+    const moduleInput = document.getElementById('moduleInput');
+    const versionInput = document.getElementById('versionInput');
+    const counters = { accepted: 0, edited: 0, rejected: 0 };
+    const activityList = document.getElementById('activityList');
+    const demoMode = document.getElementById('demoMode');
+    const kbSuggestions = document.getElementById('kbSuggestions');
+    const noKbMessage = document.getElementById('noKbMessage');
+    const viewSelector = document.getElementById('viewSelector');
+    const viewStatus = document.getElementById('viewStatus');
+    let currentCaseId = 'demo-case-001';
+
+    function toFaNumber(value) {
+      return String(value).replace(/\d/g, digit => '۰۱۲۳۴۵۶۷۸۹'[digit]);
+    }
+
+    function addActivity(message, type = 'accepted') {
+      counters[type] += 1;
+      document.getElementById(`${type}Count`).textContent = toFaNumber(counters[type]);
+      if (activityList.children.length === 1 && activityList.firstElementChild.textContent.includes('هنوز')) {
+        activityList.innerHTML = '';
+      }
+      const item = document.createElement('li');
+      item.textContent = `${new Date().toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' })} — ${message}`;
+      activityList.prepend(item);
+    }
+
+    async function saveFeedback(message, type, itemType = 'suggestion') {
+      addActivity(message, type);
+      try {
+        await fetch('/api/feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            case_crm_id: currentCaseId,
+            item_type: itemType,
+            action: message
+          })
+        });
+      } catch (_) {
+        // Opening index.html directly remains a valid offline fallback.
+      }
+    }
+
+    function renderCase(item) {
+      currentCaseId = item.crm_id;
+      document.getElementById('caseTitle').textContent = `Case — ${item.title || 'بدون عنوان'}`;
+      document.getElementById('caseId').textContent = item.ticket_number || item.crm_id;
+      document.getElementById('caseTitleValue').textContent = item.title || 'ثبت نشده';
+      document.getElementById('caseDescriptionValue').textContent = item.description || 'ثبت نشده';
+      document.getElementById('versionValue').textContent = 'ثبت نشده در CRM';
+      const activities = document.getElementById('relatedActivities');
+      const rows = [
+        ...(item.notes || []).map(note => `Note ارتباطی: ${note.subject || 'بدون عنوان'} — ${cleanText(note.note_text || '')}`),
+        ...(item.posts || []).map(post => `Post داخلی: ${cleanText(post.text || 'بدون متن')}`),
+        ...(item.tasks || []).map(task => `Task داخلی L2: ${task.subject || 'بدون عنوان'} — ${cleanText(task.description || '')}`)
+      ];
+      activities.innerHTML = '';
+      if (rows.length) {
+        rows.forEach(row => {
+          const li = document.createElement('li');
+          li.textContent = row;
+          activities.appendChild(li);
+        });
+      } else {
+        activities.textContent = 'برای این Case متعلقی در Snapshot ثبت نشده است.';
+      }
+      document.getElementById('serviceValue').textContent = item.service || 'در فیلدهای واکشی‌شده موجود نیست';
+      document.getElementById('categoryValue').textContent = item.category || 'در فیلدهای واکشی‌شده موجود نیست';
+      document.getElementById('statusValue').textContent = item.status_code || 'ثبت نشده در CRM';
+      document.getElementById('versionField').classList.add('missing');
+      document.getElementById('descriptionField').classList.toggle('missing', !item.description);
+      document.getElementById('titleField').classList.toggle('missing', !item.title);
+      renderAnalysis(item);
+      loadAnalysis(item.crm_id);
+    }
+
+    function cleanText(value) {
+      const withoutTags = String(value).replace(/<[^>]*>/g, ' ');
+      return withoutTags.replace(/\s+/g, ' ').trim();
+    }
+
+    function addSuggestion(container, title, reason, onAccept, onReject) {
+      const box = document.createElement('div');
+      box.className = 'suggestion';
+      const strong = document.createElement('strong');
+      strong.textContent = title;
+      const p = document.createElement('p');
+      p.className = 'reason';
+      p.textContent = reason;
+      const actions = document.createElement('div');
+      actions.className = 'actions';
+      const accept = document.createElement('button');
+      accept.className = 'btn primary';
+      accept.textContent = 'استفاده از پیشنهاد';
+      accept.onclick = onAccept;
+      const reject = document.createElement('button');
+      reject.className = 'btn danger';
+      reject.textContent = 'رد پیشنهاد';
+      reject.onclick = onReject;
+      actions.append(accept, reject);
+      box.append(strong, p, actions);
+      container.appendChild(box);
+    }
+
+    function addRecommendation(container, item) {
+      const box = document.createElement('div');
+      box.className = 'suggestion';
+      const title = document.createElement('strong');
+      title.textContent = `${item.type}: ${item.title}`;
+      const body = document.createElement('p');
+      body.className = 'reason';
+      body.textContent = item.text;
+      const meta = document.createElement('p');
+      meta.className = 'source';
+      meta.textContent = `مسئول: ${item.owner} | اتکا: ${item.confidence} | دلیل: ${item.reason}`;
+      const evidence = document.createElement('p');
+      evidence.className = 'muted';
+      evidence.textContent = `شاهد: ${item.evidence}`;
+      const actions = document.createElement('div');
+      actions.className = 'actions';
+      const accept = document.createElement('button');
+      accept.className = 'btn primary';
+      accept.textContent = 'مناسب است';
+      accept.onclick = () => saveFeedback(`اقدام پذیرفته شد: ${item.title}`, 'accepted', 'recommendation');
+      const reject = document.createElement('button');
+      reject.className = 'btn danger';
+      reject.textContent = 'نیازمند اصلاح';
+      reject.onclick = () => saveFeedback(`اقدام نیازمند اصلاح است: ${item.title}`, 'edited', 'recommendation');
+      actions.append(accept, reject);
+      box.append(title, body, meta, evidence, actions);
+      container.appendChild(box);
+    }
+
+    function renderAnalysis(item) {
+      const text = `${item.title || ''} ${item.description || ''}`.trim();
+      const noteEvidence = (item.notes || []).map(note => cleanText(note.note_text)).filter(Boolean);
+      const postEvidence = (item.posts || []).map(post => cleanText(post.text)).filter(Boolean);
+      const taskEvidence = (item.tasks || []).map(task => `${task.subject || ''} ${task.description || ''}`.trim()).filter(Boolean);
+      const missing = [];
+      if (!item.title) missing.push('عنوان Case');
+      if (!item.description) missing.push('شرح مسئله');
+      if (!/(نسخه|ورژن|version)/i.test(text)) missing.push('نسخه محصول');
+      if (!/(محیط|عملیاتی|آزمایشی|production|test)/i.test(text)) missing.push('محیط اجرا');
+      if (!/(اقدام|نتیجه|بررسی|حل|راهنمایی)/i.test(text)) missing.push('اقدام و نتیجه');
+      missingCount.textContent = toFaNumber(missing.length);
+      status.textContent = missing.length ? '● نیازمند تکمیل' : '● آماده بررسی';
+      status.classList.toggle('complete', !missing.length);
+      missingBox.textContent = missing.length
+        ? `برای بازبینی دقیق‌تر، این موارد در متن Case پیدا نشد: ${missing.join('، ')}.`
+        : 'فیلدهای پایه و شواهد متنی کافی به‌نظر می‌رسد؛ تأیید نهایی با کارشناس است.';
+      missingBox.style.background = missing.length ? 'var(--warning-soft)' : 'var(--success-soft)';
+      missingBox.style.color = missing.length ? '#92400e' : 'var(--success)';
+      missingBox.style.borderRightColor = missing.length ? '#f59e0b' : '#10b981';
+
+      const questions = document.getElementById('followupSuggestions');
+      questions.innerHTML = '';
+      const questionItems = missing.slice(0, 3).map(field => `لطفاً ${field} را از مشتری یا سابقه Case تأیید کنید.`);
+      document.getElementById('questionCount').textContent = toFaNumber(questionItems.length);
+      questionItems.forEach(question => addSuggestion(
+        questions,
+        question,
+        'این سؤال از کمبود مشاهده‌شده در Case انتخاب‌شده ساخته شده است.',
+        () => saveFeedback(`سؤال پذیرفته شد: ${question}`, 'accepted', 'followup'),
+        () => saveFeedback(`سؤال رد شد: ${question}`, 'rejected', 'followup')
+      ));
+      if (!questionItems.length) {
+        questions.textContent = 'سؤال تکمیلی ضروری بر اساس داده موجود شناسایی نشد.';
+      }
+
+      const kb = item.knowledge_articles || [];
+      const stopWords = new Set('از با برای در به که و یا را این آن یک درباره مورد روی شده است شد شود می کند کردن فقط برای اینکه لطفا'.split(' '));
+      const caseWords = new Set(text.toLowerCase().split(/[^\p{L}\p{N}]+/u)
+        .filter(word => word.length > 3 && !stopWords.has(word)));
+      const ranked = kb.map(article => {
+        const titleText = cleanText(article.title || '').toLowerCase();
+        const articleText = `${titleText} ${cleanText(article.content || '')}`.toLowerCase();
+        const titleScore = [...caseWords].filter(word => titleText.includes(word)).length;
+        const contentScore = [...caseWords].filter(word => articleText.includes(word)).length;
+        const score = titleScore * 3 + contentScore;
+        return { article, score };
+      }).filter(item => item.score > 0).sort((a, b) => b.score - a.score).slice(0, 3);
+      kbSuggestions.innerHTML = '';
+      document.getElementById('kbCount').textContent = toFaNumber(ranked.length);
+      noKbMessage.style.display = ranked.length ? 'none' : 'block';
+      ranked.forEach(({ article, score }) => {
+        const confidence = score >= 2 ? 'اتکا: متوسط' : 'اتکا: پایین';
+        addSuggestion(
+          kbSuggestions,
+          `${article.public_number || 'KB'} — ${article.title || 'بدون عنوان'}`,
+          `پیشنهاد بر اساس هم‌پوشانی متن Case با عنوان/محتوای KB؛ ${confidence}. قبل از استفاده بررسی شود.`,
+          () => saveFeedback(`مقاله پذیرفته شد: ${article.title || article.public_number}`, 'accepted', 'knowledge_article'),
+          () => saveFeedback(`مقاله رد شد: ${article.title || article.public_number}`, 'rejected', 'knowledge_article')
+        );
+      });
+      const evidence = [...noteEvidence, ...postEvidence, ...taskEvidence].slice(0, 2);
+      const answer = [];
+      answer.push(`موضوع Case: ${item.title || 'عنوان ثبت نشده'}`);
+      if (item.description) answer.push(`شرح ثبت‌شده: ${item.description}`);
+      if (evidence.length) answer.push(`شواهد Timeline: ${evidence.join(' | ')}`);
+      if (ranked.length) {
+        const best = ranked[0].article;
+        answer.push(`پیشنهاد اقدام: ابتدا مقاله «${best.title || best.public_number}» بررسی و فقط در صورت انطباق با محیط مشتری استفاده شود.`);
+        answer.push(`منبع: ${best.public_number || 'Knowledge Base'} — سطح اتکا: ${ranked[0].score >= 2 ? 'متوسط' : 'پایین'}`);
+      } else {
+        answer.push('پیشنهاد اقدام: با شواهد فعلی پاسخ قطعی داده نشود؛ ابتدا کمبودهای مشخص‌شده از مشتری یا L2 تکمیل شود.');
+        answer.push('منبع معتبر همسان با این Case در Snapshot فعلی پیدا نشد.');
+      }
+      document.getElementById('answerDraft').textContent =
+        answer.join('\n\n') + '\n\nوضعیت: پیش‌نویس — تأیید یا اصلاح با کارشناس';
+      noteText.textContent = `خلاصه Case انتخاب‌شده:
+${item.title || 'عنوان ثبت نشده'}
+
+شرح:
+${item.description || 'شرح ثبت نشده'}
+
+متعلقات:
+- Note: ${(item.notes || []).length}
+- Post داخلی: ${(item.posts || []).length}
+- Task: ${(item.tasks || []).length}
+
+وضعیت: پیش‌نویس محلی — نیازمند بازبینی و تأیید کارشناس`;
+    }
+
+    async function loadAnalysis(caseId) {
+      try {
+        const response = await fetch(`/api/cases/${encodeURIComponent(caseId)}/analysis`);
+        if (!response.ok) return;
+        const analysis = await response.json();
+        const questions = document.getElementById('followupSuggestions');
+        questions.innerHTML = '';
+        document.getElementById('questionCount').textContent = toFaNumber(analysis.missing.length);
+        analysis.missing.slice(0, 5).forEach(item => addSuggestion(
+          questions,
+          item.question,
+          `کمبود واقعی: ${item.field} — ${item.reason}`,
+          () => saveFeedback(`سؤال اصلاحی پذیرفته شد: ${item.field}`, 'accepted', 'correction'),
+          () => saveFeedback(`سؤال اصلاحی رد شد: ${item.field}`, 'rejected', 'correction')
+        ));
+        if (!analysis.missing.length) {
+          questions.textContent = 'کمبود ضروری در داده‌های Case شناسایی نشد.';
+        }
+
+        kbSuggestions.innerHTML = '';
+        document.getElementById('kbCount').textContent = toFaNumber(analysis.articles.length);
+        noKbMessage.style.display = analysis.articles.length ? 'none' : 'block';
+        analysis.articles.forEach(article => addSuggestion(
+          kbSuggestions,
+          `${article.public_number || 'KB'} — ${article.title}`,
+          `${article.reason} واژه‌های منطبق: ${article.matched_terms.join('، ')}. ${article.status}`,
+          () => saveFeedback(`مقاله مرتبط پذیرفته شد: ${article.public_number}`, 'accepted', 'knowledge_article'),
+          () => saveFeedback(`مقاله مرتبط رد شد: ${article.public_number}`, 'rejected', 'knowledge_article')
+        ));
+        document.getElementById('answerDraft').textContent =
+          `${analysis.answer}\n\nسطح اتکا: ${analysis.confidence}\n` +
+          `مبنای تحلیل: ${analysis.grounding.notes} Note، ${analysis.grounding.posts} Post داخلی، ` +
+          `${analysis.grounding.tasks} Task داخلی L2 و ${analysis.grounding.knowledge_articles_examined} مقاله KB بررسی شد.`;
+        const recommendations = document.getElementById('recommendations');
+        recommendations.innerHTML = '';
+        document.getElementById('recommendationCount').textContent =
+          toFaNumber(analysis.recommendations.length);
+        analysis.recommendations.forEach(item => addRecommendation(recommendations, item));
+      } catch (_) {
+        // Client-side fallback remains visible if the local analysis endpoint is unavailable.
+      }
+    }
+
+    async function loadLocalCases() {
+      try {
+        const response = await fetch('/api/cases');
+        if (!response.ok) return;
+        const cases = await response.json();
+        const selector = document.getElementById('caseSelector');
+        selector.innerHTML = '';
+        cases.forEach(item => {
+          const option = document.createElement('option');
+          option.value = item.crm_id;
+          option.textContent = `${item.ticket_number || item.crm_id} — ${item.title || 'بدون عنوان'}`;
+          option.dataset.search = [item.ticket_number, item.crm_id, item.title, item.description, item.service, item.category, item.subcategory].filter(Boolean).join(' ');
+          option.dataset.ticket = item.ticket_number || item.crm_id || 'بدون شماره';
+          option.dataset.title = item.title || 'بدون عنوان';
+          option.dataset.service = item.service || 'Service ثبت نشده';
+          option.dataset.category = item.category || 'Category ثبت نشده';
+          selector.appendChild(option);
+        });
+        if (cases[0]) {
+          renderCase(cases[0]);
+          document.getElementById('snapshotStatus').textContent =
+            `${cases.length} Case در Snapshot داخلی موجود است.`;
+          showToast('Case از Snapshot واقعی CRM بارگذاری شد.');
+        }
+      } catch (_) {
+        // Opening index.html directly remains a valid offline fallback.
+      }
+    }
+
+    function renderDiscoveryList(targetId, items) {
+      const target = document.getElementById(targetId);
+      target.innerHTML = '';
+      (items || []).slice(0, 8).forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = `${item.label}: ${toFaNumber(item.count)}`;
+        target.appendChild(li);
+      });
+      if (!items || !items.length) {
+        target.innerHTML = '<li>داده‌ای موجود نیست.</li>';
+      }
+    }
+
+    async function loadDiscoverySummary() {
+      const loading = document.getElementById('discoveryLoading');
+      const content = document.getElementById('discoveryContent');
+      try {
+        loading.textContent = 'در حال خواندن Snapshot...';
+        const response = await fetch('/api/release-0/discovery-summary');
+        if (!response.ok) throw new Error('discovery');
+        const result = await response.json();
+        const summary = result.data;
+        document.getElementById('discoveryTotal').textContent = toFaNumber(summary.total_cases);
+        document.getElementById('discoveryComplete').textContent = toFaNumber(summary.preliminary_complete_cases);
+        document.getElementById('discoveryRate').textContent =
+          summary.preliminary_completeness_rate == null
+            ? '—'
+            : `${toFaNumber(summary.preliminary_completeness_rate)}٪`;
+        const sync = summary.latest_sync && summary.latest_sync.completed_at;
+        document.getElementById('discoverySync').textContent = sync ? sync.slice(0, 10) : 'ثبت نشده';
+        renderDiscoveryList('discoveryServices', summary.by_service);
+        renderDiscoveryList('discoveryCategories', summary.by_category);
+        document.getElementById('discoveryFootnote').textContent = summary.disclaimer;
+        loading.style.display = 'none';
+        content.style.display = 'block';
+      } catch (_) {
+        loading.textContent = 'خلاصه Discovery بارگذاری نشد؛ اتصال سرور یا Snapshot را بررسی کنید.';
+        content.style.display = 'none';
+      }
+    }
+
+    async function loadViews() {
+      try {
+        const response = await fetch('/api/views');
+        if (!response.ok) throw new Error('views');
+        const views = await response.json();
+        viewSelector.innerHTML = '<option value="">یک View را انتخاب کنید</option>';
+        views.forEach(view => {
+          const option = document.createElement('option');
+          option.value = view.id;
+          option.dataset.viewType = view.view_type;
+          option.textContent = `[${view.view_type === 'personal' ? 'شخصی' : 'سازمانی'}] ${view.name}${view.is_startup_default ? ' — پیش‌فرض برنامه' : (view.is_default ? ' — پیش‌فرض CRM' : '')}`;
+          viewSelector.appendChild(option);
+          if (view.is_startup_default) option.selected = true;
+        });
+        viewStatus.textContent = `${views.length} View مربوط به Case از CRM دریافت شد.`;
+        if (viewSelector.value) document.getElementById('loadViewBtn').click();
+      } catch (_) {
+        viewSelector.innerHTML = '<option value="">واکشی Viewها انجام نشد</option>';
+        viewStatus.textContent = 'برای نمایش Viewها، سرور محلی باید اجرا باشد.';
+      }
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('show');
+      window.clearTimeout(showToast.timer);
+      showToast.timer = window.setTimeout(() => toast.classList.remove('show'), 2200);
+    }
+
+    document.querySelectorAll('[data-feedback]').forEach(button => {
+      button.addEventListener('click', () => {
+        const feedback = button.dataset.feedback;
+        const type = feedback.includes('رد') || feedback.includes('نامرتبط') ? 'rejected' : 'accepted';
+        saveFeedback(feedback, type);
+        showToast(feedback);
+      });
+    });
+
+    document.getElementById('completeBtn').addEventListener('click', () => {
+      loadAnalysis(currentCaseId);
+      showToast('تحلیل واقعی Case دوباره اجرا شد.');
+    });
+
+    demoMode.addEventListener('change', () => {
+      return;
+      const mode = demoMode.value;
+      if (mode === 'complete') {
+        moduleInput.value = 'فروش';
+        versionInput.value = '۱۴۰۵.۱';
+        document.getElementById('completeBtn').click();
+        showToast('حالت Case تکمیل‌شده نمایش داده شد.');
+      } else if (mode === 'incomplete') {
+        moduleInput.value = '';
+        versionInput.value = '';
+        document.getElementById('completeBtn').click();
+        showToast('حالت Case ناقص نمایش داده شد.');
+      } else {
+        kbSuggestions.style.display = 'none';
+        noKbMessage.style.display = 'block';
+        showToast('حالت بدون KB معتبر نمایش داده شد.');
+      }
+      if (mode !== 'no-kb') {
+        kbSuggestions.style.display = 'block';
+        noKbMessage.style.display = 'none';
+      }
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', () => window.location.reload());
+    document.getElementById('refreshDiscoveryBtn').addEventListener('click', loadDiscoverySummary);
+    document.getElementById('editNoteBtn').addEventListener('click', () => {
+      saveFeedback('پیش‌نویس Note برای ویرایش انتخاب شد.', 'edited', 'note');
+      showToast('ویرایش Note در این نسخه هنوز فقط به‌صورت پیش‌نویس داخلی انجام می‌شود.');
+    });
+    document.getElementById('acceptNoteBtn').addEventListener('click', () => {
+      saveFeedback('پیش‌نویس Note پذیرفته شد؛ ثبت نهایی انجام نشد.', 'accepted', 'note');
+      showToast('پیش‌نویس پذیرفته شد؛ ثبت نهایی انجام نشد.');
+    });
+    document.getElementById('caseSelector').addEventListener('change', async event => {
+      const response = await fetch(`/api/cases/${encodeURIComponent(event.target.value)}`);
+      if (!response.ok) return;
+      renderCase(await response.json());
+      showToast('Case دیگری برای بازبینی انتخاب شد.');
+    });
+    document.getElementById('loadViewBtn').addEventListener('click', async () => {
+      const viewId = viewSelector.value;
+      if (!viewId) {
+        showToast('ابتدا یک View را انتخاب کنید.');
+        return;
+      }
+      const button = document.getElementById('loadViewBtn');
+      button.disabled = true;
+      viewStatus.textContent = 'در حال واکشی Caseهای View انتخاب‌شده...';
+      try {
+        const response = await fetch('/api/load-view', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            view_id: viewId,
+            view_type: viewSelector.options[viewSelector.selectedIndex].dataset.viewType
+          })
+        });
+        const result = await response.json();
+        if (!response.ok || !result.ok) throw new Error(result.error || 'خطا');
+        viewStatus.textContent =
+          `View «${result.view}» بارگذاری شد: ${toFaNumber(result.cases)} Case، ` +
+          `${toFaNumber(result.notes)} Note و ${toFaNumber(result.tasks)} Task.`;
+        await loadLocalCases();
+        showToast('Caseهای View انتخاب‌شده برای بازبینی آماده شدند.');
+      } catch (error) {
+        viewStatus.textContent = `خطا در بارگذاری View: ${error.message}`;
+        showToast('بارگذاری View انجام نشد.');
+      } finally {
+        button.disabled = false;
+      }
+    });
+    loadViews();
+    loadLocalCases();
+    loadDiscoverySummary();
+  </script>
+  <script>
+    (function enableCaseSearch(){
+      const selector=document.getElementById('caseSelector');
+      const input=document.getElementById('caseSearch');
+      const clear=document.getElementById('clearCaseSearch');
+      const status=document.getElementById('caseSearchStatus');
+      const results=document.getElementById('caseResults');
+      if(!selector||!input||!clear||!status||!results)return;
+      const normalize=value=>String(value||'').toLocaleLowerCase('fa-IR').replace(/[يى]/g,'ی').replace(/[ك]/g,'ک').replace(/[۰-۹]/g,d=>'0123456789'['۰۱۲۳۴۵۶۷۸۹'.indexOf(d)]).replace(/[\u0660-\u0669]/g,d=>'0123456789'['٠١٢٣٤٥٦٧٨٩'.indexOf(d)]).trim();
+      const filter=()=>{
+        const query=normalize(input.value);let visible=0;const matches=[];
+        [...selector.options].forEach(option=>{
+          if(!option.value)return;
+          const match=!query||normalize(option.dataset.search||option.textContent).includes(query);
+          option.hidden=!match;
+          if(match){visible++;matches.push(option)}
+        });
+        if(selector.selectedOptions[0]?.hidden)selector.value='';
+        results.innerHTML='';
+        matches.slice(0,50).forEach(option=>{
+          const card=document.createElement('button');card.type='button';card.className='case-result';card.dataset.id=option.value;
+          card.innerHTML='<div class="case-result-head"><span class="case-result-title"></span><span class="case-result-ticket"></span></div><div class="case-result-meta"><span class="case-result-service"></span><span class="case-result-category"></span></div>';
+          card.querySelector('.case-result-title').textContent=option.dataset.title||'بدون عنوان';
+          card.querySelector('.case-result-ticket').textContent=option.dataset.ticket||option.value;
+          card.querySelector('.case-result-service').textContent=option.dataset.service||'Service ثبت نشده';
+          card.querySelector('.case-result-category').textContent=option.dataset.category||'Category ثبت نشده';
+          card.classList.toggle('selected',selector.value===option.value);
+          card.onclick=()=>{selector.value=option.value;selector.dispatchEvent(new Event('change',{bubbles:true}));renderResults()};
+          results.appendChild(card);
+        });
+        if(query&&visible===0){results.innerHTML='<div class="case-results-empty">Caseای با این عبارت پیدا نشد. شماره، عنوان یا عبارت دیگری را امتحان کنید.</div>';status.textContent='نتیجه‌ای پیدا نشد.';return}
+        if(!matches.length){results.innerHTML='<div class="case-results-empty">هنوز Caseای برای نمایش وجود ندارد. ابتدا View را واکشی کنید.</div>';status.textContent='Caseای برای نمایش وجود ندارد.';return}
+        if(visible>50)status.textContent=`۵۰ مورد اول از ${visible} Case نمایش داده شد. جست‌وجو را دقیق‌تر کنید.`;
+        else status.textContent=query?`${visible} Case پیدا شد؛ برای بازبینی روی یکی از کارت‌ها کلیک کنید.`:`${visible} Case آماده انتخاب است؛ برای بازبینی روی یکی از کارت‌ها کلیک کنید.`;
+      };
+      const renderResults=()=>filter();
+      input.addEventListener('input',filter);
+      clear.addEventListener('click',()=>{input.value='';filter();input.focus()});
+      selector.addEventListener('change',renderResults);
+      const observer=new MutationObserver(filter);observer.observe(selector,{childList:true});
+      window.setTimeout(filter,300);
+    }());
+  </script>
+  <script>
+    (function connectCaseToScenarios(){
+      const button=document.getElementById('runScenarioBtn');
+      const selector=document.getElementById('caseSelector');
+      if(!button||!selector)return;
+      const update=()=>{
+        const id=window.currentCaseId||selector.value;
+        if(!id){button.style.display='none';return}
+        button.href=`scenarios.html?caseId=${encodeURIComponent(id)}`;
+        button.style.display='inline-block';
+      };
+      selector.addEventListener('change',()=>window.setTimeout(update,0));
+      window.setTimeout(update,250);
+      window.setInterval(update,1000);
+    }());
+  </script>
+  <script>
+    (function(){const nav=document.createElement('nav');nav.className='page-nav';nav.innerHTML='<a href="app-shell.html">⌂ صفحه اصلی</a><button type="button" id="pageBack">← بازگشت به صفحه قبل</button><span>صفحه فعلی: Case Review</span>';const style=document.createElement('style');style.textContent='.page-nav{position:sticky;top:0;z-index:20;display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:9px 5vw;background:#fff;border-bottom:1px solid #dbe3ef;box-shadow:0 3px 12px rgba(15,23,42,.08);font:14px Vazirmatn,Tahoma,Arial,sans-serif;direction:rtl}.page-nav a,.page-nav button{border:1px solid #cbd5e1;border-radius:9px;padding:6px 11px;background:#fff;color:#1e40af;text-decoration:none;cursor:pointer;font:inherit}.page-nav span{color:#64748b;font-size:12px;margin-right:auto}@media(max-width:600px){.page-nav span{width:100%;margin-right:0}}';document.head.appendChild(style);document.body.insertBefore(nav,document.body.firstChild);document.getElementById('pageBack').onclick=()=>history.length>1?history.back():location.href='app-shell.html'})();
+  </script>
+</body>
+</html>

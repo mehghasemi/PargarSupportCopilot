@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="fa-IR" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>دستیار پشتیبانی پرگار — نمای کلی برنامه</title>
+  <style>
+    :root{--bg:#f4f7fb;--surface:#fff;--ink:#172033;--muted:#64748b;--line:#dbe3ef;--primary:#2563eb;--nav:#172554;--success:#047857}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Vazirmatn",Tahoma,Arial,sans-serif;line-height:1.8}
+    a{text-decoration:none;color:inherit}.shell{min-height:100vh;display:grid;grid-template-columns:260px 1fr}
+    aside{background:var(--nav);color:#fff;padding:24px 16px}.brand{padding:0 10px 24px;border-bottom:1px solid #334477}.brand h1{font-size:1.05rem;margin:0}.brand small{color:#bfdbfe}
+    nav{display:grid;gap:7px;margin-top:20px}.nav-item{border:1px solid transparent;border-radius:10px;padding:10px 12px;color:#dbeafe}.nav-item:hover,.nav-item.active{background:#1e3a8a;border-color:#3b82f6}
+    .nav-item small{display:block;color:#93c5fd;font-size:.7rem}.main{padding:28px 34px;max-width:1400px;width:100%}
+    .top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:24px}.top h2{margin:0;font-size:1.35rem}.top small{color:var(--muted)}
+    .badge{border-radius:999px;padding:5px 12px;background:#ecfdf5;color:var(--success);font-size:.75rem;border:1px solid #a7f3d0}
+    .hero,.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 10px 28px #1e40af0d;margin-bottom:18px}
+    .hero{background:linear-gradient(120deg,#eff6ff,#fff)}.hero h3{margin:0 0 4px;color:#1e40af}.hero p{margin:5px 0;color:var(--muted);font-size:.88rem}
+    .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.metric{border:1px solid var(--line);border-radius:12px;padding:13px;background:#f8fbff}.metric strong{display:block;color:var(--primary);font-size:1.3rem}.metric span{color:var(--muted);font-size:.75rem}
+    .section-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}.section-head h3{margin:0;font-size:1rem}.btn{display:inline-block;border:1px solid var(--line);border-radius:9px;padding:7px 12px;background:#fff;color:var(--ink);font-size:.78rem}.btn.primary{background:var(--primary);color:#fff;border-color:var(--primary)}
+    .modules{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.module{border:1px solid var(--line);border-radius:12px;padding:16px}.module h4{margin:0 0 3px}.module p{color:var(--muted);font-size:.78rem;margin:5px 0 13px}.module .btn{margin-left:5px}
+    .list{margin:0;padding-right:20px;color:var(--muted);font-size:.8rem}.list li{margin:3px 0}
+    .note{color:var(--muted);font-size:.75rem;margin:12px 0 0}
+    @media(max-width:900px){.shell{grid-template-columns:1fr}aside{padding:14px}.brand{padding-bottom:12px}nav{grid-template-columns:repeat(4,1fr);margin-top:12px}.nav-item{font-size:.75rem}.nav-item small{display:none}.main{padding:20px}.grid{grid-template-columns:repeat(2,1fr)}.modules{grid-template-columns:1fr}}
+    .version-footer{text-align:center;color:var(--muted);font-size:.78rem;padding:8px 0 18px}.version-button{border:0;background:transparent;color:#1d4ed8;text-decoration:underline;padding:4px 8px}.version-dialog{display:none;position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:10;padding:7vh 18px}.version-dialog.open{display:block}.version-panel{max-width:650px;max-height:80vh;overflow:auto;margin:auto;background:#fff;border-radius:16px;padding:20px}.version-entry{border-top:1px solid var(--line);padding:12px 0}.version-entry h3{margin:0;color:#1d4ed8}.version-entry time{color:var(--muted);font-size:.76rem}.version-entry ul{margin:5px 0;padding-right:20px;font-size:.82rem}
+    @media(max-width:520px){nav{grid-template-columns:repeat(2,1fr)}.top{align-items:flex-start;flex-direction:column}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside aria-label="ماژول‌های برنامه">
+      <div class="brand"><h1>دستیار پشتیبانی پرگار</h1><small>Release 2 — نمای کلی</small></div>
+      <nav>
+        <a class="nav-item active" href="app-shell.html">داشبورد<small>نمای وضعیت برنامه</small></a>
+        <a class="nav-item" href="index.html">Caseها<small>خواندن و بازبینی CRM</small></a>
+        <a class="nav-item" href="scenarios.html?v=20260901">اجرای سناریوها<small>انتخاب و اجرای مرحله‌ای</small></a>
+        <a class="nav-item" href="scenario-management.html">مدیریت سناریوها<small>ساخت و ویرایش سناریو</small></a>
+        <a class="nav-item" href="release-2-smart-troubleshooting.md">مستندات<small>محدوده و معیار پذیرش</small></a>
+      </nav>
+    </aside>
+    <main class="main">
+      <div class="top"><div><h2>نمای کلی برنامه</h2><small>محیط تست محلی — جریان فعلی Pargar Support Copilot</small></div><span class="badge">CRM Read-Only · بدون ثبت خودکار</span></div>
+      <section class="hero"><h3>برنامه چه کاری انجام می‌دهد؟</h3><p>Case را از Snapshot می‌خواند، اطلاعات و Timeline را بررسی می‌کند، کمبودها و مقالات KB را نشان می‌دهد و برای عیب‌یابی، کارشناس را مرحله‌به‌مرحله هدایت می‌کند.</p></section>
+      <section class="card" aria-labelledby="statusTitle"><div class="section-head"><h3 id="statusTitle">وضعیت داده و Discovery</h3><button class="btn" id="refreshBtn">به‌روزرسانی</button></div>
+        <div class="grid"><div class="metric"><strong id="total">—</strong><span>کل Caseهای Snapshot</span></div><div class="metric"><strong id="complete">—</strong><span>Case کامل مقدماتی</span></div><div class="metric"><strong id="rate">—</strong><span>نرخ کامل‌بودن مقدماتی</span></div><div class="metric"><strong id="kb">—</strong><span>منبع دانش در دسترس</span></div></div>
+        <p class="note" id="status">در حال خواندن Snapshot...</p>
+      </section>
+      <section class="card" aria-labelledby="modulesTitle"><div class="section-head"><h3 id="modulesTitle">ماژول‌های قابل استفاده</h3></div>
+        <div class="modules">
+          <article class="module"><h4>Case Review</h4><p>انتخاب View، مشاهده Case، Note، Post و Task و دریافت پیشنهادهای مبتنی بر داده.</p><a class="btn primary" href="index.html">باز کردن Caseها</a></article>
+          <article class="module"><h4>سناریوها و Smart Troubleshooting</h4><p>ساخت سناریو در صفحه مدیریت و اجرای مرحله‌ای آن در صفحه اجرای سناریوها.</p><a class="btn primary" href="scenarios.html?v=20260901">اجرای سناریوها</a> <a class="btn" href="scenario-management.html">مدیریت</a></article>
+          <article class="module"><h4>Knowledge Support</h4><p>نمایش مقاله‌های دارای شواهد و اعلام صریح نبود مقاله مرتبط؛ بدون پیشنهاد حدسی.</p><a class="btn" href="index.html#kbSuggestions">مشاهده در Case Review</a></article>
+        </div>
+      </section>
+      <section class="card"><div class="section-head"><h3>جریان کاری کامل</h3></div><ol class="list"><li>انتخاب View و واکشی Snapshot</li><li>انتخاب Case و بررسی اطلاعات و Timeline</li><li>تکمیل کمبودهای اطلاعاتی و بازبینی پیشنهاد KB</li><li>اجرای سناریوی مرحله‌ای برای عیب‌یابی</li><li>تولید متن قابل کپی برای CRM یا L2</li></ol><p class="note">همه خروجی‌ها پیش‌نویس هستند و تصمیم نهایی با کارشناس است.</p></section>
+      <footer class="version-footer">نگارش برنامه: <button type="button" id="versionButton" class="version-button">۰٫۲٫۰</button></footer>
+    </main>
+  </div>
+  <div id="versionDialog" class="version-dialog" role="dialog" aria-modal="true"><div class="version-panel"><div class="section-head"><h3>تاریخچه تغییرات نگارش‌ها</h3><button type="button" id="versionClose" class="btn">بستن</button></div><div id="versionEntries">در حال دریافت تاریخچه...</div></div></div>
+  <script>
+    const fa=v=>String(v??'—').replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
+    async function load(){try{const r=await fetch('/api/release-0/discovery-summary');if(!r.ok)throw Error();const s=(await r.json()).data;document.getElementById('total').textContent=fa(s.total_cases);document.getElementById('complete').textContent=fa(s.preliminary_complete_cases);document.getElementById('rate').textContent=s.preliminary_completeness_rate==null?'—':fa(s.preliminary_completeness_rate)+'٪';document.getElementById('kb').textContent=fa((s.latest_sync&&s.latest_sync.status==='completed')?'آماده':'نامشخص');document.getElementById('status').textContent=s.disclaimer}catch(_){document.getElementById('status').textContent='داده Snapshot در دسترس نیست؛ سرور محلی را بررسی کنید.'}}
+    document.getElementById('refreshBtn').addEventListener('click',load);load();
+    const versionDialog=document.getElementById('versionDialog');document.getElementById('versionButton').onclick=async()=>{versionDialog.classList.add('open');const target=document.getElementById('versionEntries');try{const response=await fetch('/api/version-history');const data=await response.json();target.innerHTML=data.entries.map(entry=>`<article class="version-entry"><h3>نگارش ${entry.version} — ${entry.title}</h3><time>${entry.date}، ساعت ${entry.time}</time><ul>${entry.changes.map(change=>`<li>${change}</li>`).join('')}</ul></article>`).join('')}catch(_){target.textContent='تاریخچه نگارش در دسترس نیست.'}};document.getElementById('versionClose').onclick=()=>versionDialog.classList.remove('open');versionDialog.onclick=event=>{if(event.target===versionDialog)versionDialog.classList.remove('open')};
+  </script>
+  <script src="visual-theme.js"></script>
+</body>
+</html>

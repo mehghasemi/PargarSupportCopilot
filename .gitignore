@@ -1,0 +1,4 @@
+data/
+__pycache__/
+crm/__pycache__/
+scripts/__pycache__/

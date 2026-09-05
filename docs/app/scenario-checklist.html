@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="fa-IR" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>سناریوی مرحله‌ای بررسی کندی سیستم</title>
+  <style>
+    :root {
+      --bg: #f4f7fb; --surface: #fff; --ink: #172033; --muted: #64748b;
+      --line: #dbe3ef; --primary: #2563eb; --soft: #eff6ff;
+      --success: #047857; --success-soft: #ecfdf5; --warning: #b45309;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Vazirmatn", Tahoma, Arial, sans-serif; line-height: 1.9; }
+    button, textarea, input { font: inherit; }
+    button { cursor: pointer; }
+    .topbar { background: #172554; color: #fff; padding: 20px 6vw; }
+    .topbar h1 { margin: 0; font-size: 1.25rem; }
+    .topbar small { color: #bfdbfe; }
+    main { max-width: 1100px; margin: 28px auto; padding: 0 18px; }
+    .notice, .card { background: var(--surface); border: 1px solid var(--line); border-radius: 15px; padding: 20px; margin-bottom: 16px; }
+    .notice { background: #fffbeb; border-color: #fde68a; color: #92400e; }
+    .change-log { background: #ecfdf5; border: 1px solid #86efac; border-right: 5px solid #16a34a; border-radius: 12px; padding: 14px 18px; margin-bottom: 16px; color: #166534; line-height: 1.9; }
+    .change-log h2 { margin: 0 0 6px; font-size: 1rem; color: #14532d; }
+    .change-log ul { margin: 6px 0 0; padding-right: 20px; }
+    .steps { display: flex; gap: 8px; flex-wrap: wrap; margin: 14px 0 20px; }
+    .step-dot { border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; color: var(--muted); background: #fff; font-size: .8rem; cursor: pointer; }
+    .step-dot.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .step-dot.done { background: var(--success-soft); color: var(--success); border-color: #a7f3d0; }
+    .meta { display: flex; justify-content: space-between; gap: 12px; color: var(--muted); font-size: .82rem; }
+    h2, h3 { margin: 0 0 8px; }
+    h2 { font-size: 1.05rem; }
+    h3 { font-size: .95rem; }
+    .question { background: var(--soft); border-right: 4px solid var(--primary); border-radius: 10px; padding: 14px; margin: 16px 0; }
+    .quick-answers { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 16px; }
+    .quick-answer { border: 1px solid #bfdbfe; border-radius: 9px; padding: 7px 11px; background: #fff; color: #1e40af; font-size: .8rem; }
+    .quick-answer:hover, .quick-answer.selected { background: var(--soft); border-color: var(--primary); }
+    .kb-step { margin: 14px 0; padding: 12px; border: 1px solid #bfdbfe; border-radius: 10px; background: #f8fbff; }
+    .kb-step h3 { color: #1e40af; }
+    .kb-item { border-top: 1px solid var(--line); padding: 8px 0; font-size: .8rem; }
+    .kb-item:first-of-type { border-top: 0; }
+    .kb-item strong { display: block; }
+    label { display: block; color: var(--muted); font-size: .82rem; margin-bottom: 6px; }
+    textarea, input { width: 100%; border: 1px solid var(--line); border-radius: 9px; padding: 10px; color: var(--ink); background: #fff; }
+    textarea { min-height: 115px; resize: vertical; }
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .btn { border: 1px solid var(--line); border-radius: 9px; padding: 8px 14px; background: #fff; color: var(--ink); }
+    .btn.primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .btn.success { background: var(--success); color: #fff; border-color: var(--success); }
+    .btn:disabled { opacity: .5; cursor: not-allowed; }
+    .summary { white-space: pre-wrap; direction: rtl; background: #f8fbff; border: 1px dashed #93c5fd; border-radius: 10px; padding: 14px; min-height: 220px; font-size: .86rem; }
+    .empty { color: var(--muted); font-size: .85rem; }
+    .step-action { margin: 12px 0; padding: 10px 12px; border-radius: 10px; background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; font-size: .82rem; }
+    .topbar { background: linear-gradient(110deg, #0f1f4d, #1d4ed8); padding: 24px 6vw; box-shadow: 0 8px 24px rgba(23,37,84,.18); }
+    main { max-width: 1000px; margin: 24px auto; }
+    .notice, .card { border-radius: 18px; box-shadow: 0 12px 28px rgba(30,64,175,.08); }
+    .steps { padding: 10px; background: #f8fbff; border: 1px solid #dbeafe; border-radius: 14px; }
+    .step-dot { background: #fff; transition: .18s; }
+    .step-dot.active { box-shadow: 0 5px 12px rgba(37,99,235,.22); }
+    .question { border-radius: 14px; padding: 18px; }
+    .quick-answer { border-radius: 11px; padding: 9px 13px; transition: .18s; }
+    .quick-answer:hover, .quick-answer.selected { transform: translateY(-1px); box-shadow: 0 4px 10px rgba(37,99,235,.14); }
+    .kb-step { border-radius: 14px; background: linear-gradient(120deg,#f8fbff,#eef6ff); }
+    .summary { border-radius: 14px; }
+    .version-mark { display: inline-block; margin-top: 8px; padding: 3px 9px; border-radius: 999px; background: #dbeafe; color: #1e40af; font-size: .72rem; }
+    body.embedded .topbar { padding: 13px 22px; }
+    body.embedded .topbar,
+    body.embedded > main > .notice,
+    body.embedded > main > section.card:first-of-type { display: none; }
+    body.embedded .topbar h1 { font-size: 1rem; }
+    body.embedded .topbar small { font-size: .72rem; }
+    body.embedded .version-mark { display: none; }
+    body.embedded main { margin: 10px auto; padding: 0 10px; }
+    body.embedded .notice { padding: 8px 11px; margin-bottom: 10px; font-size: .75rem; line-height: 1.7; }
+    body.embedded .card { padding: 13px; margin-bottom: 10px; border-radius: 12px; }
+    @media (max-width: 650px) { .meta { flex-direction: column; gap: 0; } }
+    .action-bar{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;padding:12px;background:#f8fafc;border:1px solid var(--line);border-radius:12px;position:sticky;bottom:10px;z-index:2;box-shadow:0 8px 20px rgba(15,23,42,.08)}.action-bar .btn{min-height:42px}.action-bar .success{margin-right:auto}.version-footer{text-align:center;color:var(--muted);font-size:.78rem;padding:18px 10px 28px}.version-button{border:0;background:transparent;color:#1d4ed8;text-decoration:underline;padding:4px 8px}.version-dialog{display:none;position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:10;padding:7vh 18px}.version-dialog.open{display:block}.version-panel{max-width:650px;max-height:80vh;overflow:auto;margin:auto;background:#fff;border-radius:16px;padding:20px;box-shadow:0 18px 50px rgba(15,23,42,.25)}.version-entry{border-top:1px solid var(--line);padding:12px 0}.version-entry:first-of-type{border-top:0}.version-entry h3{margin:0;color:#1d4ed8}.version-entry time{color:var(--muted);font-size:.76rem}.version-entry ul{margin:5px 0;padding-right:20px;font-size:.82rem}
+  </style>
+  <style>
+    .step-layout{display:grid;grid-template-columns:minmax(260px,320px) minmax(0,1fr);grid-template-areas:"kb title" "kb question" "kb action" "kb quicklabel" "kb quick" "kb resultlabel" "kb result" "kb actions";gap:0 16px;direction:ltr;align-items:start}.step-layout>*{direction:rtl}.step-layout #stepTitle{grid-area:title}.step-layout #stepQuestion{grid-area:question}.step-layout #stepAction{grid-area:action}.step-layout .quick-label{grid-area:quicklabel}.step-layout #quickAnswers{grid-area:quick}.step-layout .result-label{grid-area:resultlabel}.step-layout #stepResult{grid-area:result}.step-layout .action-bar{grid-area:actions}.step-layout .kb-step{grid-area:kb;position:sticky;top:12px;margin:0;height:max-content}.step-layout .kb-step:before{content:'فقط برای مشاهده کارشناس';display:inline-block;margin-bottom:8px;padding:2px 8px;border-radius:999px;background:#dbeafe;color:#1e40af;font-size:.7rem}@media(max-width:800px){.step-layout{display:flex;flex-direction:column}.step-layout .kb-step{position:static;order:10;width:100%;margin-top:14px}.step-layout .action-bar{width:100%}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <h1>سناریوی مرحله‌ای Helpdesk</h1>
+    <small>Release 2 — Smart Troubleshooting: بررسی کندی سیستم</small>
+    <span class="version-mark">نسخه بازطراحی‌شده رابط اجرا — ۱ سپتامبر ۲۰۲۶</span>
+  </header>
+  <main>
+    <div class="notice">
+      در صورت گزارش کندی، این موارد را به‌ترتیب با راهبر سیستم بررسی کنید و نتیجه هر مرحله را ثبت کنید. متن نهایی فقط برای کپی در CRM یا ارسال به L2 تولید می‌شود و هیچ چیزی در CRM ثبت نمی‌کند.
+    </div>
+    <section class="card">
+      <h2>مشخصات بررسی</h2>
+      <label for="caseRef">شماره Case یا مرجع تماس (اختیاری)</label>
+      <input id="caseRef" placeholder="مثلاً CAS-304xxx">
+      <label for="customerName" style="margin-top:10px">نام مشتری/سازمان (اختیاری)</label>
+      <input id="customerName" placeholder="برای درج در متن نهایی">
+    </section>
+
+    <section class="card">
+      <div class="meta">
+        <span id="progressText">مرحله ۱ از ۱۰</span>
+        <span id="progressStatus">در حال تکمیل</span>
+      </div>
+      <div id="steps" class="steps"></div>
+      <h2 id="stepTitle">شروع بررسی کندی سیستم</h2>
+      <div id="stepQuestion" class="question"></div>
+      <div id="stepAction" class="step-action" aria-live="polite"></div>
+      <label>پاسخ‌های آماده</label>
+      <div id="quickAnswers" class="quick-answers"></div>
+      <div class="kb-step">
+        <h3>جست‌وجوی خودکار KB برای همین مرحله</h3>
+        <div class="empty">پس از انتخاب پاسخ آماده یا ثبت نتیجه، مقاله مرتبط همین مرحله بررسی می‌شود.</div>
+        <div id="stepKnowledge">در حال بررسی KB...</div>
+      </div>
+      <label for="stepResult">نتیجه این مرحله را ثبت کنید</label>
+      <textarea id="stepResult" placeholder="پاسخ مشتری، مشاهده کارشناس یا نتیجه بررسی را بنویسید..."></textarea>
+      <div class="actions action-bar">
+        <button class="btn" id="previousBtn">مرحله قبل</button>
+        <button class="btn primary" id="nextBtn">ثبت و مرحله بعد</button>
+        <button class="btn success" id="finishBtn">پایان بررسی و تولید متن</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="meta">
+        <h2>متن نهایی قابل کپی</h2>
+        <span>برای CRM یا ارسال به L2</span>
+      </div>
+      <p id="summaryEmpty" class="empty">پس از ثبت حداقل یک مرحله، متن بررسی اینجا ساخته می‌شود.</p>
+      <div id="summary" class="summary" style="display:none"></div>
+      <div class="actions action-bar">
+        <button class="btn primary" id="copyBtn" disabled>کپی متن</button>
+        <button class="btn" id="clearBtn">شروع بررسی جدید</button>
+      </div>
+    </section>
+  </main>
+  <footer class="version-footer">نگارش برنامه: <button type="button" id="versionButton" class="version-button">۰٫۲٫۰</button></footer>
+  <div id="versionDialog" class="version-dialog" role="dialog" aria-modal="true" aria-labelledby="versionTitle">
+    <div class="version-panel"><div class="meta"><h2 id="versionTitle">تاریخچه تغییرات نگارش‌ها</h2><button type="button" class="btn" id="versionClose">بستن</button></div><div id="versionEntries">در حال دریافت تاریخچه...</div></div>
+  </div>
+
+  <script>
+    document.body.classList.toggle('embedded', new URLSearchParams(window.location.search).get('embed') === '1');
+    const defaultChecklist = [
+      {
+        title: 'قدم اول: شناسایی حوزه کندی',
+        question: 'کندی در کدام حوزه رخ می‌دهد؟',
+        examples: 'ابتدا مشخص کنید مشکل عمومی است، به گروهی از کاربران مربوط است یا به مکان/سرویس/بخش خاصی محدود می‌شود.',
+        answers: ['همه کاربران، تمام بخش‌های سیستم', 'بخشی از کاربران با ویژگی شبکه/سخت‌افزار متفاوت', 'بخشی از کاربران در یک قسمت خاص مثل پیش‌نویس یا گزارش', 'بخشی از کاربران در یک مکان، طبقه، ساختمان یا VLAN', 'کاربران یک سرویس مجزا', 'هنوز مشخص نیست']
+      },
+      {
+        title: 'قدم دوم: مسیر ریشه‌یابی',
+        question: 'با توجه به حوزه انتخاب‌شده، کدام مسیر ریشه‌یابی باید بررسی شود؟',
+        examples: 'این انتخاب فرضیه بررسی است، نه تشخیص قطعی؛ شواهد هر مورد را در نتیجه ثبت کنید.',
+        answers: ['سرور بانک اطلاعاتی یا Application', 'تغییرات شبکه یا ارتباط سرور و کلاینت', 'آنتی‌ویروس و تنظیمات امنیتی کلاینت/سرویس', 'پارامترها، منابع یا Tuning بانک اطلاعاتی', 'دستورات SQL و مصرف منابع؛ بررسی با OEM', 'تغییر نگارش یا اشکال نرم‌افزاری', 'تنظیمات ADG/GoldenGate', 'توزیع نامناسب بار روی سرویس/پورت‌ها', 'هنوز مشخص نیست']
+      },
+      {
+        title: 'تفکیک کاربران و زیرساخت',
+        question: 'آیا کاربران affected از نظر شبکه، سخت‌افزار، نرم‌افزارهای جانبی یا مکان ویژگی مشترکی دارند؟',
+        examples: 'پهنای باند واقعی، مسیر شبکه، سخت‌افزار حداقلی و نرم‌افزارهای جانبی را با یک کاربر سالم مقایسه کنید.',
+        answers: ['ساختمان/شعبه/طبقه یا VLAN مشترک', 'پهنای باند واقعی کمتر از حد انتظار', 'سخت‌افزار کاربران ضعیف‌تر است', 'تعداد پیام‌های ورودی/خوانده‌نشده زیاد است', 'ویژگی مشترکی پیدا نشد', 'بررسی نشده']
+      },
+      {
+        title: 'بخش درگیر برنامه',
+        question: 'کندی در کدام قسمت برنامه رخ می‌دهد؟',
+        examples: 'برای گزارش‌ها و فهرست‌ها مسیر بانک اطلاعاتی را جدی‌تر بررسی کنید؛ برای پیش‌نویس و کارتابل، کلاینت و پروفایل را هم بررسی کنید.',
+        answers: ['گزارش نامه‌ها', 'پیش‌نویس نامه', 'ثبت یا ارسال نامه', 'کارتابل یا پوشه‌ها', 'جستجو یا فهرست پیام‌ها', 'بخش دیگری از برنامه', 'بخش دقیق مشخص نیست']
+      },
+      {
+        title: 'زمان، تغییر و الگوی بروز',
+        question: 'کندی از چه زمانی و با چه الگویی ایجاد شده است؟ آیا بعد از تغییر، ارتقا یا رویداد خاصی رخ داده؟',
+        examples: 'زمان دقیق، نگارش، تغییر شبکه، راه‌اندازی سرویس و دائمی/لحظه‌ای بودن را ثبت کنید.',
+        answers: ['کندی دائمی', 'کندی لحظه‌ای یا مقطعی', 'پس از ارتقای نگارش', 'پس از تغییر شبکه یا زیرساخت', 'پس از راه‌اندازی ADG/GoldenGate', 'بدون رویداد مشخص', 'زمان یا الگو نامشخص']
+      },
+      {
+        title: 'بررسی بانک اطلاعاتی و Application',
+        question: 'برای کندی عمومی یا گزارش‌ها، وضعیت منابع، پارامترها، Analyze/Tuning، SQLهای پرمصرف و توزیع بار بررسی شده است؟',
+        examples: 'اجرای Tuning یا تغییر پارامتر فقط توسط نقش مجاز و پس از تأیید انجام شود.',
+        answers: ['منابع سرور بررسی شد', 'Analyze/Tuning بانک اطلاعاتی بررسی شد', 'SQL پرمصرف با OEM بررسی شد', 'توزیع بار سرویس/پورت‌ها بررسی شد', 'تغییر نرم‌افزاری به‌عنوان فرضیه ثبت شد', 'هنوز بررسی فنی انجام نشده']
+      },
+      {
+        title: 'بررسی کلاینت و نرم‌افزارهای جانبی',
+        question: 'آیا با کلاینت سالم و کاربر دیگر مقایسه شده و تنظیمات آنتی‌ویروس، سیستم‌عامل و سخت‌افزار بررسی شده است؟',
+        examples: 'هدف، تفکیک مشکل مرکزی از مشکل کلاینت است؛ تغییر تنظیمات امنیتی بدون تأیید مجاز نیست.',
+        answers: ['کلاینت دیگر هم کند است', 'کلاینت دیگر عادی است', 'آنتی‌ویروس/تنظیمات امنیتی مظنون است', 'سخت‌افزار یا سیستم‌عامل مظنون است', 'تعداد پیام‌های کاربر زیاد است', 'مقایسه انجام نشد']
+      },
+      {
+        title: 'شواهد و مستندات',
+        question: 'چه شواهدی برای بازتولید و بررسی جمع‌آوری شده است؟',
+        examples: 'فیلم، زمان دقیق، کاربر نمونه، مکان/VLAN، عملیات و زمان اندازه‌گیری‌شده را ثبت کنید.',
+        answers: ['فیلم تهیه و پیوست شد', 'زمان دقیق و عملیات ثبت شد', 'کاربر/مکان/شبکه ثبت شد', 'لاگ یا خروجی OEM در اختیار L2 قرار گرفت', 'امکان تهیه فیلم یا لاگ وجود ندارد', 'شواهد هنوز ناقص است']
+      },
+      {
+        title: 'اطلاعات لازم برای ارجاع',
+        question: 'نام کاربر نمونه، سازمان/شعبه، زمان دقیق آخرین رخداد و شناسه تیکت برای بررسی L2 ثبت شده است؟',
+        examples: 'آمادگی اطلاعات برای ارجاع را مشخص کنید.',
+        answers: ['اطلاعات کامل ثبت و مستندات پیوست شد', 'اطلاعات کاربر و زمان ثبت شد؛ مستندات ناقص است', 'فقط شرح کلی ثبت شده است', 'اطلاعات لازم هنوز جمع‌آوری نشده']
+      },
+      {
+        title: 'جمع‌بندی و ارجاع',
+        question: 'با توجه به نتایج، مشکل در L1 قابل پیگیری است یا باید با شواهد به L2 ارجاع شود؟',
+        examples: 'تصمیم فعلی را انتخاب کنید؛ این تصمیم قابل بازبینی است.',
+        answers: ['در L1 قابل پیگیری است', 'نیازمند بررسی L2 است', 'نیازمند اطلاعات بیشتر از مشتری است', 'فعلاً علت مشخص نیست']
+      }
+    ];
+    const requestedScenarioId = new URLSearchParams(window.location.search).get('scenario') || 'slow-system';
+    const savedScenarios = JSON.parse(localStorage.getItem('pargar.scenarios') || '[]');
+    const selectedScenario = savedScenarios.find(item => item.id === requestedScenarioId);
+    const scenarioTitle = selectedScenario?.title || 'بررسی کندی سیستم';
+    const checklist = selectedScenario?.steps?.length ? selectedScenario.steps : defaultChecklist;
+    document.title = `سناریوی مرحله‌ای ${scenarioTitle}`;
+    document.querySelector('.topbar small').textContent = `Release 2 — Smart Troubleshooting: ${scenarioTitle}`;
+    document.querySelector('.notice').firstChild.textContent =
+      `این سناریو برای هدایت مرحله‌ای کارشناس طراحی شده است. نتیجه هر مرحله و مقاله مرتبط ثبت می‌شود و متن نهایی فقط برای کپی در CRM یا ارسال به L2 تولید می‌شود. `;
+    let current = 0;
+    const results = Array(checklist.length).fill('');
+    const stepArticles = Array.from({length: checklist.length}, () => []);
+    const $ = id => document.getElementById(id);
+    const fa = value => String(value).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+
+    function render() {
+      $('progressText').textContent = `مرحله ${fa(current + 1)} از ${fa(checklist.length)}`;
+      $('stepTitle').textContent = checklist[current].title;
+      $('stepQuestion').innerHTML = `<div>${checklist[current].question}</div><small style="display:block;margin-top:8px;color:#64748b">${checklist[current].examples}</small>`;
+      $('stepAction').textContent = current < checklist.length - 1
+        ? `پس از ثبت این مرحله، مرحله بعدی: ${checklist[current + 1].title}`
+        : 'پس از ثبت این مرحله، گزارش نهایی و مسیر ارجاع آماده می‌شود.';
+      $('stepResult').value = results[current];
+      $('quickAnswers').innerHTML = '';
+      checklist[current].answers.forEach(answer => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'quick-answer';
+        button.textContent = answer;
+        button.onclick = () => {
+          $('stepResult').value = answer;
+          results[current] = answer;
+          searchStepKnowledge();
+          document.querySelectorAll('.quick-answer').forEach(item => item.classList.remove('selected'));
+          button.classList.add('selected');
+        };
+        if (results[current] === answer) button.classList.add('selected');
+        $('quickAnswers').appendChild(button);
+      });
+      searchStepKnowledge();
+      $('previousBtn').disabled = current === 0;
+      $('nextBtn').style.display = current === checklist.length - 1 ? 'none' : 'inline-block';
+      $('finishBtn').style.display = current === checklist.length - 1 ? 'inline-block' : 'inline-block';
+      $('steps').innerHTML = checklist.map((step, index) => {
+        const state = index === current ? 'active' : (results[index].trim() ? 'done' : '');
+        return `<button type="button" class="step-dot ${state}" data-step-index="${index}" aria-label="رفتن به مرحله ${fa(index + 1)}">${fa(index + 1)}. ${step.title}</button>`;
+      }).join('');
+      $('steps').querySelectorAll('[data-step-index]').forEach(button => {
+        button.addEventListener('click', () => {
+          results[current] = $('stepResult').value.trim();
+          current = Number(button.dataset.stepIndex);
+          render();
+        });
+      });
+    }
+
+    async function searchStepKnowledge() {
+      const query = `${checklist[current].question} ${results[current] || ''}`;
+      const target = $('stepKnowledge');
+      target.textContent = 'در حال جست‌وجوی مقاله مرتبط در KB داخلی...';
+      try {
+        const response = await fetch(`/api/scenario-kb?q=${encodeURIComponent(query)}`);
+        if (!response.ok) throw new Error('خطا');
+        const result = await response.json();
+        if (!result.articles.length) {
+          stepArticles[current] = [];
+          target.textContent = 'برای این مرحله مقاله مرتبطِ دارای شواهد کافی پیدا نشد.';
+          return;
+        }
+        stepArticles[current] = result.articles;
+        target.innerHTML = '';
+        result.articles.forEach(article => {
+          const item = document.createElement('div');
+          item.className = 'kb-item';
+          item.innerHTML = `<strong>${article.public_number || 'KB'} — ${article.title}</strong>
+            <span>${article.reason} واژه‌های منطبق: ${article.matched_terms.join('، ')}</span>
+            <br><small>شاهد: ${article.evidence}</small>`;
+          target.appendChild(item);
+        });
+      } catch (_) {
+        target.textContent = 'جست‌وجوی KB در دسترس نیست؛ بررسی مرحله را بدون مقاله ادامه دهید.';
+      }
+    }
+
+    function buildSummary() {
+      results[current] = $('stepResult').value.trim();
+      const ref = $('caseRef').value.trim() || 'ثبت نشده';
+      const customer = $('customerName').value.trim() || 'ثبت نشده';
+      const lines = [
+        'گزارش بررسی اولیه کندی سیستم',
+        `مرجع Case/تماس: ${ref}`,
+        `مشتری/سازمان: ${customer}`,
+        '',
+        'موارد بررسی‌شده:'
+      ];
+      checklist.forEach((step, index) => {
+        lines.push(`${index + 1}. ${step.title}`);
+        lines.push(`سؤال/بررسی: ${step.question}`);
+        lines.push(`نتیجه: ${results[index] || 'ثبت نشده'}`);
+        if (stepArticles[index].length) {
+          lines.push(`مقاله‌های مرتبط مشاهده‌شده: ${stepArticles[index].map(article => `${article.public_number || 'KB'} — ${article.title}`).join('؛ ')}`);
+        } else {
+          lines.push('مقاله مرتبط دارای شواهد کافی: پیدا نشد');
+        }
+        lines.push('');
+      });
+      lines.push('جمع‌بندی: این متن گزارش بررسی اولیه است و قبل از ثبت یا ارجاع نهایی باید توسط کارشناس بازبینی شود.');
+      $('summary').textContent = lines.join('\n');
+      $('summary').style.display = 'block';
+      $('summaryEmpty').style.display = 'none';
+      $('copyBtn').disabled = false;
+      $('progressStatus').textContent = 'گزارش آماده کپی';
+    }
+
+    $('nextBtn').onclick = () => {
+      results[current] = $('stepResult').value.trim();
+      if (current < checklist.length - 1) current += 1;
+      render();
+    };
+    $('previousBtn').onclick = () => {
+      results[current] = $('stepResult').value.trim();
+      if (current > 0) current -= 1;
+      render();
+    };
+    function buildCompactSummary() {
+      results[current] = $('stepResult').value.trim();
+      const meaningful = value => {const text=String(value||'').trim();return text && !['ثبت نشده','هنوز مشخص نیست','بررسی نشده','بررسی فنی انجام نشده','علت مشخص نیست','اطلاعات لازم هنوز جمع‌آوری نشده'].includes(text)};
+      const completed = checklist.map((step,index)=>({step,index,result:String(results[index]||'').trim()})).filter(item=>meaningful(item.result));
+      const problem = completed.find(item=>item.index===0)?.result || 'شرح دقیق مشکل در بررسی اولیه ثبت نشده است.';
+      const scope = completed.filter(item=>[2,3,4].includes(item.index)).map(item=>item.result).join('؛ ') || 'دامنه و شرایط بروز به‌طور کامل مشخص نشده است.';
+      const checks = completed.filter(item=>![0,2,3,4,7,8,9].includes(item.index)).map(item=>`- ${item.step.title}: ${item.result}`);
+      const evidence = completed.filter(item=>item.index===7).map(item=>item.result).join('؛ ') || 'مستندات مشخصی ثبت نشده است.';
+      const referral = completed.some(item=>item.index===9 && /L2|فنی|ارجاع/i.test(item.result)) ? 'مشکل پس از بررسی‌های اولیه همچنان برقرار است و نیازمند بررسی تخصصی تیم فنی است.' : 'نتیجه بررسی اولیه باید توسط کارشناس بازبینی و سپس درباره ادامه مسیر تصمیم‌گیری شود.';
+      const lines=['شرح مشکل:',problem,'','دامنه و شرایط بروز:',scope,'','بررسی‌های انجام‌شده:',...(checks.length?checks:['- نتیجه مشخصی برای درج در Case ثبت نشده است.']),'','اطلاعات و مستندات پیوست:',evidence,'','دلیل ارجاع به تیم فنی:',referral];
+      $('summary').textContent=lines.join('\n');$('summary').style.display='block';$('summaryEmpty').style.display='none';$('copyBtn').disabled=false;$('progressStatus').textContent='گزارش کوتاه آماده کپی';
+    }
+    $('finishBtn').onclick = buildCompactSummary;
+    $('copyBtn').onclick = async () => {
+      await navigator.clipboard.writeText($('summary').textContent);
+      $('progressStatus').textContent = 'متن کپی شد';
+    };
+    $('clearBtn').onclick = () => {
+      current = 0;
+      results.fill('');
+      stepArticles.forEach(items => items.splice(0, items.length));
+      $('caseRef').value = '';
+      $('customerName').value = '';
+      $('summary').textContent = '';
+      $('summary').style.display = 'none';
+      $('summaryEmpty').style.display = 'block';
+      $('copyBtn').disabled = true;
+      $('progressStatus').textContent = 'در حال تکمیل';
+      render();
+    };
+    (function arrangeWorkflow(){
+      const title=$('stepTitle'), card=title.closest('section.card');
+      if(!title||!card)return;
+      const layout=document.createElement('div');layout.className='step-layout';
+      const question=$('stepQuestion'), action=$('stepAction'), quick=$('quickAnswers'), kb=$('stepKnowledge').closest('.kb-step'), result=$('stepResult'), quickLabel=quick.previousElementSibling, resultLabel=result.previousElementSibling, actions=card.querySelector('.action-bar');
+      quickLabel.classList.add('quick-label');resultLabel.classList.add('result-label');
+      card.insertBefore(layout,title);
+      [kb,title,question,action,quickLabel,quick,resultLabel,result,actions].forEach(node=>{if(node)layout.appendChild(node)});
+      const infoCard=document.querySelector('main > section.card');
+      if(infoCard && infoCard!==card)infoCard.style.display='none';
+    }());
+    const baseRender=render;
+    render=function(){baseRender();const step=checklist[current];const multi=step.selection_mode==='multiple'||step.selectionMode==='multiple';const selected=new Set((results[current]||'').split('؛').map(value=>value.trim()).filter(Boolean));if(multi)$('stepAction').textContent='این مرحله چندانتخابی است؛ می‌توانید بیش از یک پاسخ آماده را انتخاب کنید.';document.querySelectorAll('.quick-answer').forEach(button=>{const value=button.textContent.trim();button.classList.toggle('selected',selected.has(value));button.onclick=()=>{if(!multi){results[current]=value}else{if(selected.has(value))selected.delete(value);else selected.add(value);results[current]=[...selected].join('؛ ')}$('stepResult').value=results[current];button.parentElement.querySelectorAll('.quick-answer').forEach(item=>item.classList.toggle('selected',selected.has(item.textContent.trim())));searchStepKnowledge()}})};
+    document.addEventListener('click',event=>{const button=event.target.closest('.quick-answer');if(!button)return;const step=checklist[current];const multi=step.selection_mode==='multiple'||step.selectionMode==='multiple';if(!multi&&current<checklist.length-1){window.setTimeout(()=>{if(results[current])$('nextBtn').click()},350)}});
+    render();
+    $('nextBtn').textContent='ثبت پاسخ و ادامه';
+    $('finishBtn').textContent='تأیید نهایی و تولید متن';
+    const versionButton=$('versionButton'),versionDialog=$('versionDialog');
+    versionButton.onclick=async()=>{versionDialog.classList.add('open');const target=$('versionEntries');try{const response=await fetch('/api/version-history');const data=await response.json();target.innerHTML=data.entries.map(entry=>`<article class="version-entry"><h3>نگارش ${entry.version} — ${entry.title}</h3><time>${entry.date}، ساعت ${entry.time}</time><ul>${entry.changes.map(change=>`<li>${change}</li>`).join('')}</ul></article>`).join('')}catch(_){target.textContent='تاریخچه نگارش در دسترس نیست.'}};
+    $('versionClose').onclick=()=>versionDialog.classList.remove('open');
+    versionDialog.onclick=event=>{if(event.target===versionDialog)versionDialog.classList.remove('open')};
+  </script>
+  <script>
+    (function prefillCaseContext(){
+      const caseId=new URLSearchParams(window.location.search).get('caseId');
+      if(!caseId)return;
+      const field=document.getElementById('caseRef');
+      if(field)field.value=caseId;
+      fetch(`/api/cases/${encodeURIComponent(caseId)}`)
+        .then(response=>response.ok?response.json():Promise.reject())
+        .then(item=>{
+          if(field)field.value=item.ticket_number||item.crm_id||caseId;
+          const title=document.querySelector('.topbar h1');
+          if(title&&item.title)title.textContent=`اجرای سناریو برای Case: ${item.title}`;
+        })
+        .catch(()=>{});
+    }());
+  </script>
+  <script src="visual-theme.js"></script>
+</body>
+</html>
