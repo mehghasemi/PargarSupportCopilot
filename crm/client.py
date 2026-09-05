@@ -134,7 +134,7 @@ class CrmClient:
             "note",
             select=[
                 "annotationid", "subject", "notetext", "createdon", "modifiedon",
-                "_objectid_value",
+                "_objectid_value", "_createdby_value",
             ],
             filter_expression=f"_objectid_value eq {case_id}",
             top=top,
@@ -154,7 +154,7 @@ class CrmClient:
             "task",
             select=[
                 "activityid", "subject", "description", "createdon", "modifiedon",
-                "_regardingobjectid_value",
+                "_regardingobjectid_value", "_createdby_value", "_ownerid_value",
             ],
             filter_expression=f"_regardingobjectid_value eq {case_id}",
             top=top,

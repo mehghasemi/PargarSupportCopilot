@@ -27,6 +27,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 APP_ROOT = PROJECT_ROOT / "docs" / "app"
 VERSION_HISTORY_PATH = PROJECT_ROOT / "config" / "version-history.json"
 DEFAULT_PERSONAL_VIEW_ID = "ba75adf0-7327-f111-a873-005056988b54"
+APP_API_VERSION = "2026-09-05-view-scope-2"
 MAX_QUERY_LENGTH = 500
 MAX_SCENARIOS_PAYLOAD = 2_000_000
 ALLOWED_FEEDBACK_ACTIONS = {"accepted", "edited", "rejected"}
@@ -45,6 +46,20 @@ def current_crm_user_id() -> str:
         raise CrmError("شناسه کاربر فعلی از CRM دریافت نشد.")
     _identity_cache.update({"user_id": user_id, "expires_at": now + 300})
     return str(user_id)
+
+
+def authorized_snapshot_scope(store: LocalStore) -> dict[str, object] | None:
+    """Return the snapshot scope only when its CRM View is readable by the user."""
+    current_crm_user_id()
+    scope = store.snapshot_scope()
+    if not scope or not scope.get("view_id"):
+        return None
+    allowed_view_ids = {
+        str(view.get("id"))
+        for view in CrmClient().list_all_case_views(top=500)
+        if view.get("id")
+    }
+    return scope if str(scope["view_id"]) in allowed_view_ids else None
 
 
 class Handler(SimpleHTTPRequestHandler):
@@ -84,19 +99,22 @@ class Handler(SimpleHTTPRequestHandler):
             store.initialize()
             if path == "/api/cases":
                 try:
-                    owner_id = current_crm_user_id()
+                    scope = authorized_snapshot_scope(store)
                 except CrmError:
                     self._json({"error": "هویت کاربر در CRM تأیید نشد؛ فهرست Caseها نمایش داده نمی‌شود."}, 503)
                     return
-                self._json(store.list_cases(owner_id))
+                self._json(store.list_cases() if scope else [])
+                return
+            if path == "/api/app-info":
+                self._json({"api_version": APP_API_VERSION, "scope": "selected_crm_view", "crm_write_operations": 0})
                 return
             if path == "/api/release-0/discovery-summary":
                 try:
-                    owner_id = current_crm_user_id()
+                    scope = authorized_snapshot_scope(store)
                 except CrmError:
                     self._json({"error": "هویت کاربر در CRM تأیید نشد؛ خلاصه داده نمایش داده نمی‌شود."}, 503)
                     return
-                self._json({"data": store.discovery_summary(owner_id)})
+                self._json({"data": store.discovery_summary() if scope else {}, "scope": scope})
                 return
             if path == "/api/scenario-kb":
                 query = parse_qs(parsed.query).get("q", [""])[0]
@@ -133,20 +151,23 @@ class Handler(SimpleHTTPRequestHandler):
                 return
             if path.startswith("/api/cases/"):
                 try:
-                    owner_id = current_crm_user_id()
+                    scope = authorized_snapshot_scope(store)
                 except CrmError:
                     self._json({"error": "هویت کاربر در CRM تأیید نشد؛ دسترسی به Case ممکن نیست."}, 503)
+                    return
+                if not scope:
+                    self._json({"error": "View این Snapshot برای کاربر فعلی مجاز نیست."}, 403)
                     return
                 case_path = path[len("/api/cases/"):]
                 if case_path.endswith("/analysis"):
                     case_path = case_path[:-len("/analysis")].rstrip("/")
-                    case = store.get_case(case_path, owner_id)
+                    case = store.get_case(case_path)
                     self._json(
                         analyze_case(case) if case else {"error": "Case پیدا نشد"},
                         200 if case else 404,
                     )
                     return
-                case = store.get_case(case_path, owner_id)
+                case = store.get_case(case_path)
                 self._json(case or {"error": "Case پیدا نشد"}, 200 if case else 404)
                 return
         finally:
@@ -165,11 +186,22 @@ class Handler(SimpleHTTPRequestHandler):
                 view, case_payload = client.load_view_cases(
                     view_id, top=100, view_type=view_type
                 )
-                owner_id = current_crm_user_id()
+                current_crm_user_id()
                 cases = [
                     item for item in case_payload.get("value", [])
-                    if item.get("_ownerid_value") == owner_id
                 ]
+                enriched_cases = []
+                for case in cases:
+                    case_id = case.get("incidentid")
+                    if not case_id:
+                        continue
+                    try:
+                        full_case = client.get_case_context(case_id)
+                        merged = {**case, **full_case}
+                    except CrmError:
+                        merged = case
+                    enriched_cases.append(merged)
+                cases = enriched_cases
                 notes = []
                 tasks = []
                 posts = []
@@ -186,6 +218,8 @@ class Handler(SimpleHTTPRequestHandler):
                         cases, notes, tasks, articles,
                         posts,
                         source=f"crm-view:{view.get('name')}",
+                        scope_view_id=view.get("savedqueryid") or view_id,
+                        scope_view_name=view.get("name"),
                     )
                 finally:
                     store.close()
@@ -199,7 +233,8 @@ class Handler(SimpleHTTPRequestHandler):
                     "knowledge_articles": len(articles),
                     "stored_records": count,
                     "crm_write_operations": 0,
-                    "owner_filter": owner_id,
+                    "scope": "selected_crm_view",
+                    "scope_view_id": view.get("savedqueryid") or view_id,
                 })
             except (CrmError, ValueError, json.JSONDecodeError) as exc:
                 self._json({"ok": False, "error": str(exc)}, 400)

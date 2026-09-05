@@ -24,22 +24,35 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 $url = "http://127.0.0.1:$Port/"
+$requiredApiVersion = "2026-09-05-view-scope-2"
 $serverReady = $false
 try {
-    $probe = Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec 2 -ErrorAction Stop
-    $serverReady = $probe.StatusCode -eq 200
+    $info = Invoke-RestMethod -Uri "$url`api/app-info" -TimeoutSec 2 -ErrorAction Stop
+    $serverReady = $info.api_version -eq $requiredApiVersion
 } catch {
     $serverReady = $false
 }
 
 if (-not $serverReady) {
+    try {
+        $connections = Get-NetTCPConnection -LocalPort $Port -State Listen -ErrorAction SilentlyContinue
+        foreach ($connection in $connections) {
+            $process = Get-Process -Id $connection.OwningProcess -ErrorAction SilentlyContinue
+            if ($process -and $process.Path -like "*python*") {
+                Stop-Process -Id $connection.OwningProcess -Force -ErrorAction SilentlyContinue
+            }
+        }
+    } catch {
+        Write-Host "Could not replace the old local server process automatically." -ForegroundColor Yellow
+    }
     Write-Host "Starting local application server..." -ForegroundColor Cyan
     Start-Process python -ArgumentList "scripts\local_app.py --port $Port" -WorkingDirectory $projectRoot -WindowStyle Hidden
     for ($attempt = 1; $attempt -le 20; $attempt++) {
         Start-Sleep -Milliseconds 500
         try {
             $probe = Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec 2 -ErrorAction Stop
-            if ($probe.StatusCode -eq 200) {
+            $info = Invoke-RestMethod -Uri "$url`api/app-info" -TimeoutSec 2 -ErrorAction Stop
+            if ($info.api_version -eq $requiredApiVersion) {
                 $serverReady = $true
                 break
             }

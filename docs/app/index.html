@@ -104,6 +104,31 @@
       gap: 20px;
       align-items: start;
     }
+    .case-picker-bar { display: flex; justify-content: flex-start; margin: 0 0 20px; }
+    .case-picker-card { width: min(620px, 100%); border: 1px solid #93c5fd; background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 52%, #ffffff 100%); box-shadow: 0 12px 28px rgba(37,99,235,.12); }
+    .case-selection-layout { display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); gap:20px; align-items:start; margin:0 0 20px; }
+    .case-selection-layout .case-picker-bar { margin:0; }
+    .case-selection-layout .case-picker-card { width:auto; }
+    .case-details-column { display:grid; gap:14px; align-content:start; }
+    .case-info-accordion { padding:0; overflow:hidden; }
+    .case-info-toggle { width:100%; display:flex; align-items:center; justify-content:space-between; gap:16px; border:0; padding:18px 20px; background:linear-gradient(135deg,#eef6ff,#fff); color:var(--ink); text-align:right; cursor:pointer; font:inherit; }
+    .case-info-toggle:hover { background:linear-gradient(135deg,#dbeafe,#fff); }
+    .case-info-toggle-title { display:block; color:#1e3a8a; font-size:1rem; font-weight:800; }
+    .case-info-toggle-summary { display:block; color:var(--muted); font-size:.76rem; margin-top:2px; }
+    .case-info-toggle-icon { display:grid; place-items:center; width:30px; height:30px; border-radius:50%; background:#dbeafe; color:#1d4ed8; font-size:1.1rem; flex:0 0 auto; }
+    .case-info-accordion.open .case-info-toggle-icon { transform:rotate(180deg); }
+    .case-info-body { display:none; padding:0 16px 16px; border-top:1px solid var(--line); }
+    .case-info-accordion.open .case-info-body { display:grid; gap:14px; }
+    .case-info-body > .card { box-shadow:none; border-radius:12px; margin-top:14px; }
+    .missing-card { border-color:#fbbf24; background:linear-gradient(135deg,#fffaf0,#fff); }
+    .missing-card .section-title { margin-top:0; }
+    .case-picker-card .card-header { align-items: center; }
+    .case-picker-card h2 { color: #1e3a8a; }
+    .case-picker-card .case-search { background: rgba(255,255,255,.72); }
+    .copilot-context { display:flex; align-items:center; gap:10px; margin:0 0 16px; padding:12px 14px; border:1px solid #86efac; border-radius:13px; background:linear-gradient(135deg,#dcfce7,#f0fdf4); color:#166534; }
+    .copilot-context-label { font-size:.72rem; font-weight:800; white-space:nowrap; }
+    .copilot-context strong { font-size:.86rem; color:#14532d; overflow-wrap:anywhere; }
+    .copilot-context small { color:#166534; direction:ltr; margin-right:auto; }
     .card {
       background: var(--surface);
       border: 1px solid var(--line);
@@ -249,6 +274,20 @@
       font-size: .78rem;
     }
     .activity-list li:last-child { border-bottom: 0; }
+    .activity-timeline { position: relative; margin: 4px 0 0; padding: 8px 32px 2px 0; }
+    .activity-timeline::before { content: ""; position: absolute; right: 8px; top: 18px; bottom: 18px; width: 2px; background: #bfdbfe; }
+    .timeline-item { position: relative; padding: 0 0 16px; }
+    .timeline-item:last-child { padding-bottom: 2px; }
+    .timeline-dot { position: absolute; right: -30px; top: 7px; width: 14px; height: 14px; border-radius: 50%; border: 3px solid #dbeafe; background: #2563eb; box-sizing: border-box; z-index: 1; }
+    .timeline-note .timeline-dot { background: #0f766e; border-color: #ccfbf1; }
+    .timeline-post .timeline-dot { background: #7c3aed; border-color: #ede9fe; }
+    .timeline-task .timeline-dot { background: #ea580c; border-color: #ffedd5; }
+    .timeline-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; color: var(--muted); font-size: .72rem; margin-bottom: 5px; }
+    .timeline-type { color: #1e3a8a; font-weight: 800; }
+    .timeline-author { color: #334155; }
+    .timeline-date { direction: ltr; unicode-bidi: plaintext; }
+    .timeline-card { border: 1px solid #dbeafe; border-radius: 10px; background: #f8fbff; padding: 11px 13px; color: #1e293b; line-height: 1.9; white-space: pre-line; font-size: .78rem; box-shadow: 0 3px 10px rgba(37, 99, 235, .06); }
+    .timeline-subject { display: block; color: #1d4ed8; font-weight: 800; margin-bottom: 3px; }
     .metric-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -275,16 +314,6 @@
     .case-search{margin-top:12px;padding:14px;border:1px solid #bfdbfe;border-radius:14px;background:linear-gradient(120deg,#eff6ff,#f8fbff)}
     .case-search label{display:block;color:#1e3a8a;font-size:.78rem;font-weight:700;margin-bottom:5px}
     .case-search-row{display:flex;gap:7px}.case-search input{flex:1;min-width:0;border:1px solid #93c5fd;border-radius:8px;padding:9px 11px;background:#fff;color:var(--ink);font:inherit;font-size:.8rem}.case-search input:focus{outline:3px solid #bfdbfe;outline-offset:1px}.case-search .btn{white-space:nowrap}.case-search .muted{margin-top:6px;font-size:.72rem}.case-results{display:grid;gap:8px;margin-top:12px;max-height:390px;overflow:auto;padding:2px}.case-result{width:100%;text-align:right;border:1px solid #dbe5f2;border-radius:12px;padding:10px 12px;background:#fff;color:var(--ink);cursor:pointer;transition:.18s}.case-result:hover{border-color:#60a5fa;background:#f8fbff;transform:translateY(-1px);box-shadow:0 5px 14px rgba(37,99,235,.12)}.case-result.selected{border:2px solid #2563eb;background:linear-gradient(120deg,#eff6ff,#fff);box-shadow:0 5px 15px rgba(37,99,235,.14)}.case-result-head{display:flex;justify-content:space-between;gap:10px;align-items:center}.case-result-ticket{color:#1d4ed8;font-size:.75rem;font-weight:800;direction:ltr}.case-result-title{font-size:.82rem;font-weight:700}.case-result-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:5px}.case-result-meta span{padding:2px 7px;border-radius:999px;background:#f1f5f9;color:#475569;font-size:.68rem}.case-results-empty{padding:22px;text-align:center;border:1px dashed #93c5fd;border-radius:11px;color:#64748b;background:#f8fbff;font-size:.8rem}
-    @media (max-width: 900px) {
-      .workspace { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 520px) {
-      .topbar { align-items: flex-start; flex-direction: column; }
-      .fields { grid-template-columns: 1fr; }
-      .case-search-row{flex-direction:column}.case-search-row .btn{width:100%}
-      .field.full { grid-column: auto; }
-      main { padding: 0 12px; }
-    }
   </style>
 </head>
 <body>
@@ -297,21 +326,6 @@
   </header>
 
   <main>
-    <div class="notice">
-      این صفحه برای تست واقعیِ بدون تغییر در CRM است. Caseها از View انتخاب‌شده خوانده و در دیتابیس داخلی ذخیره می‌شوند؛ هیچ داده‌ای در CRM ثبت یا تغییر نمی‌کند.
-    </div>
-    <section class="demo-guide" aria-label="راهنمای بررسی">
-      <h2>تست را از اینجا شروع کنید</h2>
-      <p class="muted">شما لازم نیست فرم مدیریتی را پر کنید. فقط نتیجه پیشنهادها را با Case واقعی مقایسه کنید.</p>
-      <div>
-        <span class="test-step"><strong>۱</strong> View را انتخاب کنید</span>
-        <span class="test-step"><strong>۲</strong> Caseها را واکشی کنید</span>
-        <span class="test-step"><strong>۳</strong> یک Case را انتخاب کنید</span>
-        <span class="test-step"><strong>۴</strong> پیشنهادها را بررسی کنید</span>
-      </div>
-      <p class="muted">سؤال ساده تست: «آیا پیشنهاد، مقاله و کمبود اطلاعاتی واقعاً برای همین Case درست است؟»</p>
-    </section>
-
     <section class="card discovery-card" aria-labelledby="discoveryTitle" hidden>
       <div class="card-header">
         <div>
@@ -323,73 +337,69 @@
       <div id="discoveryLoading" class="muted">در حال خواندن Snapshot...</div>
       <div id="discoveryContent" style="display:none">
         <div class="discovery-grid">
-          <div class="discovery-metric"><strong id="discoveryTotal">—</strong><span>کل Caseهای Snapshot</span></div>
-          <div class="discovery-metric"><strong id="discoveryComplete">—</strong><span>Case کاملِ مقدماتی</span></div>
+          <div class="discovery-metric"><strong id="discoveryTotal">—</strong><span>کل موارد Snapshot</span></div>
+          <div class="discovery-metric"><strong id="discoveryComplete">—</strong><span>مورد کاملِ مقدماتی</span></div>
           <div class="discovery-metric"><strong id="discoveryRate">—</strong><span>نرخ کامل‌بودن مقدماتی</span></div>
           <div class="discovery-metric"><strong id="discoverySync">—</strong><span>آخرین همگام‌سازی</span></div>
         </div>
         <div class="discovery-breakdown">
-          <div><h3>تفکیک بر اساس Case Service</h3><ul id="discoveryServices"></ul></div>
+          <div><h3>تفکیک بر اساس خدمت مورد</h3><ul id="discoveryServices"></ul></div>
           <div><h3>تفکیک بر اساس Category</h3><ul id="discoveryCategories"></ul></div>
         </div>
         <p id="discoveryFootnote" class="discovery-footnote"></p>
       </div>
     </section>
 
+    <div class="case-picker-bar">
+      <article class="card case-picker-card">
+        <div class="card-header">
+          <div>
+            <h2>۲. انتخاب مورد برای بازبینی</h2>
+            <span class="muted">همه موارد View مجاز انتخاب‌شده نمایش داده می‌شوند؛ منبع اطلاعاتی فقط خواندنی است.</span>
+          </div>
+          <span class="status">مورد فعال</span>
+        </div>
+        <select id="caseSelector" class="demo-select" style="width:100%">
+          <option value="">در حال آماده‌سازی موارد...</option>
+        </select>
+        <div class="case-search" role="search" aria-label="جست‌وجوی مورد">
+          <label for="caseSearch">جست‌وجوی مورد</label>
+          <div class="case-search-row"><input id="caseSearch" type="search" placeholder="شماره، عنوان، شرح، خدمت یا دسته‌بندی را وارد کنید"><button id="clearCaseSearch" class="btn" type="button">پاک‌کردن</button></div>
+          <div id="caseSearchStatus" class="muted" aria-live="polite">برای شروع جست‌وجو، بخشی از شماره یا عنوان را وارد کنید.</div>
+        </div>
+        <div id="caseResults" class="case-results" aria-live="polite"></div>
+        <div id="snapshotStatus" class="muted" style="margin-top:8px">در حال بررسی Snapshot داخلی...</div>
+      </article>
+    </div>
+
     <div class="workspace">
       <section>
+        <div class="case-details-column">
+        <article class="card case-info-accordion" id="caseInfoAccordion">
+          <button class="case-info-toggle" id="caseInfoToggle" type="button" aria-expanded="false" aria-controls="caseInfoBody">
+            <span><span class="case-info-toggle-title" id="caseInfoToggleTitle">اطلاعات کامل مورد</span><span class="case-info-toggle-summary" id="caseInfoToggleSummary">برای مشاهده جزئیات، پنجره را باز کنید.</span></span>
+            <span class="case-info-toggle-icon" aria-hidden="true">⌄</span>
+          </button>
+          <div class="case-info-body" id="caseInfoBody">
         <article class="card">
           <div class="card-header">
             <div>
-              <h2>انتخاب View کیس از CRM</h2>
-          <span class="muted">برای شروع فقط View را انتخاب و Caseها را واکشی کنید.</span>
-            </div>
-          </div>
-          <select id="viewSelector" class="demo-select" style="width:100%">
-            <option value="">در حال واکشی Viewها...</option>
-          </select>
-          <div class="actions" style="margin-top: 10px">
-            <button class="btn primary" id="loadViewBtn">۱. واکشی Caseهای این View</button>
-          </div>
-          <div id="viewStatus" class="muted" style="margin-top:8px">هیچ Viewی انتخاب نشده است.</div>
-        </article>
-        <article class="card">
-          <div class="card-header">
-            <div>
-              <h2>۲. انتخاب Case برای بازبینی</h2>
-              <span class="muted">فقط Caseهای متعلق به کاربر فعلی CRM نمایش داده می‌شوند؛ CRM منبع Read-Only است.</span>
-            </div>
-          </div>
-          <select id="caseSelector" class="demo-select" style="width:100%">
-            <option value="">در حال آماده‌سازی Caseها...</option>
-          </select>
-          <div class="case-search" role="search" aria-label="جست‌وجوی Case">
-            <label for="caseSearch">جست‌وجوی Case</label>
-            <div class="case-search-row"><input id="caseSearch" type="search" placeholder="شماره، عنوان، شرح، Service یا Category را وارد کنید"><button id="clearCaseSearch" class="btn" type="button">پاک‌کردن</button></div>
-            <div id="caseSearchStatus" class="muted" aria-live="polite">برای شروع جست‌وجو، بخشی از شماره یا عنوان را وارد کنید.</div>
-          </div>
-          <div id="caseResults" class="case-results" aria-live="polite"></div>
-          <div id="snapshotStatus" class="muted" style="margin-top:8px">در حال بررسی Snapshot داخلی...</div>
-        </article>
-        <article class="card">
-          <div class="card-header">
-            <div>
-              <h2 id="caseTitle">Case انتخاب نشده است</h2>
+              <h2 id="caseTitle">مورد انتخاب نشده است</h2>
               <span id="caseId" class="case-id">—</span>
             </div>
             <span id="caseStatus" class="status">● نیازمند تکمیل</span>
           </div>
           <label class="muted" for="demoMode" style="display:none">حالت نمایشی:
             <select id="demoMode" class="demo-select">
-              <option value="incomplete">Case ناقص</option>
-              <option value="complete">Case تکمیل‌شده</option>
+              <option value="incomplete">مورد ناقص</option>
+              <option value="complete">مورد تکمیل‌شده</option>
               <option value="no-kb">بدون KB معتبر</option>
             </select>
           </label>
 
           <div class="fields">
             <div class="field">
-              <span class="field-label">Case Service</span>
+              <span class="field-label">خدمت مورد</span>
               <span id="serviceValue" class="field-value">ثبت نشده در CRM</span>
             </div>
             <div class="field">
@@ -397,7 +407,7 @@
               <span id="statusValue" class="field-value">ثبت نشده در CRM</span>
             </div>
             <div class="field">
-              <span class="field-label">Category</span>
+              <span class="field-label">دسته‌بندی</span>
               <span id="categoryValue" class="field-value">ثبت نشده در CRM</span>
             </div>
             <div class="field missing" id="versionField">
@@ -414,13 +424,6 @@
             </div>
           </div>
 
-          <div class="section-title">
-            <h3>کمبودهای اطلاعاتی</h3>
-            <span id="missingCount" class="count">۰</span>
-          </div>
-          <div id="missingBox" class="alert">
-            تحلیل Case انتخاب‌شده در حال آماده‌سازی است.
-          </div>
           <div class="fields" id="sampleInputs" style="display:none;margin-top: 12px">
             <label class="field">
               <span class="field-label">ماژول نمونه</span>
@@ -432,20 +435,20 @@
             </label>
           </div>
           <div class="actions" style="margin-top: 12px">
-            <button class="btn primary" id="completeBtn">بازبینی دوباره این Case</button>
-            <button class="btn" id="resetBtn">بارگذاری دوباره Caseها</button>
-            <a class="btn primary" id="runScenarioBtn" href="scenarios.html" style="display:none">اجرای سناریو برای این Case</a>
+            <button class="btn primary" id="completeBtn">بازبینی دوباره این مورد</button>
+            <button class="btn" id="resetBtn">بارگذاری دوباره موارد</button>
+            <a class="btn primary" id="runScenarioBtn" href="scenarios.html" style="display:none">اجرای سناریو برای این مورد</a>
           </div>
         </article>
 
         <article class="card">
           <div class="section-title" style="margin-top:0">
-            <h3>متعلقات Case</h3>
+            <h3>متعلقات مورد</h3>
             <span class="muted">Snapshot داخلی CRM</span>
           </div>
-          <ul id="relatedActivities" class="activity-list">
-            <li>برای این Case متعلقی در Snapshot ثبت نشده است.</li>
-          </ul>
+          <div id="relatedActivities" class="activity-timeline" aria-live="polite">
+            <div class="timeline-empty">برای این مورد متعلقی در Snapshot ثبت نشده است.</div>
+          </div>
         </article>
 
         <article class="card">
@@ -467,16 +470,35 @@
             <button class="btn primary" id="acceptNoteBtn">پذیرش برای ثبت</button>
           </div>
         </article>
+          </div>
+        </article>
+
+        <article class="card missing-card">
+          <div class="section-title" style="margin-top:0">
+            <h3>موارد نیازمند تکمیل</h3>
+            <span id="missingCount" class="count">۰</span>
+          </div>
+          <div id="missingBox" class="alert">
+            تحلیل مورد انتخاب‌شده در حال آماده‌سازی است.
+          </div>
+        </article>
+        </div>
       </section>
 
       <aside>
         <article class="card">
           <div class="card-header">
             <div>
-              <h2>Pargar Support Copilot</h2>
+              <h2>دستیار هوشمند پشتیبانی</h2>
               <span class="muted">تحلیل کمکی با منبع و سطح اتکا</span>
             </div>
             <span class="status">Human-in-the-Loop</span>
+          </div>
+
+          <div class="copilot-context" aria-live="polite">
+            <span class="copilot-context-label">مورد فعال</span>
+            <strong id="copilotCaseTitle">هنوز موردی انتخاب نشده است</strong>
+            <small id="copilotCaseId">—</small>
           </div>
 
           <div class="section-title" style="margin-top:0">
@@ -495,15 +517,15 @@
           </div>
 
           <div class="section-title">
-            <h3>نتیجه پیشنهادی برای این Case</h3>
+            <h3>نتیجه پیشنهادی برای این مورد</h3>
             <span class="status">پیش‌نویس</span>
           </div>
           <div id="answerDraft" class="note">
-            پس از انتخاب Case، پاسخ پیشنهادی بر اساس شواهد همان Case ساخته می‌شود.
+            پس از انتخاب مورد، اطلاعات این پنل شامل جزئیات، فعالیت‌ها، کمبودها، مقالات مرتبط و پیشنهادها بر اساس همان مورد به‌روزرسانی می‌شود.
           </div>
 
           <div class="section-title">
-            <h3>اقدام پیشنهادی متناسب با این Case</h3>
+            <h3>اقدام پیشنهادی متناسب با این مورد</h3>
             <span id="recommendationCount" class="count">۰</span>
           </div>
           <div id="recommendations"></div>
@@ -536,11 +558,22 @@
         </article>
       </aside>
     </div>
-    <div class="footer">Pargar Support Copilot · نسخه عملیاتی Read-Only</div>
+    <div class="footer">دستیار هوشمند پشتیبانی · نسخه عملیاتی Read-Only</div>
   </main>
   <div id="toast" class="toast" role="status"></div>
 
   <script>
+    (function arrangeCaseSelection(){
+      const pickerBar=document.querySelector('.case-picker-bar');
+      const detailTitle=document.getElementById('caseTitle');
+      const detailCard=detailTitle?.closest('article.card');
+      if(!pickerBar||!detailCard)return;
+      const layout=document.createElement('div');
+      layout.className='case-selection-layout';
+      pickerBar.parentNode.insertBefore(layout,pickerBar);
+      layout.append(pickerBar,detailCard);
+    }());
+
     const toast = document.getElementById('toast');
     const status = document.getElementById('caseStatus');
     const missingBox = document.getElementById('missingBox');
@@ -555,9 +588,15 @@
     const demoMode = document.getElementById('demoMode');
     const kbSuggestions = document.getElementById('kbSuggestions');
     const noKbMessage = document.getElementById('noKbMessage');
-    const viewSelector = document.getElementById('viewSelector');
-    const viewStatus = document.getElementById('viewStatus');
-    let currentCaseId = 'demo-case-001';
+    const caseInfoAccordion = document.getElementById('caseInfoAccordion');
+    const caseInfoToggle = document.getElementById('caseInfoToggle');
+    let currentCaseId = null;
+
+    caseInfoToggle?.addEventListener('click', () => {
+      const open = !caseInfoAccordion.classList.contains('open');
+      caseInfoAccordion.classList.toggle('open', open);
+      caseInfoToggle.setAttribute('aria-expanded', String(open));
+    });
 
     function toFaNumber(value) {
       return String(value).replace(/\d/g, digit => '۰۱۲۳۴۵۶۷۸۹'[digit]);
@@ -593,26 +632,65 @@
 
     function renderCase(item) {
       currentCaseId = item.crm_id;
-      document.getElementById('caseTitle').textContent = `Case — ${item.title || 'بدون عنوان'}`;
+      window.currentCaseId = currentCaseId;
+      document.getElementById('caseTitle').textContent = `مورد — ${item.title || 'بدون عنوان'}`;
       document.getElementById('caseId').textContent = item.ticket_number || item.crm_id;
+      document.getElementById('caseInfoToggleTitle').textContent = item.title || 'اطلاعات کامل مورد';
+      document.getElementById('caseInfoToggleSummary').textContent = `${item.ticket_number || item.crm_id || 'بدون شماره'} — برای مشاهده جزئیات، پنجره را باز کنید.`;
+      document.getElementById('copilotCaseTitle').textContent = item.title || 'بدون عنوان';
+      document.getElementById('copilotCaseId').textContent = item.ticket_number || item.crm_id || 'بدون شماره';
       document.getElementById('caseTitleValue').textContent = item.title || 'ثبت نشده';
       document.getElementById('caseDescriptionValue').textContent = item.description || 'ثبت نشده';
       document.getElementById('versionValue').textContent = 'ثبت نشده در CRM';
       const activities = document.getElementById('relatedActivities');
       const rows = [
-        ...(item.notes || []).map(note => `Note ارتباطی: ${note.subject || 'بدون عنوان'} — ${cleanText(note.note_text || '')}`),
-        ...(item.posts || []).map(post => `Post داخلی: ${cleanText(post.text || 'بدون متن')}`),
-        ...(item.tasks || []).map(task => `Task داخلی L2: ${task.subject || 'بدون عنوان'} — ${cleanText(task.description || '')}`)
-      ];
-      activities.innerHTML = '';
+        ...(item.notes || []).map(note => ({ type: 'Note ارتباطی', kind: 'note', subject: note.subject, text: note.note_text, actor: note.created_by_name, at: note.created_on || note.modified_on })),
+        ...(item.posts || []).map(post => ({ type: 'Post داخلی', kind: 'post', subject: '', text: post.text, actor: post.created_by_name, at: post.created_on || post.modified_on })),
+        ...(item.tasks || []).map(task => ({ type: 'Task داخلی L2', kind: 'task', subject: task.subject, text: task.description, actor: task.created_by_name, at: task.created_on || task.modified_on }))
+      ].sort((a, b) => {
+        const left = Date.parse(a.at || '');
+        const right = Date.parse(b.at || '');
+        if (Number.isNaN(left)) return 1;
+        if (Number.isNaN(right)) return -1;
+        return right - left;
+      });
+      activities.replaceChildren();
       if (rows.length) {
         rows.forEach(row => {
-          const li = document.createElement('li');
-          li.textContent = row;
-          activities.appendChild(li);
+          const entry = document.createElement('article');
+          entry.className = `timeline-item timeline-${row.kind}`;
+          const dot = document.createElement('span');
+          dot.className = 'timeline-dot';
+          dot.setAttribute('aria-hidden', 'true');
+          const meta = document.createElement('div');
+          meta.className = 'timeline-meta';
+          const type = document.createElement('span');
+          type.className = 'timeline-type';
+          type.textContent = row.type;
+          const author = document.createElement('span');
+          author.className = 'timeline-author';
+          author.textContent = `ثبت‌کننده: ${row.actor || 'نام ثبت‌کننده در داده CRM موجود نیست'}`;
+          const date = document.createElement('time');
+          date.className = 'timeline-date';
+          date.dateTime = row.at || '';
+          date.textContent = formatTimelineDate(row.at);
+          meta.append(type, author, date);
+          const card = document.createElement('div');
+          card.className = 'timeline-card';
+          if (row.subject) {
+            const subject = document.createElement('span');
+            subject.className = 'timeline-subject';
+            subject.textContent = row.subject;
+            card.appendChild(subject);
+          }
+          const body = document.createElement('span');
+          body.textContent = cleanText(row.text || 'بدون متن ثبت‌شده');
+          card.appendChild(body);
+          entry.append(dot, meta, card);
+          activities.appendChild(entry);
         });
       } else {
-        activities.textContent = 'برای این Case متعلقی در Snapshot ثبت نشده است.';
+        activities.textContent = 'برای این مورد متعلقی در Snapshot ثبت نشده است.';
       }
       document.getElementById('serviceValue').textContent = item.service || 'در فیلدهای واکشی‌شده موجود نیست';
       document.getElementById('categoryValue').textContent = item.category || 'در فیلدهای واکشی‌شده موجود نیست';
@@ -627,6 +705,16 @@
     function cleanText(value) {
       const withoutTags = String(value).replace(/<[^>]*>/g, ' ');
       return withoutTags.replace(/\s+/g, ' ').trim();
+    }
+
+    function formatTimelineDate(value) {
+      if (!value) return 'تاریخ ثبت در داده CRM موجود نیست';
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return 'تاریخ ثبت نامعتبر است';
+      return date.toLocaleString('fa-IR', {
+        year: 'numeric', month: '2-digit', day: '2-digit',
+        hour: '2-digit', minute: '2-digit'
+      });
     }
 
     function addSuggestion(container, title, reason, onAccept, onReject) {
@@ -687,7 +775,7 @@
       const postEvidence = (item.posts || []).map(post => cleanText(post.text)).filter(Boolean);
       const taskEvidence = (item.tasks || []).map(task => `${task.subject || ''} ${task.description || ''}`.trim()).filter(Boolean);
       const missing = [];
-      if (!item.title) missing.push('عنوان Case');
+      if (!item.title) missing.push('عنوان مورد');
       if (!item.description) missing.push('شرح مسئله');
       if (!/(نسخه|ورژن|version)/i.test(text)) missing.push('نسخه محصول');
       if (!/(محیط|عملیاتی|آزمایشی|production|test)/i.test(text)) missing.push('محیط اجرا');
@@ -696,7 +784,7 @@
       status.textContent = missing.length ? '● نیازمند تکمیل' : '● آماده بررسی';
       status.classList.toggle('complete', !missing.length);
       missingBox.textContent = missing.length
-        ? `برای بازبینی دقیق‌تر، این موارد در متن Case پیدا نشد: ${missing.join('، ')}.`
+        ? `برای بازبینی دقیق‌تر، این موارد در متن مورد پیدا نشد: ${missing.join('، ')}.`
         : 'فیلدهای پایه و شواهد متنی کافی به‌نظر می‌رسد؛ تأیید نهایی با کارشناس است.';
       missingBox.style.background = missing.length ? 'var(--warning-soft)' : 'var(--success-soft)';
       missingBox.style.color = missing.length ? '#92400e' : 'var(--success)';
@@ -704,12 +792,12 @@
 
       const questions = document.getElementById('followupSuggestions');
       questions.innerHTML = '';
-      const questionItems = missing.slice(0, 3).map(field => `لطفاً ${field} را از مشتری یا سابقه Case تأیید کنید.`);
+      const questionItems = missing.slice(0, 3).map(field => `لطفاً ${field} را از مشتری یا سابقه مورد تأیید کنید.`);
       document.getElementById('questionCount').textContent = toFaNumber(questionItems.length);
       questionItems.forEach(question => addSuggestion(
         questions,
         question,
-        'این سؤال از کمبود مشاهده‌شده در Case انتخاب‌شده ساخته شده است.',
+        'این سؤال از کمبود مشاهده‌شده در مورد انتخاب‌شده ساخته شده است.',
         () => saveFeedback(`سؤال پذیرفته شد: ${question}`, 'accepted', 'followup'),
         () => saveFeedback(`سؤال رد شد: ${question}`, 'rejected', 'followup')
       ));
@@ -737,14 +825,14 @@
         addSuggestion(
           kbSuggestions,
           `${article.public_number || 'KB'} — ${article.title || 'بدون عنوان'}`,
-          `پیشنهاد بر اساس هم‌پوشانی متن Case با عنوان/محتوای KB؛ ${confidence}. قبل از استفاده بررسی شود.`,
+          `پیشنهاد بر اساس هم‌پوشانی متن مورد با عنوان/محتوای KB؛ ${confidence}. قبل از استفاده بررسی شود.`,
           () => saveFeedback(`مقاله پذیرفته شد: ${article.title || article.public_number}`, 'accepted', 'knowledge_article'),
           () => saveFeedback(`مقاله رد شد: ${article.title || article.public_number}`, 'rejected', 'knowledge_article')
         );
       });
       const evidence = [...noteEvidence, ...postEvidence, ...taskEvidence].slice(0, 2);
       const answer = [];
-      answer.push(`موضوع Case: ${item.title || 'عنوان ثبت نشده'}`);
+      answer.push(`موضوع مورد: ${item.title || 'عنوان ثبت نشده'}`);
       if (item.description) answer.push(`شرح ثبت‌شده: ${item.description}`);
       if (evidence.length) answer.push(`شواهد Timeline: ${evidence.join(' | ')}`);
       if (ranked.length) {
@@ -753,11 +841,11 @@
         answer.push(`منبع: ${best.public_number || 'Knowledge Base'} — سطح اتکا: ${ranked[0].score >= 2 ? 'متوسط' : 'پایین'}`);
       } else {
         answer.push('پیشنهاد اقدام: با شواهد فعلی پاسخ قطعی داده نشود؛ ابتدا کمبودهای مشخص‌شده از مشتری یا L2 تکمیل شود.');
-        answer.push('منبع معتبر همسان با این Case در Snapshot فعلی پیدا نشد.');
+        answer.push('منبع معتبر همسان با این مورد در Snapshot فعلی پیدا نشد.');
       }
       document.getElementById('answerDraft').textContent =
         answer.join('\n\n') + '\n\nوضعیت: پیش‌نویس — تأیید یا اصلاح با کارشناس';
-      noteText.textContent = `خلاصه Case انتخاب‌شده:
+      noteText.textContent = `خلاصه مورد انتخاب‌شده:
 ${item.title || 'عنوان ثبت نشده'}
 
 شرح:
@@ -787,7 +875,7 @@ ${item.description || 'شرح ثبت نشده'}
           () => saveFeedback(`سؤال اصلاحی رد شد: ${item.field}`, 'rejected', 'correction')
         ));
         if (!analysis.missing.length) {
-          questions.textContent = 'کمبود ضروری در داده‌های Case شناسایی نشد.';
+          questions.textContent = 'کمبود ضروری در داده‌های مورد شناسایی نشد.';
         }
 
         kbSuggestions.innerHTML = '';
@@ -828,15 +916,23 @@ ${item.description || 'شرح ثبت نشده'}
           option.dataset.search = [item.ticket_number, item.crm_id, item.title, item.description, item.service, item.category, item.subcategory].filter(Boolean).join(' ');
           option.dataset.ticket = item.ticket_number || item.crm_id || 'بدون شماره';
           option.dataset.title = item.title || 'بدون عنوان';
-          option.dataset.service = item.service || 'Service ثبت نشده';
-          option.dataset.category = item.category || 'Category ثبت نشده';
+          option.dataset.service = item.service || 'خدمت ثبت نشده';
+          option.dataset.category = item.category || 'دسته‌بندی ثبت نشده';
           selector.appendChild(option);
         });
         if (cases[0]) {
           renderCase(cases[0]);
           document.getElementById('snapshotStatus').textContent =
-            `${cases.length} Case در Snapshot داخلی موجود است.`;
-          showToast('Case از Snapshot واقعی CRM بارگذاری شد.');
+            `${cases.length} مورد در Snapshot داخلی موجود است.`;
+          showToast('مورد از Snapshot واقعی CRM بارگذاری شد.');
+        } else {
+          currentCaseId = null;
+          document.getElementById('caseTitle').textContent = 'موردی برای بازبینی پیدا نشد';
+          document.getElementById('caseId').textContent = '—';
+          document.getElementById('copilotCaseTitle').textContent = 'هنوز موردی انتخاب نشده است';
+          document.getElementById('copilotCaseId').textContent = '—';
+          document.getElementById('snapshotStatus').textContent = 'در View انتخاب‌شده موردی پیدا نشد؛ View دیگری را انتخاب و واکشی کنید.';
+          document.getElementById('caseSearchStatus').textContent = 'موردی برای نمایش وجود ندارد؛ ابتدا View مناسب را واکشی کنید یا تخصیص مورد در CRM را بررسی کنید.';
         }
       } catch (_) {
         // Opening index.html directly remains a valid offline fallback.
@@ -884,28 +980,6 @@ ${item.description || 'شرح ثبت نشده'}
       }
     }
 
-    async function loadViews() {
-      try {
-        const response = await fetch('/api/views');
-        if (!response.ok) throw new Error('views');
-        const views = await response.json();
-        viewSelector.innerHTML = '<option value="">یک View را انتخاب کنید</option>';
-        views.forEach(view => {
-          const option = document.createElement('option');
-          option.value = view.id;
-          option.dataset.viewType = view.view_type;
-          option.textContent = `[${view.view_type === 'personal' ? 'شخصی' : 'سازمانی'}] ${view.name}${view.is_startup_default ? ' — پیش‌فرض برنامه' : (view.is_default ? ' — پیش‌فرض CRM' : '')}`;
-          viewSelector.appendChild(option);
-          if (view.is_startup_default) option.selected = true;
-        });
-        viewStatus.textContent = `${views.length} View مربوط به Case از CRM دریافت شد.`;
-        if (viewSelector.value) document.getElementById('loadViewBtn').click();
-      } catch (_) {
-        viewSelector.innerHTML = '<option value="">واکشی Viewها انجام نشد</option>';
-        viewStatus.textContent = 'برای نمایش Viewها، سرور محلی باید اجرا باشد.';
-      }
-    }
-
     function showToast(message) {
       toast.textContent = message;
       toast.classList.add('show');
@@ -924,7 +998,7 @@ ${item.description || 'شرح ثبت نشده'}
 
     document.getElementById('completeBtn').addEventListener('click', () => {
       loadAnalysis(currentCaseId);
-      showToast('تحلیل واقعی Case دوباره اجرا شد.');
+      showToast('تحلیل واقعی مورد دوباره اجرا شد.');
     });
 
     demoMode.addEventListener('change', () => {
@@ -934,12 +1008,12 @@ ${item.description || 'شرح ثبت نشده'}
         moduleInput.value = 'فروش';
         versionInput.value = '۱۴۰۵.۱';
         document.getElementById('completeBtn').click();
-        showToast('حالت Case تکمیل‌شده نمایش داده شد.');
+        showToast('حالت مورد تکمیل‌شده نمایش داده شد.');
       } else if (mode === 'incomplete') {
         moduleInput.value = '';
         versionInput.value = '';
         document.getElementById('completeBtn').click();
-        showToast('حالت Case ناقص نمایش داده شد.');
+        showToast('حالت مورد ناقص نمایش داده شد.');
       } else {
         kbSuggestions.style.display = 'none';
         noKbMessage.style.display = 'block';
@@ -965,41 +1039,8 @@ ${item.description || 'شرح ثبت نشده'}
       const response = await fetch(`/api/cases/${encodeURIComponent(event.target.value)}`);
       if (!response.ok) return;
       renderCase(await response.json());
-      showToast('Case دیگری برای بازبینی انتخاب شد.');
+      showToast('مورد دیگری برای بازبینی انتخاب شد.');
     });
-    document.getElementById('loadViewBtn').addEventListener('click', async () => {
-      const viewId = viewSelector.value;
-      if (!viewId) {
-        showToast('ابتدا یک View را انتخاب کنید.');
-        return;
-      }
-      const button = document.getElementById('loadViewBtn');
-      button.disabled = true;
-      viewStatus.textContent = 'در حال واکشی Caseهای View انتخاب‌شده...';
-      try {
-        const response = await fetch('/api/load-view', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            view_id: viewId,
-            view_type: viewSelector.options[viewSelector.selectedIndex].dataset.viewType
-          })
-        });
-        const result = await response.json();
-        if (!response.ok || !result.ok) throw new Error(result.error || 'خطا');
-        viewStatus.textContent =
-          `View «${result.view}» بارگذاری شد: ${toFaNumber(result.cases)} Case، ` +
-          `${toFaNumber(result.notes)} Note و ${toFaNumber(result.tasks)} Task.`;
-        await loadLocalCases();
-        showToast('Caseهای View انتخاب‌شده برای بازبینی آماده شدند.');
-      } catch (error) {
-        viewStatus.textContent = `خطا در بارگذاری View: ${error.message}`;
-        showToast('بارگذاری View انجام نشد.');
-      } finally {
-        button.disabled = false;
-      }
-    });
-    loadViews();
     loadLocalCases();
     loadDiscoverySummary();
   </script>
@@ -1027,16 +1068,16 @@ ${item.description || 'شرح ثبت نشده'}
           card.innerHTML='<div class="case-result-head"><span class="case-result-title"></span><span class="case-result-ticket"></span></div><div class="case-result-meta"><span class="case-result-service"></span><span class="case-result-category"></span></div>';
           card.querySelector('.case-result-title').textContent=option.dataset.title||'بدون عنوان';
           card.querySelector('.case-result-ticket').textContent=option.dataset.ticket||option.value;
-          card.querySelector('.case-result-service').textContent=option.dataset.service||'Service ثبت نشده';
-          card.querySelector('.case-result-category').textContent=option.dataset.category||'Category ثبت نشده';
+          card.querySelector('.case-result-service').textContent=option.dataset.service||'خدمت ثبت نشده';
+          card.querySelector('.case-result-category').textContent=option.dataset.category||'دسته‌بندی ثبت نشده';
           card.classList.toggle('selected',selector.value===option.value);
           card.onclick=()=>{selector.value=option.value;selector.dispatchEvent(new Event('change',{bubbles:true}));renderResults()};
           results.appendChild(card);
         });
-        if(query&&visible===0){results.innerHTML='<div class="case-results-empty">Caseای با این عبارت پیدا نشد. شماره، عنوان یا عبارت دیگری را امتحان کنید.</div>';status.textContent='نتیجه‌ای پیدا نشد.';return}
-        if(!matches.length){results.innerHTML='<div class="case-results-empty">هنوز Caseای برای نمایش وجود ندارد. ابتدا View را واکشی کنید.</div>';status.textContent='Caseای برای نمایش وجود ندارد.';return}
-        if(visible>50)status.textContent=`۵۰ مورد اول از ${visible} Case نمایش داده شد. جست‌وجو را دقیق‌تر کنید.`;
-        else status.textContent=query?`${visible} Case پیدا شد؛ برای بازبینی روی یکی از کارت‌ها کلیک کنید.`:`${visible} Case آماده انتخاب است؛ برای بازبینی روی یکی از کارت‌ها کلیک کنید.`;
+        if(query&&visible===0){results.innerHTML='<div class="case-results-empty">موردی با این عبارت پیدا نشد. شماره، عنوان یا عبارت دیگری را امتحان کنید.</div>';status.textContent='نتیجه‌ای پیدا نشد.';return}
+        if(!matches.length){results.innerHTML='<div class="case-results-empty">هنوز موردی برای نمایش وجود ندارد. ابتدا View را واکشی کنید.</div>';status.textContent='موردی برای نمایش وجود ندارد.';return}
+        if(visible>50)status.textContent=`۵۰ مورد اول از ${visible} مورد نمایش داده شد. جست‌وجو را دقیق‌تر کنید.`;
+        else status.textContent=query?`${visible} مورد پیدا شد؛ برای بازبینی روی یکی از کارت‌ها کلیک کنید.`:`${visible} مورد آماده انتخاب است؛ برای بازبینی روی یکی از کارت‌ها کلیک کنید.`;
       };
       const renderResults=()=>filter();
       input.addEventListener('input',filter);
@@ -1063,7 +1104,7 @@ ${item.description || 'شرح ثبت نشده'}
     }());
   </script>
   <script>
-    (function(){const nav=document.createElement('nav');nav.className='page-nav';nav.innerHTML='<a href="app-shell.html">⌂ صفحه اصلی</a><button type="button" id="pageBack">← بازگشت به صفحه قبل</button><span>صفحه فعلی: Case Review</span>';const style=document.createElement('style');style.textContent='.page-nav{position:sticky;top:0;z-index:20;display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:9px 5vw;background:#fff;border-bottom:1px solid #dbe3ef;box-shadow:0 3px 12px rgba(15,23,42,.08);font:14px Vazirmatn,Tahoma,Arial,sans-serif;direction:rtl}.page-nav a,.page-nav button{border:1px solid #cbd5e1;border-radius:9px;padding:6px 11px;background:#fff;color:#1e40af;text-decoration:none;cursor:pointer;font:inherit}.page-nav span{color:#64748b;font-size:12px;margin-right:auto}@media(max-width:600px){.page-nav span{width:100%;margin-right:0}}';document.head.appendChild(style);document.body.insertBefore(nav,document.body.firstChild);document.getElementById('pageBack').onclick=()=>history.length>1?history.back():location.href='app-shell.html'})();
+    (function(){const nav=document.createElement('nav');nav.className='page-nav';nav.innerHTML='<a href="app-shell.html">⌂ صفحه اصلی</a><a href="settings.html">⚙ تنظیمات سیستم</a><button type="button" id="pageBack">← بازگشت به صفحه قبل</button><span>صفحه فعلی: بازبینی موارد</span>';const style=document.createElement('style');style.textContent='.page-nav{position:sticky;top:0;z-index:20;display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:9px 5vw;background:#fff;border-bottom:1px solid #dbe3ef;box-shadow:0 3px 12px rgba(15,23,42,.08);font:14px Vazirmatn,Tahoma,Arial,sans-serif;direction:rtl}.page-nav a,.page-nav button{border:1px solid #cbd5e1;border-radius:9px;padding:6px 11px;background:#fff;color:#1e40af;text-decoration:none;cursor:pointer;font:inherit}.page-nav span{color:#64748b;font-size:12px;margin-right:auto}@media(max-width:600px){.page-nav span{width:100%;margin-right:0}}';document.head.appendChild(style);document.body.insertBefore(nav,document.body.firstChild);document.getElementById('pageBack').onclick=()=>history.length>1?history.back():location.href='app-shell.html'})();
   </script>
 </body>
 </html>

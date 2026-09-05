@@ -40,14 +40,15 @@ paths:
           description: موفق
   /api/cases/{caseId}:
     get:
-      summary: دریافت Case و Timeline مرتبط
+      summary: دریافت مورد و Timeline متعلقات مرتبط
       parameters:
         - in: path
           name: caseId
           required: true
           schema: { type: string, maxLength: 100 }
       responses:
-        '200': { description: موفق }
+        '200':
+          description: موفق؛ پاسخ شامل notes، posts و tasks است و هر فعالیت زمان و نام ثبت‌کننده واکشی‌شده را در صورت وجود دارد.
         '404': { description: Case پیدا نشد }
   /api/cases/{caseId}/analysis:
     get:

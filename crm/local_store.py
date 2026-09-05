@@ -52,6 +52,12 @@ class LocalStore:
                 status TEXT NOT NULL,
                 message TEXT
             );
+            CREATE TABLE IF NOT EXISTS snapshot_scope (
+                id INTEGER PRIMARY KEY CHECK (id = 1),
+                view_id TEXT,
+                view_name TEXT,
+                updated_at TEXT NOT NULL
+            );
             CREATE TABLE IF NOT EXISTS cases (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 crm_id TEXT NOT NULL UNIQUE,
@@ -75,6 +81,8 @@ class LocalStore:
                 case_crm_id TEXT,
                 subject TEXT,
                 note_text TEXT,
+                created_by_crm_id TEXT,
+                created_by_name TEXT,
                 created_on TEXT,
                 modified_on TEXT,
                 raw_json TEXT NOT NULL
@@ -85,6 +93,8 @@ class LocalStore:
                 case_crm_id TEXT,
                 subject TEXT,
                 description TEXT,
+                created_by_crm_id TEXT,
+                created_by_name TEXT,
                 created_on TEXT,
                 modified_on TEXT,
                 raw_json TEXT NOT NULL
@@ -97,6 +107,7 @@ class LocalStore:
                 source INTEGER,
                 post_type INTEGER,
                 created_by_crm_id TEXT,
+                created_by_name TEXT,
                 created_on TEXT,
                 modified_on TEXT,
                 raw_json TEXT NOT NULL
@@ -130,6 +141,15 @@ class LocalStore:
             self.connection.execute("ALTER TABLE cases ADD COLUMN owner_crm_id TEXT")
         if "owner_name" not in columns:
             self.connection.execute("ALTER TABLE cases ADD COLUMN owner_name TEXT")
+        for table, additions in {
+            "notes": ("created_by_crm_id", "created_by_name"),
+            "tasks": ("created_by_crm_id", "created_by_name"),
+            "posts": ("created_by_name",),
+        }.items():
+            table_columns = {row[1] for row in self.connection.execute(f"PRAGMA table_info({table})")}
+            for column in additions:
+                if column not in table_columns:
+                    self.connection.execute(f"ALTER TABLE {table} ADD COLUMN {column} TEXT")
         self.connection.commit()
 
     def replace_snapshot(
@@ -141,6 +161,8 @@ class LocalStore:
         posts: list[dict[str, Any]] | None = None,
         *,
         source: str = "crm-rest-read-only",
+        scope_view_id: str | None = None,
+        scope_view_name: str | None = None,
     ) -> int:
         self.initialize()
         started = datetime.now(timezone.utc).isoformat()
@@ -154,6 +176,11 @@ class LocalStore:
             self.connection.execute("DELETE FROM cases")
             self.connection.execute("DELETE FROM posts")
             self.connection.execute("DELETE FROM knowledge_articles")
+            self.connection.execute("DELETE FROM snapshot_scope")
+            self.connection.execute(
+                "INSERT INTO snapshot_scope(id, view_id, view_name, updated_at) VALUES (1, ?, ?, ?)",
+                (scope_view_id, scope_view_name, datetime.now(timezone.utc).isoformat()),
+            )
             for row in cases:
                 self.connection.execute(
                     """
@@ -184,15 +211,17 @@ class LocalStore:
                 self.connection.execute(
                     """
                     INSERT INTO notes(
-                        crm_id, case_crm_id, subject, note_text,
-                        created_on, modified_on, raw_json
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?)
+                        crm_id, case_crm_id, subject, note_text, created_by_crm_id,
+                        created_by_name, created_on, modified_on, raw_json
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
                     """,
                     (
                         row.get("annotationid"),
                         row.get("_objectid_value") or row.get("_regardingobjectid_value"),
                         row.get("subject"),
                         row.get("notetext"),
+                        row.get("_createdby_value"),
+                        _field(row, "_createdby_value", "createdby"),
                         row.get("createdon"),
                         row.get("modifiedon"),
                         json.dumps(row, ensure_ascii=False),
@@ -202,15 +231,17 @@ class LocalStore:
                 self.connection.execute(
                     """
                     INSERT INTO tasks(
-                        crm_id, case_crm_id, subject, description,
-                        created_on, modified_on, raw_json
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?)
+                        crm_id, case_crm_id, subject, description, created_by_crm_id,
+                        created_by_name, created_on, modified_on, raw_json
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
                     """,
                     (
                         row.get("activityid"),
                         row.get("_regardingobjectid_value"),
                         row.get("subject"),
                         row.get("description"),
+                        row.get("_createdby_value") or row.get("_ownerid_value"),
+                        _field(row, "_createdby_value", "createdby", "_ownerid_value", "ownerid"),
                         row.get("createdon"),
                         row.get("modifiedon"),
                         json.dumps(row, ensure_ascii=False),
@@ -221,8 +252,8 @@ class LocalStore:
                     """
                     INSERT INTO posts(
                         crm_id, case_crm_id, text, source, post_type,
-                        created_by_crm_id, created_on, modified_on, raw_json
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        created_by_crm_id, created_by_name, created_on, modified_on, raw_json
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     """,
                     (
                         row.get("postid"),
@@ -231,6 +262,7 @@ class LocalStore:
                         row.get("source"),
                         row.get("type"),
                         row.get("_createdby_value"),
+                        _field(row, "_createdby_value", "createdby"),
                         row.get("createdon"),
                         row.get("modifiedon"),
                         json.dumps(row, ensure_ascii=False),
@@ -271,6 +303,12 @@ class LocalStore:
             )
             self.connection.commit()
             raise
+
+    def snapshot_scope(self) -> dict[str, Any] | None:
+        row = self.connection.execute(
+            "SELECT view_id, view_name, updated_at FROM snapshot_scope WHERE id=1"
+        ).fetchone()
+        return dict(row) if row else None
 
     def list_cases(self, owner_crm_id: str | None = None) -> list[dict[str, Any]]:
         if owner_crm_id:
