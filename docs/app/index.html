@@ -449,6 +449,8 @@
             <a class="btn primary" id="runScenarioBtn" href="scenarios.html" style="display:none">اجرای سناریو برای این مورد</a>
           </div>
         </article>
+          </div>
+        </article>
 
         <article class="card activity-drawer" id="activityDrawer">
           <button class="activity-drawer-toggle" id="activityDrawerToggle" type="button" aria-expanded="false" aria-controls="activityDrawerBody">
@@ -576,19 +578,6 @@
   <div id="toast" class="toast" role="status"></div>
 
   <script>
-    (function arrangeCaseSelection(){
-      const pickerBar=document.querySelector('.case-picker-bar');
-      const detailTitle=document.getElementById('caseTitle');
-      const detailCard=detailTitle?.closest('article.card');
-      if(!pickerBar||!detailCard)return;
-      const layout=document.createElement('div');
-      layout.className='case-selection-layout';
-      pickerBar.parentNode.insertBefore(layout,pickerBar);
-      layout.append(pickerBar,detailCard);
-      const activityDrawer=document.getElementById('activityDrawer');
-      if(activityDrawer) detailCard.after(activityDrawer);
-    }());
-
     const toast = document.getElementById('toast');
     const status = document.getElementById('caseStatus');
     const missingBox = document.getElementById('missingBox');
