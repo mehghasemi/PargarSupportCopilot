@@ -444,7 +444,7 @@
               <span id="caseDescriptionValue" class="field-value">ثبت نشده در CRM</span>
             </div>
           </div>
-          <div class="crm-fields-heading">همه فیلدهای واکشی‌شده از CRM</div>
+          <div class="crm-fields-heading">اطلاعات مهم و مرتبط این مورد از CRM</div>
           <div id="crmFieldsGrid" class="fields" aria-live="polite">
             <div class="crm-fields-empty">موردی انتخاب نشده است.</div>
           </div>
@@ -772,22 +772,34 @@
       });
     }
 
-    const crmFieldLabels = { incidentid: 'شناسه CRM', ticketnumber: 'شماره مورد', title: 'عنوان', description: 'شرح مسئله', createdon: 'تاریخ ایجاد', modifiedon: 'تاریخ آخرین تغییر', statecode: 'وضعیت کلی', statuscode: 'وضعیت', casetypecode: 'نوع مورد', brd_productcategory: 'دسته‌بندی محصول', brd_incidenttype: 'نوع رخداد', brd_productservice: 'خدمت محصول', _ownerid_value: 'شناسه مالک', _createdby_value: 'شناسه ثبت‌کننده' };
-
     function renderCrmFields(item) {
       const grid = document.getElementById('crmFieldsGrid');
       if (!grid) return;
-      let raw = {};
-      try { raw = item.raw_json ? JSON.parse(item.raw_json) : {}; } catch (_) { raw = {}; }
-      const entries = Object.entries(raw).filter(([key, value]) => !key.includes('@OData.Community.Display.V1.FormattedValue') && value !== null && value !== undefined && value !== '');
+      const entries = [
+        ['ticket_number', 'شماره مورد'],
+        ['title', 'عنوان'],
+        ['description', 'شرح مسئله'],
+        ['service', 'خدمت'],
+        ['category', 'دسته‌بندی'],
+        ['subcategory', 'زیر‌دسته'],
+        ['owner_name', 'مالک مورد'],
+        ['state_code', 'وضعیت کلی'],
+        ['status_code', 'وضعیت'],
+        ['created_on', 'تاریخ ایجاد'],
+        ['modified_on', 'آخرین تغییر'],
+        ['crm_id', 'شناسه CRM']
+      ].map(([key, label]) => ({ key, label, value: item[key] }))
+        .filter(field => field.value !== null && field.value !== undefined && field.value !== '');
       grid.replaceChildren();
       if (!entries.length) { grid.textContent = 'فیلد دارای مقدار از CRM در Snapshot موجود نیست.'; return; }
-      entries.forEach(([key, value]) => {
+      entries.forEach(field => {
         const box = document.createElement('div'); box.className = 'field';
         const label = document.createElement('span'); label.className = 'field-label';
-        label.textContent = crmFieldLabels[key] || `فیلد CRM: ${key.replace(/^_/, '').replace(/_value$/, '').replace(/^brd_/, '').replace(/_/g, ' ')}`;
+        label.textContent = field.label;
         const result = document.createElement('span'); result.className = 'field-value';
-        result.textContent = typeof value === 'object' ? JSON.stringify(value) : String(value);
+        result.textContent = ['created_on', 'modified_on'].includes(field.key)
+          ? formatTimelineDate(field.value)
+          : String(field.value);
         box.append(label, result); grid.appendChild(box);
       });
     }
