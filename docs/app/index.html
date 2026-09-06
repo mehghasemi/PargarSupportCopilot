@@ -131,6 +131,18 @@
     .activity-drawer.open .activity-drawer-body { display: block; }
     .missing-card { border-color:#fbbf24; background:linear-gradient(135deg,#fffaf0,#fff); }
     .missing-card .section-title { margin-top:0; }
+    .missing-list { display:grid; gap:9px; margin:0; padding:0; list-style:none; }
+    .missing-list li { border:1px solid #fed7aa; border-right:4px solid #f59e0b; border-radius:10px; background:#fffaf0; padding:10px 12px; }
+    .missing-list strong { display:block; color:#92400e; margin-bottom:3px; }
+    .missing-list span { display:block; color:#78350f; font-size:.78rem; line-height:1.8; }
+    .crm-fields-heading { margin:14px 0 8px; color:#1e3a8a; font-size:.84rem; font-weight:800; }
+    .crm-fields-empty { color:var(--muted); font-size:.78rem; }
+    .missing-list { display:grid; gap:9px; margin:0; padding:0; list-style:none; }
+    .missing-list li { border:1px solid #fed7aa; border-right:4px solid #f59e0b; border-radius:10px; background:#fffaf0; padding:10px 12px; }
+    .missing-list strong { display:block; color:#92400e; margin-bottom:3px; }
+    .missing-list span { display:block; color:#78350f; font-size:.78rem; line-height:1.8; }
+    .crm-fields-heading { margin:14px 0 8px; color:#1e3a8a; font-size:.84rem; font-weight:800; }
+    .crm-fields-empty { color:var(--muted); font-size:.78rem; }
     .case-picker-card .card-header { align-items: center; }
     .case-picker-card h2 { color: #1e3a8a; }
     .case-picker-card .case-search { background: rgba(255,255,255,.72); }
@@ -432,6 +444,10 @@
               <span id="caseDescriptionValue" class="field-value">ثبت نشده در CRM</span>
             </div>
           </div>
+          <div class="crm-fields-heading">همه فیلدهای واکشی‌شده از CRM</div>
+          <div id="crmFieldsGrid" class="fields" aria-live="polite">
+            <div class="crm-fields-empty">موردی انتخاب نشده است.</div>
+          </div>
 
           <div class="fields" id="sampleInputs" style="display:none;margin-top: 12px">
             <label class="field">
@@ -674,6 +690,7 @@
       document.getElementById('caseTitleValue').textContent = item.title || 'ثبت نشده';
       document.getElementById('caseDescriptionValue').textContent = item.description || 'ثبت نشده';
       document.getElementById('versionValue').textContent = 'ثبت نشده در CRM';
+      renderCrmFields(item);
       const activities = document.getElementById('relatedActivities');
       const rows = [
         ...(item.notes || []).map(note => ({ type: 'Note ارتباطی', kind: 'note', subject: note.subject, text: note.note_text, actor: note.created_by_name, at: note.created_on || note.modified_on })),
@@ -755,6 +772,42 @@
       });
     }
 
+    const crmFieldLabels = { incidentid: 'شناسه CRM', ticketnumber: 'شماره مورد', title: 'عنوان', description: 'شرح مسئله', createdon: 'تاریخ ایجاد', modifiedon: 'تاریخ آخرین تغییر', statecode: 'وضعیت کلی', statuscode: 'وضعیت', casetypecode: 'نوع مورد', brd_productcategory: 'دسته‌بندی محصول', brd_incidenttype: 'نوع رخداد', brd_productservice: 'خدمت محصول', _ownerid_value: 'شناسه مالک', _createdby_value: 'شناسه ثبت‌کننده' };
+
+    function renderCrmFields(item) {
+      const grid = document.getElementById('crmFieldsGrid');
+      if (!grid) return;
+      let raw = {};
+      try { raw = item.raw_json ? JSON.parse(item.raw_json) : {}; } catch (_) { raw = {}; }
+      const entries = Object.entries(raw).filter(([key, value]) => !key.includes('@OData.Community.Display.V1.FormattedValue') && value !== null && value !== undefined && value !== '');
+      grid.replaceChildren();
+      if (!entries.length) { grid.textContent = 'فیلد دارای مقدار از CRM در Snapshot موجود نیست.'; return; }
+      entries.forEach(([key, value]) => {
+        const box = document.createElement('div'); box.className = 'field';
+        const label = document.createElement('span'); label.className = 'field-label';
+        label.textContent = crmFieldLabels[key] || `فیلد CRM: ${key.replace(/^_/, '').replace(/_value$/, '').replace(/^brd_/, '').replace(/_/g, ' ')}`;
+        const result = document.createElement('span'); result.className = 'field-value';
+        result.textContent = typeof value === 'object' ? JSON.stringify(value) : String(value);
+        box.append(label, result); grid.appendChild(box);
+      });
+    }
+
+    function renderMissingItems(items, emptyMessage) {
+      missingCount.textContent = toFaNumber(items.length);
+      missingBox.replaceChildren();
+      if (!items.length) { missingBox.textContent = emptyMessage || 'موردی برای تکمیل شناسایی نشد.'; return; }
+      const list = document.createElement('ul'); list.className = 'missing-list';
+      items.forEach(item => {
+        const row = document.createElement('li');
+        const title = document.createElement('strong'); title.textContent = item.field || String(item);
+        const reason = document.createElement('span'); reason.textContent = item.reason || 'برای این مورد اطلاعات کافی در CRM یا متعلقات آن پیدا نشد.';
+        row.append(title, reason);
+        if (item.question) { const q = document.createElement('span'); q.textContent = `سؤال پیشنهادی: ${item.question}`; row.appendChild(q); }
+        list.appendChild(row);
+      });
+      missingBox.appendChild(list);
+    }
+
     function addSuggestion(container, title, reason, onAccept, onReject) {
       const box = document.createElement('div');
       box.className = 'suggestion';
@@ -821,9 +874,7 @@
       missingCount.textContent = toFaNumber(missing.length);
       status.textContent = missing.length ? '● نیازمند تکمیل' : '● آماده بررسی';
       status.classList.toggle('complete', !missing.length);
-      missingBox.textContent = missing.length
-        ? `برای بازبینی دقیق‌تر، این موارد در متن مورد پیدا نشد: ${missing.join('، ')}.`
-        : 'فیلدهای پایه و شواهد متنی کافی به‌نظر می‌رسد؛ تأیید نهایی با کارشناس است.';
+      renderMissingItems(missing.map(field => ({ field })), 'فیلدهای پایه و شواهد متنی کافی به‌نظر می‌رسد؛ تأیید نهایی با کارشناس است.');
       missingBox.style.background = missing.length ? 'var(--warning-soft)' : 'var(--success-soft)';
       missingBox.style.color = missing.length ? '#92400e' : 'var(--success)';
       missingBox.style.borderRightColor = missing.length ? '#f59e0b' : '#10b981';
@@ -902,6 +953,7 @@ ${item.description || 'شرح ثبت نشده'}
         const response = await fetch(`/api/cases/${encodeURIComponent(caseId)}/analysis`);
         if (!response.ok) return;
         const analysis = await response.json();
+        renderMissingItems(analysis.missing || [], 'فیلدهای پایه و شواهد متنی کافی است؛ تأیید نهایی با کارشناس است.');
         const questions = document.getElementById('followupSuggestions');
         questions.innerHTML = '';
         document.getElementById('questionCount').textContent = toFaNumber(analysis.missing.length);
