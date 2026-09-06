@@ -408,7 +408,7 @@
               <h2 id="caseTitle">مورد انتخاب نشده است</h2>
               <span id="caseId" class="case-id">—</span>
             </div>
-            <span id="caseStatus" class="status">● نیازمند تکمیل</span>
+            <span class="status">اطلاعات ثبت‌شده CRM</span>
           </div>
           <label class="muted" for="demoMode" style="display:none">حالت نمایشی:
             <select id="demoMode" class="demo-select">
@@ -418,7 +418,7 @@
             </select>
           </label>
 
-          <div class="fields">
+          <div class="fields case-basic-fields" style="display:none" aria-hidden="true">
             <div class="field">
               <span class="field-label">خدمت مورد</span>
               <span id="serviceValue" class="field-value">ثبت نشده در CRM</span>
@@ -444,7 +444,7 @@
               <span id="caseDescriptionValue" class="field-value">ثبت نشده در CRM</span>
             </div>
           </div>
-          <div class="crm-fields-heading">اطلاعات مهم و مرتبط این مورد از CRM</div>
+          <div class="crm-fields-heading">فیلدهای ثبت‌شده و انتخاب‌شده از CRM</div>
           <div id="crmFieldsGrid" class="fields" aria-live="polite">
             <div class="crm-fields-empty">موردی انتخاب نشده است.</div>
           </div>
@@ -465,6 +465,20 @@
             <a class="btn primary" id="runScenarioBtn" href="scenarios.html" style="display:none">اجرای سناریو برای این مورد</a>
           </div>
         </article>
+          </div>
+        </article>
+
+        <article class="card missing-card" id="missingCard">
+          <div class="section-title" style="margin-top:0">
+            <div>
+              <h3>موارد نیازمند تکمیل</h3>
+              <span class="muted">این بخش فقط کمبودهای اطلاعاتی مورد انتخاب‌شده را نشان می‌دهد.</span>
+            </div>
+            <span id="missingCount" class="count">۰</span>
+            <span class="status" id="caseStatus">● نیازمند تکمیل</span>
+          </div>
+          <div id="missingBox" class="alert">
+            تحلیل مورد انتخاب‌شده در حال آماده‌سازی است.
           </div>
         </article>
 
@@ -504,15 +518,6 @@
           </div>
         </article>
 
-        <article class="card missing-card">
-          <div class="section-title" style="margin-top:0">
-            <h3>موارد نیازمند تکمیل</h3>
-            <span id="missingCount" class="count">۰</span>
-          </div>
-          <div id="missingBox" class="alert">
-            تحلیل مورد انتخاب‌شده در حال آماده‌سازی است.
-          </div>
-        </article>
         </div>
       </section>
 
@@ -775,7 +780,7 @@
     function renderCrmFields(item) {
       const grid = document.getElementById('crmFieldsGrid');
       if (!grid) return;
-      const entries = [
+      const defaultFields = [
         ['ticket_number', 'شماره مورد'],
         ['title', 'عنوان'],
         ['description', 'شرح مسئله'],
@@ -788,7 +793,9 @@
         ['created_on', 'تاریخ ایجاد'],
         ['modified_on', 'آخرین تغییر'],
         ['crm_id', 'شناسه CRM']
-      ].map(([key, label]) => ({ key, label, value: item[key] }))
+      ];
+      const configured = window.caseDisplayFields || defaultFields.map(([key, label]) => ({key, label}));
+      const entries = configured.map(field => ({ key: field.key, label: field.label, value: item[field.key] }))
         .filter(field => field.value !== null && field.value !== undefined && field.value !== '');
       grid.replaceChildren();
       if (!entries.length) { grid.textContent = 'فیلد دارای مقدار از CRM در Snapshot موجود نیست.'; return; }
@@ -1006,6 +1013,13 @@ ${item.description || 'شرح ثبت نشده'}
 
     async function loadLocalCases() {
       try {
+        const fieldResponse = await fetch('/api/case-display-fields');
+        if (fieldResponse.ok) {
+          const fieldConfig = await fieldResponse.json();
+          window.caseDisplayFields = Array.isArray(fieldConfig.fields)
+            ? fieldConfig.fields.filter(field => fieldConfig.selected.includes(field.key))
+            : null;
+        }
         const response = await fetch('/api/cases');
         if (!response.ok) return;
         const cases = await response.json();

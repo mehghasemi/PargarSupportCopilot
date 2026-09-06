@@ -32,6 +32,27 @@ paths:
       summary: خروجی قابل انتقال سناریوها و تنظیمات
       responses:
         '200': { description: موفق }
+  /api/case-display-fields:
+    get:
+      summary: دریافت کاتالوگ فیلدهای قابل نمایش مورد و انتخاب‌های ذخیره‌شده
+      responses:
+        '200': { description: موفق }
+    put:
+      summary: ذخیره فیلدهای انتخاب‌شده برای صفحه بازبینی مورد
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [selected]
+              properties:
+                selected:
+                  type: array
+                  items: { type: string }
+      responses:
+        '200': { description: ذخیره موفق }
+        '400': { description: فهرست فیلدها نامعتبر است }
   /api/cases:
     get:
       summary: فهرست Caseهای Snapshot محلی

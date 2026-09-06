@@ -28,6 +28,20 @@ APP_ROOT = PROJECT_ROOT / "docs" / "app"
 VERSION_HISTORY_PATH = PROJECT_ROOT / "config" / "version-history.json"
 DEFAULT_PERSONAL_VIEW_ID = "ba75adf0-7327-f111-a873-005056988b54"
 APP_API_VERSION = "2026-09-05-view-scope-2"
+CASE_DISPLAY_FIELD_CATALOG = [
+    {"key": "ticket_number", "label": "شماره مورد", "description": "شماره قابل نمایش مورد"},
+    {"key": "title", "label": "عنوان", "description": "عنوان ثبت‌شده در CRM"},
+    {"key": "description", "label": "شرح مسئله", "description": "شرح مشکل یا درخواست"},
+    {"key": "service", "label": "خدمت", "description": "خدمت یا محصول مورد"},
+    {"key": "category", "label": "دسته‌بندی", "description": "دسته‌بندی مورد"},
+    {"key": "subcategory", "label": "زیر‌دسته", "description": "نوع یا زیر‌دسته رخداد"},
+    {"key": "owner_name", "label": "مالک مورد", "description": "مالک فعلی مورد"},
+    {"key": "state_code", "label": "وضعیت کلی", "description": "وضعیت کلی رکورد"},
+    {"key": "status_code", "label": "وضعیت", "description": "وضعیت عملیاتی مورد"},
+    {"key": "created_on", "label": "تاریخ ایجاد", "description": "زمان ایجاد مورد"},
+    {"key": "modified_on", "label": "آخرین تغییر", "description": "زمان آخرین تغییر مورد"},
+    {"key": "crm_id", "label": "شناسه CRM", "description": "شناسه فنی رکورد"},
+]
 MAX_QUERY_LENGTH = 500
 MAX_SCENARIOS_PAYLOAD = 2_000_000
 ALLOWED_FEEDBACK_ACTIONS = {"accepted", "edited", "rejected"}
@@ -134,6 +148,13 @@ class Handler(SimpleHTTPRequestHandler):
                 return
             if path in {"/api/scenarios", "/api/scenarios/export"}:
                 self._json(ScenarioStore().read())
+                return
+            if path == "/api/case-display-fields":
+                payload = ScenarioStore().read()
+                selected = payload.get("settings", {}).get("case_display_fields")
+                if not isinstance(selected, list):
+                    selected = [field["key"] for field in CASE_DISPLAY_FIELD_CATALOG]
+                self._json({"fields": CASE_DISPLAY_FIELD_CATALOG, "selected": selected})
                 return
             if path == "/api/views":
                 client = CrmClient()
@@ -271,6 +292,25 @@ class Handler(SimpleHTTPRequestHandler):
 
     def do_PUT(self) -> None:
         path = urlparse(self.path).path
+        if path == "/api/case-display-fields":
+            try:
+                size = int(self.headers.get("Content-Length", "0"))
+                if size <= 0 or size > 100_000:
+                    raise ValueError("حجم تنظیمات فیلدها مجاز نیست.")
+                payload = json.loads(self.rfile.read(size))
+                selected = payload.get("selected") if isinstance(payload, dict) else None
+                allowed = {field["key"] for field in CASE_DISPLAY_FIELD_CATALOG}
+                if not isinstance(selected, list) or any(item not in allowed for item in selected):
+                    raise ValueError("فهرست فیلدهای انتخاب‌شده معتبر نیست.")
+                store = ScenarioStore()
+                current = store.read()
+                settings = current.get("settings", {})
+                settings["case_display_fields"] = selected
+                saved = store.write({**current, "settings": settings})
+                self._json({"ok": True, "selected": saved["settings"]["case_display_fields"]})
+            except (ValueError, json.JSONDecodeError) as exc:
+                self._json({"ok": False, "error": str(exc)}, 400)
+            return
         if path != "/api/scenarios":
             self._json({"error": "این عملیات برای این مسیر مجاز نیست."}, 404)
             return
