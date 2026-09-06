@@ -578,6 +578,26 @@
   <div id="toast" class="toast" role="status"></div>
 
   <script>
+    (function arrangeCaseReviewLayout(){
+      const pickerBar = document.querySelector('.case-picker-bar');
+      const workspaceSection = document.querySelector('.workspace > section');
+      const detailsColumn = document.querySelector('.case-details-column');
+      if (!pickerBar || !workspaceSection || !detailsColumn) return;
+
+      const layout = document.createElement('div');
+      layout.className = 'case-selection-layout';
+      workspaceSection.prepend(layout);
+      layout.append(pickerBar, detailsColumn);
+
+      const infoAccordion = document.getElementById('caseInfoAccordion');
+      const missingCard = document.querySelector('.missing-card');
+      const activityDrawer = document.getElementById('activityDrawer');
+      const noteCard = document.getElementById('noteText')?.closest('article.card');
+      if (infoAccordion && missingCard) infoAccordion.after(missingCard);
+      if (missingCard && activityDrawer) missingCard.after(activityDrawer);
+      if (activityDrawer && noteCard) activityDrawer.after(noteCard);
+    }());
+
     const toast = document.getElementById('toast');
     const status = document.getElementById('caseStatus');
     const missingBox = document.getElementById('missingBox');
