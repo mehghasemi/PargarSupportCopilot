@@ -585,6 +585,8 @@
       layout.className='case-selection-layout';
       pickerBar.parentNode.insertBefore(layout,pickerBar);
       layout.append(pickerBar,detailCard);
+      const activityDrawer=document.getElementById('activityDrawer');
+      if(activityDrawer) detailCard.after(activityDrawer);
     }());
 
     const toast = document.getElementById('toast');
@@ -675,6 +677,12 @@
         if (Number.isNaN(right)) return -1;
         return right - left;
       });
+      const activityDrawerSummary = document.getElementById('activityDrawerSummary');
+      if (activityDrawerSummary) {
+        activityDrawerSummary.textContent = rows.length
+          ? `${toFaNumber(rows.length)} فعالیت مرتبط — برای مشاهده Timeline کلیک کنید.`
+          : 'برای این مورد فعالیت مرتبطی ثبت نشده است؛ برای مشاهده جزئیات کلیک کنید.';
+      }
       activities.replaceChildren();
       if (rows.length) {
         rows.forEach(row => {
