@@ -42,11 +42,47 @@ CASE_DISPLAY_FIELD_CATALOG = [
     {"key": "modified_on", "label": "آخرین تغییر", "description": "زمان آخرین تغییر مورد"},
     {"key": "crm_id", "label": "شناسه CRM", "description": "شناسه فنی رکورد"},
 ]
+DEFAULT_CASE_DISPLAY_FIELDS = [field["key"] for field in CASE_DISPLAY_FIELD_CATALOG]
 MAX_QUERY_LENGTH = 500
 MAX_SCENARIOS_PAYLOAD = 2_000_000
 ALLOWED_FEEDBACK_ACTIONS = {"accepted", "edited", "rejected"}
 ALLOWED_FEEDBACK_TYPES = {"suggestion", "article", "missing-field", "scenario-step"}
 _identity_cache: dict[str, object] = {"user_id": None, "expires_at": 0.0}
+
+
+def case_field_catalog() -> tuple[list[dict[str, str]], bool, str | None]:
+    """Build the selectable Case-field catalog from CRM metadata."""
+    fields = list(CASE_DISPLAY_FIELD_CATALOG)
+    try:
+        metadata = CrmClient().list_case_field_metadata()
+    except CrmError as exc:
+        return fields, False, f"فهرست کامل فیلدها از CRM دریافت نشد: {exc}"
+    known = {field["key"] for field in fields}
+    for attribute in metadata:
+        key = attribute.get("LogicalName")
+        if not key or key in known:
+            continue
+        display = attribute.get("DisplayName") or {}
+        localized = display.get("UserLocalizedLabel") or display.get("LocalizedLabels") or {}
+        if isinstance(localized, dict):
+            label = localized.get("Label")
+        elif isinstance(localized, list) and localized:
+            label = localized[0].get("Label")
+        else:
+            label = None
+        fields.append({
+            "key": str(key),
+            "label": str(label or key),
+            "description": f"فیلد واقعی موجودیت مورد در CRM — {attribute.get('AttributeType') or 'نوع نامشخص'}",
+        })
+        known.add(key)
+    return fields, True, None
+
+
+def configured_case_field_keys() -> list[str]:
+    payload = ScenarioStore().read()
+    selected = payload.get("settings", {}).get("case_display_fields")
+    return selected if isinstance(selected, list) and selected else DEFAULT_CASE_DISPLAY_FIELDS
 
 
 def current_crm_user_id() -> str:
@@ -153,8 +189,14 @@ class Handler(SimpleHTTPRequestHandler):
                 payload = ScenarioStore().read()
                 selected = payload.get("settings", {}).get("case_display_fields")
                 if not isinstance(selected, list):
-                    selected = [field["key"] for field in CASE_DISPLAY_FIELD_CATALOG]
-                self._json({"fields": CASE_DISPLAY_FIELD_CATALOG, "selected": selected})
+                    selected = DEFAULT_CASE_DISPLAY_FIELDS
+                fields, metadata_available, warning = case_field_catalog()
+                self._json({
+                    "fields": fields,
+                    "selected": selected,
+                    "metadata_available": metadata_available,
+                    "warning": warning,
+                })
                 return
             if path == "/api/views":
                 client = CrmClient()
@@ -217,7 +259,10 @@ class Handler(SimpleHTTPRequestHandler):
                     if not case_id:
                         continue
                     try:
-                        full_case = client.get_case_context(case_id)
+                        full_case = client.get_case_context(
+                            case_id,
+                            select=["incidentid", *configured_case_field_keys()],
+                        )
                         merged = {**case, **full_case}
                     except CrmError:
                         merged = case
@@ -299,7 +344,7 @@ class Handler(SimpleHTTPRequestHandler):
                     raise ValueError("حجم تنظیمات فیلدها مجاز نیست.")
                 payload = json.loads(self.rfile.read(size))
                 selected = payload.get("selected") if isinstance(payload, dict) else None
-                allowed = {field["key"] for field in CASE_DISPLAY_FIELD_CATALOG}
+                allowed = {field["key"] for field in case_field_catalog()[0]}
                 if not isinstance(selected, list) or any(item not in allowed for item in selected):
                     raise ValueError("فهرست فیلدهای انتخاب‌شده معتبر نیست.")
                 store = ScenarioStore()

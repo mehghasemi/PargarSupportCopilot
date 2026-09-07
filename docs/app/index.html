@@ -98,12 +98,8 @@
       color: #fff;
       font-size: .75rem;
     }
-    .workspace {
-      display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(360px, .95fr);
-      gap: 20px;
-      align-items: start;
-    }
+    .workspace { display: block; }
+    .workspace > aside { display: grid; grid-template-columns: minmax(0,1fr); gap: 16px; margin-top: 20px; }
     .case-picker-bar { display: flex; justify-content: flex-start; margin: 0 0 20px; }
     .case-picker-card { width: min(620px, 100%); border: 1px solid #93c5fd; background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 52%, #ffffff 100%); box-shadow: 0 12px 28px rgba(37,99,235,.12); }
     .case-selection-layout { display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); gap:20px; align-items:start; margin:0 0 20px; }
@@ -498,26 +494,6 @@
           </div>
         </article>
 
-        <article class="card">
-          <div class="section-title" style="margin-top:0">
-            <h3>پیش‌نویس Note</h3>
-            <span class="status">پیش‌نویس</span>
-          </div>
-          <div class="note" id="noteText">خلاصه مسئله:
-مشتری درباره تنظیم گزارش فروش پایان ماه راهنمایی درخواست کرده است.
-
-اطلاعات تکمیل‌شده:
-- ماژول: ثبت نشده
-- نسخه: ثبت نشده
-- محیط: ثبت نشده
-
-وضعیت: نیازمند بازبینی و تأیید کارشناس</div>
-          <div class="actions" style="margin-top: 12px">
-            <button class="btn" id="editNoteBtn">ویرایش پیش‌نویس</button>
-            <button class="btn primary" id="acceptNoteBtn">پذیرش برای ثبت</button>
-          </div>
-        </article>
-
         </div>
       </section>
 
@@ -613,10 +589,8 @@
       const infoAccordion = document.getElementById('caseInfoAccordion');
       const missingCard = document.querySelector('.missing-card');
       const activityDrawer = document.getElementById('activityDrawer');
-      const noteCard = document.getElementById('noteText')?.closest('article.card');
       if (infoAccordion && missingCard) infoAccordion.after(missingCard);
       if (missingCard && activityDrawer) missingCard.after(activityDrawer);
-      if (activityDrawer && noteCard) activityDrawer.after(noteCard);
     }());
 
     const toast = document.getElementById('toast');
@@ -625,7 +599,6 @@
     const missingCount = document.getElementById('missingCount');
     const versionField = document.getElementById('versionField');
     const descriptionField = document.getElementById('descriptionField');
-    const noteText = document.getElementById('noteText');
     const moduleInput = document.getElementById('moduleInput');
     const versionInput = document.getElementById('versionInput');
     const counters = { accepted: 0, edited: 0, rejected: 0 };
@@ -795,8 +768,14 @@
         ['crm_id', 'شناسه CRM']
       ];
       const configured = window.caseDisplayFields || defaultFields.map(([key, label]) => ({key, label}));
-      const entries = configured.map(field => ({ key: field.key, label: field.label, value: item[field.key] }))
-        .filter(field => field.value !== null && field.value !== undefined && field.value !== '');
+      let raw = {};
+      try { raw = item.raw_json ? JSON.parse(item.raw_json) : {}; } catch (_) { raw = {}; }
+      const entries = configured.map(field => ({
+        key: field.key,
+        label: field.label,
+        value: item[field.key] ?? raw[field.key],
+        formatted: raw[`${field.key}@OData.Community.Display.V1.FormattedValue`]
+      }));
       grid.replaceChildren();
       if (!entries.length) { grid.textContent = 'فیلد دارای مقدار از CRM در Snapshot موجود نیست.'; return; }
       entries.forEach(field => {
@@ -804,9 +783,13 @@
         const label = document.createElement('span'); label.className = 'field-label';
         label.textContent = field.label;
         const result = document.createElement('span'); result.className = 'field-value';
-        result.textContent = ['created_on', 'modified_on'].includes(field.key)
-          ? formatTimelineDate(field.value)
-          : String(field.value);
+        const value = field.formatted ?? field.value;
+        result.textContent = value === null || value === undefined || value === ''
+          ? 'در CRM ثبت نشده است'
+          : ['created_on', 'modified_on', 'createdon', 'modifiedon'].includes(field.key)
+            ? formatTimelineDate(value)
+            : String(value);
+        if (value === null || value === undefined || value === '') box.classList.add('missing');
         box.append(label, result); grid.appendChild(box);
       });
     }
@@ -953,18 +936,6 @@
       }
       document.getElementById('answerDraft').textContent =
         answer.join('\n\n') + '\n\nوضعیت: پیش‌نویس — تأیید یا اصلاح با کارشناس';
-      noteText.textContent = `خلاصه مورد انتخاب‌شده:
-${item.title || 'عنوان ثبت نشده'}
-
-شرح:
-${item.description || 'شرح ثبت نشده'}
-
-متعلقات:
-- Note: ${(item.notes || []).length}
-- Post داخلی: ${(item.posts || []).length}
-- Task: ${(item.tasks || []).length}
-
-وضعیت: پیش‌نویس محلی — نیازمند بازبینی و تأیید کارشناس`;
     }
 
     async function loadAnalysis(caseId) {
@@ -1143,14 +1114,6 @@ ${item.description || 'شرح ثبت نشده'}
 
     document.getElementById('resetBtn').addEventListener('click', () => window.location.reload());
     document.getElementById('refreshDiscoveryBtn').addEventListener('click', loadDiscoverySummary);
-    document.getElementById('editNoteBtn').addEventListener('click', () => {
-      saveFeedback('پیش‌نویس Note برای ویرایش انتخاب شد.', 'edited', 'note');
-      showToast('ویرایش Note در این نسخه هنوز فقط به‌صورت پیش‌نویس داخلی انجام می‌شود.');
-    });
-    document.getElementById('acceptNoteBtn').addEventListener('click', () => {
-      saveFeedback('پیش‌نویس Note پذیرفته شد؛ ثبت نهایی انجام نشد.', 'accepted', 'note');
-      showToast('پیش‌نویس پذیرفته شد؛ ثبت نهایی انجام نشد.');
-    });
     document.getElementById('caseSelector').addEventListener('change', async event => {
       const response = await fetch(`/api/cases/${encodeURIComponent(event.target.value)}`);
       if (!response.ok) return;

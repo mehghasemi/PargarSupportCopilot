@@ -43,6 +43,18 @@ class CrmClient:
         "task": "tasks",
         "knowledge_base": "knowledgearticles",
     }
+    DISPLAY_FIELD_ALIASES = {
+        "ticket_number": "ticketnumber",
+        "service": "casetypecode",
+        "category": "brd_productcategory",
+        "subcategory": "brd_incidenttype",
+        "owner_name": "_ownerid_value",
+        "state_code": "statecode",
+        "status_code": "statuscode",
+        "created_on": "createdon",
+        "modified_on": "modifiedon",
+        "crm_id": "incidentid",
+    }
 
     def __init__(self, config: CrmConfig | None = None):
         if HttpNegotiateAuth is None:
@@ -120,6 +132,17 @@ class CrmClient:
             top=top,
             order_by="createdon desc",
         )
+
+    def list_case_field_metadata(self) -> list[dict[str, Any]]:
+        """Return readable, read-only attributes for the incident entity."""
+        payload = self._get(
+            "/EntityDefinitions(LogicalName='incident')/Attributes",
+            params={
+                "$select": "LogicalName,DisplayName,AttributeType,IsValidForRead",
+                "$orderby": "LogicalName asc",
+            },
+        )
+        return [attribute for attribute in payload.get("value", []) if attribute.get("IsValidForRead") is not False]
 
     def list_notes(self, *, top: int = 50):
         return self.list_records(
@@ -262,15 +285,22 @@ class CrmClient:
             },
         )
 
-    def get_case_context(self, case_id: str):
+    def get_case_context(self, case_id: str, *, select: list[str] | None = None):
         if not case_id or any(ch in case_id for ch in "'?$"):
             raise CrmError("شناسه Case معتبر نیست.")
-        return self._get(
-            f"/incidents({quote(case_id, safe='-')})",
-            params={
-                "$select": (
-                    "incidentid,ticketnumber,title,description,createdon,"
-                    "modifiedon,statecode,statuscode"
-                ),
-            },
-        )
+        fields = list(dict.fromkeys(select or [
+            "incidentid", "ticketnumber", "title", "description",
+            "createdon", "modifiedon", "statecode", "statuscode",
+        ]))
+        fields = list(dict.fromkeys(self.DISPLAY_FIELD_ALIASES.get(field, field) for field in fields))
+        merged: dict[str, Any] = {}
+        for start in range(0, len(fields), 40):
+            chunk = fields[start:start + 40]
+            if "incidentid" not in chunk:
+                chunk.insert(0, "incidentid")
+            payload = self._get(
+                f"/incidents({quote(case_id, safe='-')})",
+                params={"$select": ",".join(chunk)},
+            )
+            merged.update(payload)
+        return merged

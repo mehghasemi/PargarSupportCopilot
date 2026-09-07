@@ -28,7 +28,7 @@ class ScenarioStore:
         return {
             "schema_version": 1,
             "updated_at": None,
-            "settings": {"storage": "json-file", "crm_write_operations": 0},
+            "settings": {"storage": "json-file", "crm_write_operations": 0, "case_display_fields": []},
             "scenarios": [],
         }
 

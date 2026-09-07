@@ -11,6 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from crm import CrmClient, CrmError
 from crm.local_store import LocalStore
+from crm.scenario_store import ScenarioStore
 
 DEFAULT_PERSONAL_VIEW_ID = "ba75adf0-7327-f111-a873-005056988b54"
 
@@ -38,12 +39,21 @@ def main() -> int:
                 DEFAULT_PERSONAL_VIEW_ID, top=100, view_type="personal"
             )
         cases = []
+        selected_fields = ScenarioStore().read().get("settings", {}).get("case_display_fields")
+        if not isinstance(selected_fields, list) or not selected_fields:
+            selected_fields = [
+                "ticketnumber", "title", "description", "createdon", "modifiedon",
+                "statecode", "statuscode", "incidentid",
+            ]
         for case in case_payload.get("value", []):
             case_id = case.get("incidentid")
             if not case_id:
                 continue
             try:
-                cases.append({**case, **client.get_case_context(case_id)})
+                cases.append({
+                    **case,
+                    **client.get_case_context(case_id, select=["incidentid", *selected_fields]),
+                })
             except CrmError:
                 cases.append(case)
         notes = []
