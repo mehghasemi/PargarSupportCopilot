@@ -92,6 +92,8 @@
 
 جست‌وجو و رتبه‌بندی KB معتبر، Case مشابه و تکراری، نمایش مرجع مرتبط، تشخیص خوشه و افزایش غیرعادی تیکت‌ها، و پیشنهاد بررسی Problem یا Known Issue یا اطلاع‌رسانی یا ارجاع فنی.
 
+در نسخه فعلی نمونه، «موارد مشابه» و «پیشنهاد اقدام بعدی» به‌صورت فعال اما آزمایشی در Case Intelligence ارائه شده‌اند. بازیابی فعلی Semantic-like و قابل‌تعویض است؛ خروجی‌ها پیشنهاد و شواهد تاریخی هستند، نه تشخیص قطعی. هر Resolution فقط از فیلد Resolution یا فعالیت واقعی CRM خوانده می‌شود و سیستم Resolution جدید تولید نمی‌کند.
+
 ### Bug Detection
 
 مقایسه با Bug رسمی، Known Error، Patch، Release Note و Done Version؛ نمایش «احتمال ارتباط با Bug شناخته‌شده» فقط با منبع معتبر؛ پیشنهاد بررسی Patch یا ارتقا؛ و برچسب «فرضیه نیازمند بررسی» برای موارد غیرقطعی.
@@ -163,7 +165,7 @@ Release Review فقط پس از دریافت داده‌ها و مشاهدات �
 - **Release 1: کیفیت ورودی Case و پیشنهاد KB** — آزمون بهبود زمان رسیدگی و کیفیت ثبت با کنترل Case ناقص و پیشنهاد KB معتبر.
 - **Release 2: Smart Troubleshooting محدود** — یک Workflow عیب‌یابی پرتکرار همراه با ثبت گام‌ها و پیش‌نویس Note.
 - **Release 3: Smart Referral** — کاهش ارجاع ناقص و رفت‌وبرگشت L1/L2 با Checklist و پیش‌نویس گزارش فنی.
-- **Release 4: Similar Cases و Cluster Detection** — سنجش ارزش تشخیص Case مشابه، تکراری و رخداد پرتکرار.
+- **Release 4: Similar Cases و Cluster Detection** — سنجش و تثبیت عملیاتی قابلیت Similar Cases آزمایشی و سپس ارزیابی تشخیص Case مشابه، تکراری و رخداد پرتکرار.
 - **Release 5: Bug Detection و یک Workflow عملیاتی** — استفاده کنترل‌شده از Bug و Done Version رسمی و یک Workflow روتین.
 - **Release 6: Knowledge Creation و STT** — تولید دانش از Case موفق و Pilot محدود STT، مشروط به پیش‌نیازهای امنیتی.
 

@@ -22,6 +22,7 @@ from crm.local_store import LocalStore
 from crm.scenario_store import ScenarioStore
 from crm import CrmClient, CrmError
 from crm.analyzer import analyze_case, search_knowledge_articles
+from crm.analyzer import SemanticLikeRetrievalProvider
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -50,6 +51,52 @@ SIMILARITY_METRICS_PATH = PROJECT_ROOT / "data" / "evaluation" / "similarity-met
 ALLOWED_FEEDBACK_ACTIONS = {"accepted", "edited", "rejected"}
 ALLOWED_FEEDBACK_TYPES = {"suggestion", "article", "missing-field", "scenario-step"}
 ALLOWED_SIMULATED_RECORD_TYPES = {"note", "post", "task", "l2-report"}
+
+
+def _intake_search(store: LocalStore, payload: dict) -> dict:
+    """Read-only contact intake assistant; it never creates or changes a CRM record."""
+    query = str(payload.get("query") or "").strip()
+    center = str(payload.get("center") or "").strip().lower()
+    version = str(payload.get("version") or "").strip()
+    if len(query) > MAX_QUERY_LENGTH or len(center) > 300 or len(version) > 100:
+        raise ValueError("طول اطلاعات جست‌وجوی تماس مجاز نیست.")
+    cases = [store.get_case(row["crm_id"]) for row in store.list_cases()]
+    cases = [item for item in cases if item]
+    normalized = query.lower()
+    def raw_value(item: dict, *keys: str) -> str:
+        try:
+            raw = json.loads(item.get("raw_json") or "{}")
+        except (TypeError, ValueError):
+            raw = {}
+        return " ".join(str(item.get(key) or raw.get(key) or "") for key in keys).lower()
+    def is_open(item: dict) -> bool:
+        status = str(item.get("status_code") or "").lower()
+        return status not in {"done", "resolved", "closed", "cancelled", "canceled", "completed", "حل شده", "بسته"}
+    def matches(item: dict) -> bool:
+        text = " ".join(str(item.get(key) or "") for key in ("ticket_number", "title", "description", "service", "category", "subcategory"))
+        text += " " + raw_value(item, "brd_version", "brd_productservice", "brd_productcategory", "_brd_account_value", "_customerid_value")
+        return not normalized or normalized in text.lower()
+    candidates = [item for item in cases if matches(item)]
+    same_center = [item for item in candidates if center and center in raw_value(item, "account_name", "_brd_account_value", "customer_name", "_customerid_value")]
+    same_center_open = [item for item in same_center if is_open(item)][:10]
+    corpus = candidates or cases
+    source = {"crm_id": "intake", "title": query, "description": query, "service": "", "category": "", "notes": [], "posts": [], "tasks": [], "knowledge_articles": []}
+    similar = SemanticLikeRetrievalProvider().retrieve(source, corpus, limit=5) if query else []
+    version_matches = [item for item in candidates if version and version.lower() in raw_value(item, "brd_version", "version", "brd_versionname")][:10]
+    def compact(item: dict) -> dict:
+        return {"case_id": item.get("crm_id"), "case_number": item.get("ticket_number"), "title": item.get("title"), "status": item.get("status_code"), "service": item.get("service"), "category": item.get("category"), "is_open": is_open(item)}
+    return {
+        "simulation": True,
+        "crm_write_operations": 0,
+        "query": query,
+        "same_center_open": [compact(item) for item in same_center_open],
+        "matching_cases": [compact(item) for item in candidates[:10]],
+        "similar_cases": similar,
+        "version_matches": [compact(item) for item in version_matches],
+        "duplicate_warning": bool(same_center_open),
+        "recommendation": "ابتدا تماس را به مورد باز همان مرکز اضافه کنید." if same_center_open else ("مورد جدید برای مرکز فعلی ایجاد و در صورت نیاز به موارد مشابه لینک شود." if similar else "مورد مشابه کافی پیدا نشد؛ اطلاعات تماس را بررسی و مورد جدید ایجاد کنید."),
+        "suggestions": {"title": query[:160] or "عنوان پیشنهادی پس از ورود کلمات کلیدی", "version": version or "ثبت نشده", "possible_services": list(dict.fromkeys(item.get("service") for item in candidates if item.get("service")))[:5], "possible_categories": list(dict.fromkeys(item.get("category") for item in candidates if item.get("category")))[:5]},
+    }
 _identity_cache: dict[str, object] = {"user_id": None, "expires_at": 0.0}
 
 
@@ -274,6 +321,22 @@ class Handler(SimpleHTTPRequestHandler):
 
     def do_POST(self) -> None:
         path = urlparse(self.path).path
+        if path == "/api/contact-intake/search":
+            try:
+                size = int(self.headers.get("Content-Length", "0"))
+                if size <= 0 or size > 50_000:
+                    raise ValueError("حجم اطلاعات تماس مجاز نیست.")
+                payload = json.loads(self.rfile.read(size) or b"{}")
+                store = LocalStore()
+                try:
+                    store.initialize()
+                    result = _intake_search(store, payload)
+                finally:
+                    store.close()
+                self._json({"ok": True, **result})
+            except (ValueError, json.JSONDecodeError) as exc:
+                self._json({"ok": False, "simulation": True, "crm_write_operations": 0, "error": str(exc)}, 400)
+            return
         if path == "/api/simulated-crm-operations":
             try:
                 size = int(self.headers.get("Content-Length", "0"))

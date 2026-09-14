@@ -15,6 +15,14 @@ STOP_WORDS = {
     "باشد", "داده", "مربوط", "موجود", "جهت", "صورت", "بررسی",
 }
 
+SUCCESS_OUTCOME_PATTERN = re.compile(r"(حل شد|برطرف شد|رفع شد|با موفقیت|موفقیت|resolved|fixed|successful)", re.I)
+NEGATIVE_OUTCOME_PATTERN = re.compile(r"(حل نشد|برطرف نشد|رفع نشد|موفق نبود|ناموفق|هنوز.*(?:مشکل|وجود|برقرار)|not resolved|not fixed|failed)", re.I)
+
+
+def has_successful_outcome(value: Any) -> bool:
+    text = clean(value)
+    return bool(SUCCESS_OUTCOME_PATTERN.search(text) and not NEGATIVE_OUTCOME_PATTERN.search(text))
+
 DOMAIN_RULES = [
     (("دسترسی", "مجوز", "کاربر", "رویت", "قابل مشاهده"), "دسترسی و مجوزها",
      "ابتدا دسترسی کاربر، نقش/جایگاه و دامنه سازمانی بررسی شود؛ سپس نتیجه با یک کاربر نمونه بازتولید شود."),
@@ -169,23 +177,40 @@ class SemanticLikeRetrievalProvider:
         notes = " ".join(clean(row.get("note_text")) for row in case.get("notes", []))
         tasks = " ".join(clean(f"{row.get('subject', '')} {row.get('description', '')}") for row in case.get("tasks", []))
         posts = " ".join(clean(row.get("text")) for row in case.get("posts", []))
-        resolution = " ".join(text for text in (notes, tasks, posts) if re.search(r"(حل شد|برطرف شد|رفع شد|موفقیت|با موفقیت|resolved|fixed|successful)", text, re.I))
         raw = {}
         try:
             raw = json.loads(case.get("raw_json") or "{}")
         except (TypeError, ValueError):
             pass
+        def first_value(*keys: str) -> str:
+            for key in keys:
+                value = clean(case.get(key) or raw.get(key))
+                if value:
+                    return value
+            return ""
+
+        explicit_error = first_value(
+            "error_message", "errormessage", "error", "brd_errormessage",
+        )
+        explicit_resolution = first_value(
+            "resolution", "resolution_description", "resolutiondescription",
+            "brd_resolution", "brd_resolutiondescription",
+        )
+        activity_resolution = " ".join(
+            text for text in (notes, tasks, posts) if has_successful_outcome(text)
+        )
         return {
-            "subject": clean(case.get("title")),
-            "description": clean(case.get("description")),
-            "error": " ".join(part for part in (case.get("description"), notes, tasks) if re.search(r"(خطا|error|exception|پیام)", clean(part), re.I)),
-            "resolution": resolution,
+            "subject": first_value("title", "subject"),
+            "description": first_value("description", "incident_description"),
+            "error": " ".join(part for part in (explicit_error, case.get("description"), notes, tasks)
+                              if re.search(r"(خطا|error|exception|پیام)", clean(part), re.I)),
+            "resolution": " ".join(part for part in (explicit_resolution, activity_resolution) if part),
             "notes": notes,
             "tasks": tasks,
-            "module": clean(case.get("service") or raw.get("module") or raw.get("brd_productservice")),
-            "version": clean(raw.get("version") or raw.get("brd_version")),
-            "environment": clean(raw.get("environment") or raw.get("brd_environment")),
-            "classification": clean(case.get("category") or raw.get("category") or raw.get("brd_productcategory")),
+            "module": first_value("service", "case_service", "module", "brd_productservice"),
+            "version": first_value("version", "product_version", "brd_version"),
+            "environment": first_value("environment", "execution_environment", "brd_environment"),
+            "classification": first_value("category", "classification", "case_category", "brd_productcategory"),
         }
 
     def _resolution_items(self, case: dict[str, Any]) -> list[dict[str, str]]:
@@ -196,11 +221,10 @@ class SemanticLikeRetrievalProvider:
             ("Task", case.get("tasks", []), "description"),
             ("Post", case.get("posts", []), "text"),
         )
-        success_pattern = re.compile(r"(حل شد|برطرف شد|رفع شد|با موفقیت|موفقیت|مشکل.*(رفع|برطرف)|resolved|fixed|successful)", re.I)
         for source, rows, key in sources:
             for row in rows:
                 text = clean(row.get(key) or row.get("subject"))
-                if text and success_pattern.search(text):
+                if text and has_successful_outcome(text):
                     items.append({
                         "source": source,
                         "text": text[:500],
@@ -212,6 +236,15 @@ class SemanticLikeRetrievalProvider:
     def _concepts(self, text: str) -> set[str]:
         normalized = clean(text).lower()
         return {name for name, terms in self.CONCEPTS.items() if any(term.lower() in normalized for term in terms)}
+
+    @staticmethod
+    def _near_version(left: str, right: str) -> bool:
+        left_parts = re.findall(r"\d+", clean(left))
+        right_parts = re.findall(r"\d+", clean(right))
+        if not left_parts or not right_parts:
+            return False
+        # نسخه‌های هم‌خانواده مانند 5.2.0 و 5.2.1 به‌عنوان نزدیک شناخته می‌شوند.
+        return left_parts[:2] == right_parts[:2]
 
     def _weighted_similarity(self, left: dict[str, str], right: dict[str, str]) -> tuple[float, list[str]]:
         total = 0.0
@@ -225,7 +258,8 @@ class SemanticLikeRetrievalProvider:
             a_words, b_words = words(a), words(b)
             overlap = len(a_words & b_words) / max(1, len(a_words | b_words))
             concepts_a, concepts_b = self._concepts(a), self._concepts(b)
-            concept_match = 1.0 if concepts_a & concepts_b else 0.0
+            near_version = field == "version" and self._near_version(a, b)
+            concept_match = 1.0 if concepts_a & concepts_b or near_version else 0.0
             field_score = overlap * .35 + concept_match * .65
             score += weight * field_score
             if field_score >= .45:
@@ -270,6 +304,126 @@ class SemanticLikeRetrievalProvider:
             })
         ranked.sort(key=lambda item: (item["resolved"], item["similarity_score"]), reverse=True)
         return ranked[:limit]
+
+
+# تغییر موقت — جلالی: بینش‌های عملیاتی مبتنی بر سوابق همان Snapshot؛ بدون تغییر CRM
+def _raw_case(case: dict[str, Any]) -> dict[str, Any]:
+    try:
+        value = json.loads(case.get("raw_json") or "{}")
+        return value if isinstance(value, dict) else {}
+    except (TypeError, ValueError):
+        return {}
+
+
+def _case_customer_key(case: dict[str, Any]) -> str:
+    raw = _raw_case(case)
+    for key in (
+        "account_name", "customer_name", "customer", "account",
+        "_customerid_value", "_brd_account_value", "brd_account",
+    ):
+        value = clean(case.get(key) or raw.get(key))
+        if value:
+            return value.lower()
+    return ""
+
+
+def _case_datetime(case: dict[str, Any]) -> str:
+    raw = _raw_case(case)
+    return clean(case.get("created_on") or case.get("createdon") or raw.get("createdon") or raw.get("created_on"))
+
+
+def _is_upgrade_case(case: dict[str, Any]) -> bool:
+    text = clean(" ".join([
+        str(case.get("title") or ""), str(case.get("description") or ""),
+        str(case.get("service") or ""), str(case.get("category") or ""),
+    ])).lower()
+    return bool(re.search(r"(upgrade|update|version|release|patch|\u0628\u0631\u0648\u0632\u0631\u0633\u0627\u0646\u06cc|\u0646\u0633\u062e\u0647|\u0646\u06af\u0627\u0631\u0634|\u0628\u0647\u200c\u0631\u0648\u0632\u0631\u0633\u0627\u0646\u06cc)", text, re.I))
+
+
+def _operational_insights(case: dict[str, Any], corpus: list[dict[str, Any]], articles: list[dict[str, Any]]) -> dict[str, Any]:
+    """Return transparent operational warnings and quality gates from read-only CRM data."""
+    provider = SemanticLikeRetrievalProvider()
+    source_customer = _case_customer_key(case)
+    source_date = _case_datetime(case)
+    same_customer: list[dict[str, Any]] = []
+    cross_customer: list[dict[str, Any]] = []
+    for candidate in corpus:
+        if str(candidate.get("crm_id") or candidate.get("incidentid")) == str(case.get("crm_id") or case.get("incidentid")):
+            continue
+        score, reasons = provider._weighted_similarity(provider._fields(case), provider._fields(candidate))
+        # برای هشدار تکرار در همان مرکز، تطبیق ۵۰٪ به‌همراه شناسه مرکز کافی است؛
+        # هشدارهای الگوی مشترک بین مراکز همچنان با شواهد و بررسی انسانی تفسیر می‌شوند.
+        if score < 50:
+            continue
+        candidate_customer = _case_customer_key(candidate)
+        row = {
+            "case_number": candidate.get("ticket_number") or candidate.get("ticketnumber") or candidate.get("crm_id"),
+            "case_id": candidate.get("crm_id") or candidate.get("incidentid"),
+            "title": clean(candidate.get("title")),
+            "similarity_score": score,
+            "date": _case_datetime(candidate),
+            "reasons": reasons[:4],
+            "customer": candidate_customer or "ثبت نشده",
+        }
+        if source_customer and candidate_customer == source_customer:
+            same_customer.append(row)
+        elif candidate_customer and candidate_customer != source_customer:
+            cross_customer.append(row)
+    same_customer.sort(key=lambda item: item["similarity_score"], reverse=True)
+    cross_customer.sort(key=lambda item: item["similarity_score"], reverse=True)
+
+    timeline_text = " ".join(clean(row.get("text") or row.get("note_text") or row.get("description")) for row in (
+        case.get("notes", []) + case.get("posts", []) + case.get("tasks", [])
+    ))
+    result_quality = {
+        "ready_to_close": False,
+        "missing": [],
+        "evidence": [],
+    }
+    if case.get("tasks") or case.get("posts") or case.get("notes"):
+        required_result_terms = {
+            "root_cause": r"(root cause|\u0639\u0644\u062a \u0627\u0635\u0644\u06cc|\u0639\u0644\u062a \u0631\u06cc\u0634\u0647)",
+            "method": r"(diagnos|\u0631\u0648\u0634 \u062a\u0634\u062e\u06cc\u0635|\u0634\u0646\u0627\u0633\u0627\u06cc\u06cc)",
+            "action": r"(action|\u0627\u0642\u062f\u0627\u0645|\u0627\u0646\u062c\u0627\u0645 \u0634\u062f)",
+            "result": r"(result|\u0646\u062a\u06cc\u062c\u0647|\u0628\u0631\u0637\u0631\u0641|\u062d\u0644 \u0634\u062f)",
+        }
+        for label, pattern in required_result_terms.items():
+            if re.search(pattern, timeline_text, re.I):
+                result_quality["evidence"].append(label)
+            else:
+                result_quality["missing"].append(label)
+        result_quality["ready_to_close"] = not result_quality["missing"]
+
+    raw = _raw_case(case)
+    version = clean(case.get("version") or raw.get("version") or raw.get("brd_version"))
+    version_control = {
+        "applicable": _is_upgrade_case(case),
+        "version": version or None,
+        "ready": bool(version),
+        "message": "نسخه نهایی مرکز ثبت شده است." if version else "برای این مورد به‌روزرسانی، نسخه نهایی نصب‌شده مرکز ثبت نشده است.",
+    }
+    resolved = has_successful_outcome(timeline_text)
+    knowledge_candidate = {
+        "eligible": bool(resolved and not articles),
+        "reason": "Case نشانه حل موفق دارد اما مقاله مرتبط در Snapshot پیدا نشد؛ پیش‌نویس مقاله پس از بازبینی انسانی پیشنهاد می‌شود." if resolved and not articles else "شرایط کافی برای پیشنهاد ساخت مقاله فراهم نیست.",
+        "source_case": case.get("ticket_number") or case.get("crm_id"),
+    }
+    return {
+        "same_customer_recurrence": {
+            "count": len(same_customer), "cases": same_customer[:10],
+            "warning": len(same_customer) >= 2,
+            "message": f"در سوابق این مرکز {len(same_customer)} مورد مشابه پیدا شد." if same_customer else "مورد مشابهی برای همین مرکز در Snapshot پیدا نشد.",
+        },
+        "cross_customer_pattern": {
+            "count": len(cross_customer), "cases": cross_customer[:10],
+            "warning": len(cross_customer) >= 2,
+            "message": f"این الگو در {len(cross_customer)} مرکز دیگر نیز دیده شده است." if cross_customer else "الگوی مشترک بین مراکز دیگر با شواهد فعلی پیدا نشد.",
+        },
+        "technical_result_quality": result_quality,
+        "upgrade_version_control": version_control,
+        "knowledge_candidate": knowledge_candidate,
+        "read_only": True,
+    }
 
 
 def analyze_case(case: dict[str, Any], similar_cases: list[dict[str, Any]] | None = None) -> dict[str, Any]:
@@ -435,6 +589,7 @@ def analyze_case(case: dict[str, Any], similar_cases: list[dict[str, Any]] | Non
     timeline = _timeline_intelligence(case)
     next_best_actions = _next_best_actions(case, missing, evidence, timeline, articles)
     similar_results = SemanticLikeRetrievalProvider().retrieve(case, similar_cases or [], limit=50)
+    operational_insights = _operational_insights(case, similar_cases or [], articles)
     quality_score = _quality_score(case, quality, evidence)
     unknowns = [
         {
@@ -462,7 +617,7 @@ def analyze_case(case: dict[str, Any], similar_cases: list[dict[str, Any]] | Non
     elif missing:
         suggested_status = "🔴 نیازمند بررسی"
     else:
-        suggested_status = "🟢 احتمالاً حل شده"
+        suggested_status = "🔵 نیازمند تأیید کارشناس"
     quality_explanation = (
         "این مورد برای ادامه بررسی مناسب است؛ "
         + ("اما " + "، ".join(item["field"] for item in missing[:3]) + " ثبت نشده است." if missing else "شواهد و اطلاعات پایه کافی به نظر می‌رسد.")
@@ -489,6 +644,7 @@ def analyze_case(case: dict[str, Any], similar_cases: list[dict[str, Any]] | Non
         "next_actions": [item["title"] for item in recommendations[:5]],
         "next_best_actions": next_best_actions,
         "similar_cases": similar_results,
+        "operational_insights": operational_insights,
         "articles": articles,
         "recommendations": recommendations,
         "answer": "\n\n".join(answer_parts),

@@ -123,6 +123,47 @@ class AnalyzerTests(unittest.TestCase):
         self.assertIsNone(result["similar_cases"][0]["resolution"])
         self.assertFalse(result["similar_cases"][0]["resolved"])
 
+    def test_similarity_uses_explicit_crm_fields(self):
+        source = {
+            "crm_id": "source-explicit",
+            "title": "خطای ارسال نامه",
+            "description": "ارسال نامه با خطای مشخص متوقف می‌شود.",
+            "error_message": "SMTP timeout 504",
+            "service": "مکاتبات",
+            "version": "5.2.1",
+            "environment": "عملیاتی",
+            "category": "ارتباطات",
+            "notes": [], "posts": [], "tasks": [], "knowledge_articles": [],
+        }
+        candidate = {
+            "crm_id": "candidate-explicit",
+            "ticket_number": "CAS-EXPLICIT",
+            "title": "ارسال نامه با خطای SMTP",
+            "description": "ارسال نامه متوقف و خطای ارتباطی نمایش داده می‌شود.",
+            "error_message": "SMTP timeout 504",
+            "service": "مکاتبات",
+            "version": "5.2.0",
+            "environment": "عملیاتی",
+            "category": "ارتباطات",
+            "resolution": "با تنظیم Connection رفع شد.",
+            "notes": [], "posts": [], "tasks": [], "knowledge_articles": [],
+        }
+        result = analyze_case(source, similar_cases=[candidate])["similar_cases"]
+        self.assertEqual(result[0]["case_number"], "CAS-EXPLICIT")
+        self.assertIn("Error مشابه", result[0]["reasons"])
+        self.assertIn("Version نزدیک", result[0]["reasons"])
+        self.assertIn("Connection", result[0]["resolution"])
+
+    def test_missing_evidence_does_not_claim_case_is_resolved(self):
+        result = analyze_case({
+            "crm_id": "unresolved-status",
+            "title": "عنوان کامل مورد",
+            "description": "شرح مسئله با جزئیات کافی برای بررسی ثبت شده است.",
+            "notes": [], "posts": [], "tasks": [], "knowledge_articles": [],
+        })
+        self.assertNotIn("حل شده", result["suggested_status"])
+        self.assertNotIn("حل شده", result["suggested_status"])
+
     def test_similarity_evaluation_reports_review_progress(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "review.json"
