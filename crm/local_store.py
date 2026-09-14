@@ -132,6 +132,18 @@ class LocalStore:
                 comment TEXT,
                 created_at TEXT NOT NULL
             );
+            CREATE TABLE IF NOT EXISTS simulated_crm_operations (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                operation_id TEXT NOT NULL UNIQUE,
+                case_crm_id TEXT NOT NULL,
+                record_type TEXT NOT NULL,
+                subject TEXT,
+                body TEXT NOT NULL,
+                status TEXT NOT NULL,
+                simulated_at TEXT NOT NULL,
+                simulated_by TEXT,
+                crm_write_operations INTEGER NOT NULL DEFAULT 0
+            );
             """
         )
         self.connection.commit()
@@ -365,6 +377,37 @@ class LocalStore:
             (case_crm_id, item_type, item_id, action, comment, datetime.now(timezone.utc).isoformat()),
         )
         self.connection.commit()
+
+    def add_simulated_crm_operation(
+        self, operation_id: str, case_crm_id: str, record_type: str,
+        subject: str, body: str, simulated_by: str = "کارشناس فعلی",
+    ) -> dict[str, Any]:
+        created_at = datetime.now(timezone.utc).isoformat()
+        self.connection.execute(
+            """
+            INSERT INTO simulated_crm_operations
+            (operation_id, case_crm_id, record_type, subject, body, status, simulated_at, simulated_by, crm_write_operations)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0)
+            """,
+            (operation_id, case_crm_id, record_type, subject, body, "simulated", created_at, simulated_by),
+        )
+        self.connection.commit()
+        return {
+            "operation_id": operation_id, "case_crm_id": case_crm_id,
+            "record_type": record_type, "subject": subject, "body": body,
+            "status": "simulated", "simulated_at": created_at,
+            "simulated_by": simulated_by, "crm_write_operations": 0,
+        }
+
+    def list_simulated_crm_operations(self, case_crm_id: str | None = None) -> list[dict[str, Any]]:
+        if case_crm_id:
+            rows = self.connection.execute(
+                "SELECT * FROM simulated_crm_operations WHERE case_crm_id=? ORDER BY id DESC",
+                (case_crm_id,),
+            )
+        else:
+            rows = self.connection.execute("SELECT * FROM simulated_crm_operations ORDER BY id DESC")
+        return [dict(row) for row in rows]
 
     def latest_sync(self) -> dict[str, Any] | None:
         row = self.connection.execute(

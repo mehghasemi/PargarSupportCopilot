@@ -46,8 +46,12 @@ if (-not $serverReady) {
         Write-Host "Could not replace the old local server process automatically." -ForegroundColor Yellow
     }
     Write-Host "Starting local application server..." -ForegroundColor Cyan
-    Start-Process python -ArgumentList "scripts\local_app.py --port $Port" -WorkingDirectory $projectRoot -WindowStyle Hidden
-    for ($attempt = 1; $attempt -le 20; $attempt++) {
+    $pythonCommand = Get-Command python -ErrorAction Stop
+    Start-Process -FilePath $pythonCommand.Source `
+        -ArgumentList @("scripts\local_app.py", "--port", "$Port") `
+        -WorkingDirectory $projectRoot `
+        -WindowStyle Hidden
+    for ($attempt = 1; $attempt -le 80; $attempt++) {
         Start-Sleep -Milliseconds 500
         try {
             $probe = Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec 2 -ErrorAction Stop

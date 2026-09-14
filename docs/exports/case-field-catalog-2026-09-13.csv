@@ -1,0 +1,358 @@
+﻿ردیف,نام فارسی,برچسب موجود در CRM,نام انگلیسی / LogicalName,نوع فیلد انگلیسی,نوع فیلد فارسی,قابل خواندن,وضعیت نام فارسی
+1,برچسب فارسی در CRM ثبت نشده,Case Service Old,brd_caseserviceold,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+2,برچسب فارسی در CRM ثبت نشده,Record Created On,overriddencreatedon,DateTime,تاریخ و زمان,بله,نیازمند تعیین برچسب توسط مالک CRM
+3,برچسب فارسی در CRM ثبت نشده,ثبت نشده,createdbyname,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+4,برچسب فارسی در CRM ثبت نشده,ثبت نشده,firstresponsebykpiidname,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+5,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_accountyominame,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+6,برچسب فارسی در CRM ثبت نشده,ثبت نشده,resolvebyslastatusname,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+7,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_phasename,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+8,برچسب فارسی در CRM ثبت نشده,ثبت نشده,checkemailname,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+9,برچسب فارسی در CRM ثبت نشده,ثبت نشده,productidname,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+10,برچسب فارسی در CRM ثبت نشده,BacklogID,brd_backlogid,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+11,مهلت حل,Resolve By,resolveby,DateTime,تاریخ و زمان,بله,ترجمه کنترل‌شده
+12,برچسب فارسی در CRM ثبت نشده,ثبت نشده,statecodename,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+13,برچسب فارسی در CRM ثبت نشده,Different Actual Effort & Estimate Size,brd_differentactualeffortestimatesize,Decimal,عدد اعشاری,بله,نیازمند تعیین برچسب توسط مالک CRM
+14,برچسب فارسی در CRM ثبت نشده,PlannedCase Old,brd_plannedcaseold,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+15,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_casesideeffectname,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+16,برچسب فارسی در CRM ثبت نشده,Account,brd_account,Lookup,ارتباط با رکورد دیگر,بله,نیازمند تعیین برچسب توسط مالک CRM
+17,برچسب فارسی در CRM ثبت نشده,ثبت نشده,socialprofileidname,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+18,برچسب فارسی در CRM ثبت نشده,Diag,brd_diag,Picklist,انتخابی,بله,نیازمند تعیین برچسب توسط مالک CRM
+19,برچسب فارسی در CRM ثبت نشده,Billed Service Units,billedserviceunits,Integer,عدد صحیح,بله,نیازمند تعیین برچسب توسط مالک CRM
+20,برچسب فارسی در CRM ثبت نشده,Service Old,brd_serviceold,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+21,برچسب فارسی در CRM ثبت نشده,Ready For Install Date,brd_readyforinstalldate,DateTime,تاریخ و زمان,بله,نیازمند تعیین برچسب توسط مالک CRM
+22,برچسب فارسی در CRM ثبت نشده,ثبت نشده,createdonbehalfbyyominame,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+23,برچسب فارسی در CRM ثبت نشده,Internal Use Only,merged,Boolean,بله/خیر,بله,نیازمند تعیین برچسب توسط مالک CRM
+24,برچسب فارسی در CRM ثبت نشده,Pargar Module Old,brd_pargarmoduleold,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+25,برچسب فارسی در CRM ثبت نشده,Release Time,brd_releasetime,Lookup,ارتباط با رکورد دیگر,بله,نیازمند تعیین برچسب توسط مالک CRM
+26,برچسب فارسی در CRM ثبت نشده,ثبت نشده,messagetypecodename,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+27,برچسب فارسی در CRM ثبت نشده,Influence Score,influencescore,Double,عدد اعشاری دقیق,بله,نیازمند تعیین برچسب توسط مالک CRM
+28,برچسب فارسی در CRM ثبت نشده,ثبت نشده,isdecrementingname,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+29,حساب/سازمان مشتری,Account,accountid,Lookup,ارتباط با رکورد دیگر,بله,ترجمه کنترل‌شده
+30,برچسب فارسی در CRM ثبت نشده,ثبت نشده,followuptaskcreatedname,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+31,برچسب فارسی در CRM ثبت نشده,Effort For Sale,brd_effortforsale,Integer,عدد صحیح,بله,نیازمند تعیین برچسب توسط مالک CRM
+32,درخواست Patch,Request Patch,brd_requestpatch,Boolean,بله/خیر,بله,ترجمه کنترل‌شده
+33,برچسب فارسی در CRM ثبت نشده,Total Complete Service Activities Duration (Last Updated On),brd_totalcompleteserviceactivitiesduration_date,DateTime,تاریخ و زمان,بله,نیازمند تعیین برچسب توسط مالک CRM
+34,برچسب فارسی در CRM ثبت نشده,ORS Old,brd_orsold,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+35,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_businesscategory1name,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+36,برچسب فارسی در CRM ثبت نشده,ثبت نشده,masteridname,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+37,برچسب فارسی در CRM ثبت نشده,ثبت نشده,createdbyexternalpartyyominame,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+38,شناسه مورد,Case,incidentid,Uniqueidentifier,شناسه یکتا,بله,ترجمه کنترل‌شده
+39,برچسب فارسی در CRM ثبت نشده,Voc Case Count (Last Updated On),brd_voccasecount_date,DateTime,تاریخ و زمان,بله,نیازمند تعیین برچسب توسط مالک CRM
+40,برچسب فارسی در CRM ثبت نشده,Project,brd_project,Lookup,ارتباط با رکورد دیگر,بله,نیازمند تعیین برچسب توسط مالک CRM
+41,برچسب فارسی در CRM ثبت نشده,Responsible Contact Old,brd_responsiblecontactold,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+42,تماس با مشتری انجام شده,Customer Contacted,customercontacted,Boolean,بله/خیر,بله,ترجمه کنترل‌شده
+43,خدمت/محصول,ProductService,brd_productservice,Lookup,ارتباط با رکورد دیگر,بله,ترجمه کنترل‌شده
+44,برچسب فارسی در CRM ثبت نشده,First Response By KPI,firstresponsebykpiid,Lookup,ارتباط با رکورد دیگر,بله,نیازمند تعیین برچسب توسط مالک CRM
+45,برچسب فارسی در CRM ثبت نشده,Portal-Status,brd_portalstatus,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+46,برچسب فارسی در CRM ثبت نشده,Business Category 2,brd_businesscategory2,Picklist,انتخابی,بله,نیازمند تعیین برچسب توسط مالک CRM
+47,برچسب فارسی در CRM ثبت نشده,Voc Case Count,brd_voccasecount,Integer,عدد صحیح,بله,نیازمند تعیین برچسب توسط مالک CRM
+48,برچسب فارسی در CRM ثبت نشده,Business Category 1,brd_businesscategory1,Picklist,انتخابی,بله,نیازمند تعیین برچسب توسط مالک CRM
+49,برچسب فارسی در CRM ثبت نشده,Deliverable Items,brd_deliverableitems,Memo,متن بلند,بله,نیازمند تعیین برچسب توسط مالک CRM
+50,برچسب فارسی در CRM ثبت نشده,Service Activity Count 2 (State),new_serviceactivitycount2_state,Integer,عدد صحیح,بله,نیازمند تعیین برچسب توسط مالک CRM
+51,برچسب فارسی در CRM ثبت نشده,Escalated On,escalatedon,DateTime,تاریخ و زمان,بله,نیازمند تعیین برچسب توسط مالک CRM
+52,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_deliverytimename,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+53,برچسب فارسی در CRM ثبت نشده,Real Start Date (State),brd_realstartdate_state,Integer,عدد صحیح,بله,نیازمند تعیین برچسب توسط مالک CRM
+54,برچسب فارسی در CRM ثبت نشده,Exchange Rate,exchangerate,Decimal,عدد اعشاری,بله,نیازمند تعیین برچسب توسط مالک CRM
+55,برچسب فارسی در CRM ثبت نشده,Assign To ProductOwner Date,brd_assigntoproductownerdate,DateTime,تاریخ و زمان,بله,نیازمند تعیین برچسب توسط مالک CRM
+56,برچسب فارسی در CRM ثبت نشده,Entitlement,entitlementid,Lookup,ارتباط با رکورد دیگر,بله,نیازمند تعیین برچسب توسط مالک CRM
+57,برچسب فارسی در CRM ثبت نشده,Quote Product,brd_quoteproduct,Lookup,ارتباط با رکورد دیگر,بله,نیازمند تعیین برچسب توسط مالک CRM
+58,برچسب فارسی در CRM ثبت نشده,Service Activity Count 2,new_serviceactivitycount2,Integer,عدد صحیح,بله,نیازمند تعیین برچسب توسط مالک CRM
+59,برچسب فارسی در CRM ثبت نشده,ProductService Old,brd_productserviceold,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+60,تاریخ پایان برنامه‌ریزی‌شده,Planned End Date,brd_plannedenddate,DateTime,تاریخ و زمان,بله,ترجمه کنترل‌شده
+61,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_caseservicename,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+62,مشتری,Customer,customerid,Customer,مشتری/حساب/مخاطب,بله,ترجمه کنترل‌شده
+63,برچسب فارسی در CRM ثبت نشده,ثبت نشده,transactioncurrencyidname,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+64,برچسب فارسی در CRM ثبت نشده,TFS Effort,brd_tfseffort,Decimal,عدد اعشاری,بله,نیازمند تعیین برچسب توسط مالک CRM
+65,برچسب فارسی در CRM ثبت نشده,Serial Number,productserialnumber,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+66,برچسب فارسی در CRM ثبت نشده,Delivery Time,brd_deliverytime,Lookup,ارتباط با رکورد دیگر,بله,نیازمند تعیین برچسب توسط مالک CRM
+67,برچسب فارسی در CRM ثبت نشده,Real End Date (Last Updated On),brd_realenddate_date,DateTime,تاریخ و زمان,بله,نیازمند تعیین برچسب توسط مالک CRM
+68,برچسب فارسی در CRM ثبت نشده,First Response By,responseby,DateTime,تاریخ و زمان,بله,نیازمند تعیین برچسب توسط مالک CRM
+69,برچسب فارسی در CRM ثبت نشده,On Hold Time (Minutes),onholdtime,Integer,عدد صحیح,بله,نیازمند تعیین برچسب توسط مالک CRM
+70,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_developmentteamname,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+71,برچسب فارسی در CRM ثبت نشده,Opportunity Old,brd_opportunityold,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+72,برچسب فارسی در CRM ثبت نشده,Letter Number,brd_letternumber,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+73,برچسب فارسی در CRM ثبت نشده,Responsible Contact,responsiblecontactid,Lookup,ارتباط با رکورد دیگر,بله,نیازمند تعیین برچسب توسط مالک CRM
+74,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_requestpatchname,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+75,نسخه رفع‌شده,Done Version,brd_doneversion,Lookup,ارتباط با رکورد دیگر,بله,ترجمه کنترل‌شده
+76,برچسب فارسی در CRM ثبت نشده,Delivery Time Old,brd_deliverytimeold,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+77,برچسب فارسی در CRM ثبت نشده,ثبت نشده,casetypecodename,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+78,برچسب فارسی در CRM ثبت نشده,Entity Image,entityimage,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+79,برچسب فارسی در CRM ثبت نشده,TFSSprintMonth,brd_tfssprintmonth,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+80,برچسب فارسی در CRM ثبت نشده,Created On Old,brd_createdonold,DateTime,تاریخ و زمان,بله,نیازمند تعیین برچسب توسط مالک CRM
+81,برچسب فارسی در CRM ثبت نشده,Service Delivery Method,brd_servicedeliverymethod,Picklist,انتخابی,بله,نیازمند تعیین برچسب توسط مالک CRM
+82,برچسب فارسی در CRM ثبت نشده,ثبت نشده,createdbyexternalpartyname,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+83,برچسب فارسی در CRM ثبت نشده,ثبت نشده,contractidname,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+84,نوع رخداد,Incident Type,brd_incidenttype,Picklist,انتخابی,بله,ترجمه کنترل‌شده
+85,برچسب فارسی در CRM ثبت نشده,Last Assign to Change time,brd_lastassigntochangetime,DateTime,تاریخ و زمان,بله,نیازمند تعیین برچسب توسط مالک CRM
+86,عنوان مورد,Case Title,title,String,رشته‌ای,بله,ترجمه کنترل‌شده
+87,برچسب فارسی در CRM ثبت نشده,ثبت نشده,servicestagename,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+88,برچسب فارسی در CRM ثبت نشده,TFS Sprint Change Log,brd_tfssprintchangelog,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+89,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_productcategoryname,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+90,برچسب فارسی در CRM ثبت نشده,ثبت نشده,parentcaseidname,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+91,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_servicename,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+92,برچسب فارسی در CRM ثبت نشده,Current Status Reason,brd_currentstatusreason,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+93,دسته‌بندی محصول,Product Category,brd_productcategory,Picklist,انتخابی,بله,ترجمه کنترل‌شده
+94,برچسب فارسی در CRM ثبت نشده,ثبت نشده,modifiedbyyominame,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+95,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_incidenttypename,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+96,برچسب فارسی در CRM ثبت نشده,Service Activity count (State),brd_serviceactivitycount_state,Integer,عدد صحیح,بله,نیازمند تعیین برچسب توسط مالک CRM
+97,برچسب فارسی در CRM ثبت نشده,ثبت نشده,contractservicelevelcodename,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+98,نوع مورد,Case Type,casetypecode,Picklist,انتخابی,بله,ترجمه کنترل‌شده
+99,برچسب فارسی در CRM ثبت نشده,Related Case Count,brd_relatedcasecount,Integer,عدد صحیح,بله,نیازمند تعیین برچسب توسط مالک CRM
+100,برچسب فارسی در CRM ثبت نشده,Check Email,checkemail,Boolean,بله/خیر,بله,نیازمند تعیین برچسب توسط مالک CRM
+101,برچسب فارسی در CRM ثبت نشده,Traversed Path,traversedpath,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+102,برچسب فارسی در CRM ثبت نشده,Development Team,brd_developmentteam,Picklist,انتخابی,بله,نیازمند تعیین برچسب توسط مالک CRM
+103,برچسب فارسی در CRM ثبت نشده,Case Side Effect,brd_casesideeffect,Picklist,انتخابی,بله,نیازمند تعیین برچسب توسط مالک CRM
+104,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_workingonyominame,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+105,برچسب فارسی در CRM ثبت نشده,Is Milestone,brd_ismilestone,Boolean,بله/خیر,بله,نیازمند تعیین برچسب توسط مالک CRM
+106,برچسب فارسی در CRM ثبت نشده,Hours Remaining,brd_hoursremaining,Integer,عدد صحیح,بله,نیازمند تعیین برچسب توسط مالک CRM
+107,برچسب فارسی در CRM ثبت نشده,ثبت نشده,customercontactedname,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+108,دارای یادداشت انتشار,HasReleaseNote,brd_hasreleasenote,Boolean,بله/خیر,بله,ترجمه کنترل‌شده
+109,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_ordername,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+110,برچسب فارسی در CRM ثبت نشده,ثبت نشده,subjectidname,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+111,برچسب فارسی در CRM ثبت نشده,ثبت نشده,owneridyominame,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+112,برچسب فارسی در CRM ثبت نشده,Total Service Activities Duration (Last Updated On),brd_totalserviceactivitiesduration_date,DateTime,تاریخ و زمان,بله,نیازمند تعیین برچسب توسط مالک CRM
+113,برچسب فارسی در CRM ثبت نشده,Old GUID,brd_oldguid,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+114,برچسب فارسی در CRM ثبت نشده,Last SLA applied,slainvokedid,Lookup,ارتباط با رکورد دیگر,بله,نیازمند تعیین برچسب توسط مالک CRM
+115,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_customerfeedbackname,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+116,برچسب فارسی در CRM ثبت نشده,Actual Service Units,actualserviceunits,Integer,عدد صحیح,بله,نیازمند تعیین برچسب توسط مالک CRM
+117,برچسب فارسی در CRM ثبت نشده,ثبت نشده,modifiedbyname,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+118,برچسب فارسی در CRM ثبت نشده,Employee Backlog Type,brd_employeebacklogtype,Picklist,انتخابی,بله,نیازمند تعیین برچسب توسط مالک CRM
+119,برچسب فارسی در CRM ثبت نشده,ثبت نشده,accountidyominame,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+120,برچسب فارسی در CRM ثبت نشده,Contract,contractid,Lookup,ارتباط با رکورد دیگر,بله,نیازمند تعیین برچسب توسط مالک CRM
+121,برچسب فارسی در CRM ثبت نشده,ثبت نشده,entityimageid,Uniqueidentifier,شناسه یکتا,بله,نیازمند تعیین برچسب توسط مالک CRM
+122,برچسب فارسی در CRM ثبت نشده,Suggested In Product,brd_suggestedinproduct,Boolean,بله/خیر,بله,نیازمند تعیین برچسب توسط مالک CRM
+123,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_diagname,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+124,مهلت پیگیری,Follow Up By,followupby,DateTime,تاریخ و زمان,بله,ترجمه کنترل‌شده
+125,برچسب فارسی در CRM ثبت نشده,ثبت نشده,modifiedonbehalfbyname,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+126,برچسب فارسی در CRM ثبت نشده,Customer Feedback,brd_customerfeedback,Lookup,ارتباط با رکورد دیگر,بله,نیازمند تعیین برچسب توسط مالک CRM
+127,برچسب فارسی در CRM ثبت نشده,ثبت نشده,decremententitlementtermname,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+128,نام حساب/سازمان,ثبت نشده,accountidname,String,رشته‌ای,بله,ترجمه کنترل‌شده
+129,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_suggestedinproductname,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+130,برچسب فارسی در CRM ثبت نشده,Actual Duration (min) (State),brd_actualdurationmin_state,Integer,عدد صحیح,بله,نیازمند تعیین برچسب توسط مالک CRM
+131,برچسب فارسی در CRM ثبت نشده,PlanDate To DoneDate,brd_plandatetodonedate,Decimal,عدد اعشاری,بله,نیازمند تعیین برچسب توسط مالک CRM
+132,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_doneversionname,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+133,منشأ مورد,Origin,caseorigincode,Picklist,انتخابی,بله,ترجمه کنترل‌شده
+134,برچسب فارسی در CRM ثبت نشده,UTC Conversion Time Zone Code,utcconversiontimezonecode,Integer,عدد صحیح,بله,نیازمند تعیین برچسب توسط مالک CRM
+135,برچسب فارسی در CRM ثبت نشده,ثبت نشده,kbarticleidname,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+136,برچسب فارسی در CRM ثبت نشده,ثبت نشده,customeridyominame,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+137,برچسب فارسی در CRM ثبت نشده,BackLogType,brd_backlogtype,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+138,فعالیت‌ها کامل شده‌اند,Activities Complete,activitiescomplete,Boolean,بله/خیر,بله,ترجمه کنترل‌شده
+139,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_plannedcasename,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+140,برچسب فارسی در CRM ثبت نشده,ثبت نشده,statuscodename,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+141,برچسب فارسی در CRM ثبت نشده,Owner Old,brd_ownerold,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+142,تاریخ پایان واقعی,Real End Date,brd_realenddate,DateTime,تاریخ و زمان,بله,ترجمه کنترل‌شده
+143,برچسب فارسی در CRM ثبت نشده,Knowledge Base Article,kbarticleid,Lookup,ارتباط با رکورد دیگر,بله,نیازمند تعیین برچسب توسط مالک CRM
+144,سناریو,Scenario,brd_scenario,Memo,متن بلند,بله,ترجمه کنترل‌شده
+145,برچسب فارسی در CRM ثبت نشده,Subject,subjectid,Lookup,ارتباط با رکورد دیگر,بله,نیازمند تعیین برچسب توسط مالک CRM
+146,نشانی مقاله پایگاه دانش,Knowledge Base Artilcle URl,brd_knowledgebaseartilcleurl,String,رشته‌ای,بله,ترجمه کنترل‌شده
+147,تاریخ ایجاد,Created On,createdon,DateTime,تاریخ و زمان,بله,ترجمه کنترل‌شده
+148,برچسب فارسی در CRM ثبت نشده,Account Old,brd_accountold,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+149,برچسب فارسی در CRM ثبت نشده,Modified By (Delegate),modifiedonbehalfby,Lookup,ارتباط با رکورد دیگر,بله,نیازمند تعیین برچسب توسط مالک CRM
+150,برچسب فارسی در CRM ثبت نشده,ثبت نشده,blockedprofilename,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+151,برچسب فارسی در CRM ثبت نشده,ثبت نشده,activitiescompletename,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+152,برچسب فارسی در CRM ثبت نشده,Email Address,emailaddress,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+153,برچسب فارسی در CRM ثبت نشده,Route Case,routecase,Boolean,بله/خیر,بله,نیازمند تعیین برچسب توسط مالک CRM
+154,برچسب فارسی در CRM ثبت نشده,ثبت نشده,firstresponseslastatusname,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+155,برچسب فارسی در CRM ثبت نشده,Total Service Activities Duration (State),brd_totalserviceactivitiesduration_state,Integer,عدد صحیح,بله,نیازمند تعیین برچسب توسط مالک CRM
+156,برچسب فارسی در CRM ثبت نشده,Working On Old,brd_workingonold,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+157,برچسب فارسی در CRM ثبت نشده,Product,productid,Lookup,ارتباط با رکورد دیگر,بله,نیازمند تعیین برچسب توسط مالک CRM
+158,برچسب فارسی در CRM ثبت نشده,ثبت نشده,mergedname,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+159,برچسب فارسی در CRM ثبت نشده,Decrementing,isdecrementing,Boolean,بله/خیر,بله,نیازمند تعیین برچسب توسط مالک CRM
+160,برچسب فارسی در CRM ثبت نشده,ثبت نشده,owneridtype,EntityName,نام موجودیت,بله,نیازمند تعیین برچسب توسط مالک CRM
+161,برچسب فارسی در CRM ثبت نشده,Portal-StatusReason,brd_portalstatusreason,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+162,برچسب فارسی در CRM ثبت نشده,Develop Priority Number,brd_developprioritynumber,Decimal,عدد اعشاری,بله,نیازمند تعیین برچسب توسط مالک CRM
+163,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_workingonname,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+164,برچسب فارسی در CRM ثبت نشده,Satisfaction,customersatisfactioncode,Picklist,انتخابی,بله,نیازمند تعیین برچسب توسط مالک CRM
+165,مخاطب اصلی,Contact,primarycontactid,Lookup,ارتباط با رکورد دیگر,بله,ترجمه کنترل‌شده
+166,برچسب فارسی در CRM ثبت نشده,TFSLink,brd_tfslink,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+167,برچسب فارسی در CRM ثبت نشده,Assign To Technical Date,brd_assigntotechnical,DateTime,تاریخ و زمان,بله,نیازمند تعیین برچسب توسط مالک CRM
+168,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_backlogsizename,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+169,برچسب فارسی در CRM ثبت نشده,Service,brd_service,Lookup,ارتباط با رکورد دیگر,بله,نیازمند تعیین برچسب توسط مالک CRM
+170,برچسب فارسی در CRM ثبت نشده,Developer Opinion,brd_developeropinion,Memo,متن بلند,بله,نیازمند تعیین برچسب توسط مالک CRM
+171,برچسب فارسی در CRM ثبت نشده,TFS Sprint,brd_tfssprint,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+172,برچسب فارسی در CRM ثبت نشده,Plan Type,brd_plantype,Picklist,انتخابی,بله,نیازمند تعیین برچسب توسط مالک CRM
+173,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_backlogstatusreasonname,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+174,برچسب فارسی در CRM ثبت نشده,Last Status Change Duration To Now,brd_laststatuschangedurationtonow,Decimal,عدد اعشاری,بله,نیازمند تعیین برچسب توسط مالک CRM
+175,برچسب فارسی در CRM ثبت نشده,OrderItem Old,brd_orderitemold,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+176,برچسب فارسی در CRM ثبت نشده,Blocked Profile,blockedprofile,Boolean,بله/خیر,بله,نیازمند تعیین برچسب توسط مالک CRM
+177,برچسب فارسی در CRM ثبت نشده,Modified On Old,brd_modifiedonold,DateTime,تاریخ و زمان,بله,نیازمند تعیین برچسب توسط مالک CRM
+178,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_hastechnicaltaskname,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+179,پیگیری مورد,Follow Case,brd_followcase,Picklist,انتخابی,بله,ترجمه کنترل‌شده
+180,برچسب فارسی در CRM ثبت نشده,Voc Case Count (State),brd_voccasecount_state,Integer,عدد صحیح,بله,نیازمند تعیین برچسب توسط مالک CRM
+181,برچسب فارسی در CRM ثبت نشده,ثبت نشده,resolvebykpiidname,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+182,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_opportunityname,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+183,برچسب فارسی در CRM ثبت نشده,Actual Duration (min),brd_actualdurationmin,Decimal,عدد اعشاری,بله,نیازمند تعیین برچسب توسط مالک CRM
+184,برچسب فارسی در CRM ثبت نشده,Contract Line,contractdetailid,Lookup,ارتباط با رکورد دیگر,بله,نیازمند تعیین برچسب توسط مالک CRM
+185,برچسب فارسی در CRM ثبت نشده,ثبت نشده,contactidname,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+186,برچسب فارسی در CRM ثبت نشده,Process Id,processid,Uniqueidentifier,شناسه یکتا,بله,نیازمند تعیین برچسب توسط مالک CRM
+187,تاریخ شروع واقعی,Real Start Date,brd_realstartdate,DateTime,تاریخ و زمان,بله,ترجمه کنترل‌شده
+188,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_assigntoname,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+189,برچسب فارسی در CRM ثبت نشده,ثبت نشده,contactidyominame,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+190,برچسب فارسی در CRM ثبت نشده,Project Priority Number,brd_projectprioritynumber,Decimal,عدد اعشاری,بله,نیازمند تعیین برچسب توسط مالک CRM
+191,شدت,Severity,severitycode,Picklist,انتخابی,بله,ترجمه کنترل‌شده
+192,برچسب فارسی در CRM ثبت نشده,Version Delivery Date,brd_versiondeliverydate,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+193,تاریخ آخرین Note,Last Note Date,brd_lastnotedate,DateTime,تاریخ و زمان,بله,ترجمه کنترل‌شده
+194,برچسب فارسی در CRM ثبت نشده,Customer Id,rhs_customerid,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+195,ایجادکننده,Created By,createdby,Lookup,ارتباط با رکورد دیگر,بله,ترجمه کنترل‌شده
+196,برچسب فارسی در CRM ثبت نشده,Responsible,brd_responsible,Picklist,انتخابی,بله,نیازمند تعیین برچسب توسط مالک CRM
+197,برچسب فارسی در CRM ثبت نشده,Service Priority,brd_servicepriority,Decimal,عدد اعشاری,بله,نیازمند تعیین برچسب توسط مالک CRM
+198,برچسب فارسی در CRM ثبت نشده,Phase,brd_phase,Picklist,انتخابی,بله,نیازمند تعیین برچسب توسط مالک CRM
+199,برچسب فارسی در CRM ثبت نشده,ثبت نشده,slaname,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+200,برچسب فارسی در CRM ثبت نشده,Develop Reject Reason,brd_developrejectreason,Picklist,انتخابی,بله,نیازمند تعیین برچسب توسط مالک CRM
+201,برچسب فارسی در CRM ثبت نشده,Service Activity count (Last Updated On),brd_serviceactivitycount_date,DateTime,تاریخ و زمان,بله,نیازمند تعیین برچسب توسط مالک CRM
+202,برچسب فارسی در CRM ثبت نشده,ثبت نشده,entityimage_timestamp,BigInt,عدد بزرگ,بله,نیازمند تعیین برچسب توسط مالک CRM
+203,تاریخ آخرین تغییر,Modified On,modifiedon,DateTime,تاریخ و زمان,بله,ترجمه کنترل‌شده
+204,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_executionriskname,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+205,برچسب فارسی در CRM ثبت نشده,ثبت نشده,responsiblecontactidyominame,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+206,برچسب فارسی در CRM ثبت نشده,Existing Case,existingcase,Lookup,ارتباط با رکورد دیگر,بله,نیازمند تعیین برچسب توسط مالک CRM
+207,برچسب فارسی در CRM ثبت نشده,Total Service Activities Duration,brd_totalserviceactivitiesduration,Integer,عدد صحیح,بله,نیازمند تعیین برچسب توسط مالک CRM
+208,برچسب فارسی در CRM ثبت نشده,Case Stage,incidentstagecode,Picklist,انتخابی,بله,نیازمند تعیین برچسب توسط مالک CRM
+209,برچسب فارسی در CRM ثبت نشده,Modified By (External Party),modifiedbyexternalparty,Lookup,ارتباط با رکورد دیگر,بله,نیازمند تعیین برچسب توسط مالک CRM
+210,برچسب فارسی در CRM ثبت نشده,Version Number,versionnumber,BigInt,عدد بزرگ,بله,نیازمند تعیین برچسب توسط مالک CRM
+211,برچسب فارسی در CRM ثبت نشده,Planned Case,brd_plannedcase,Lookup,ارتباط با رکورد دیگر,بله,نیازمند تعیین برچسب توسط مالک CRM
+212,برچسب فارسی در CRM ثبت نشده,Created By (External Party),createdbyexternalparty,Lookup,ارتباط با رکورد دیگر,بله,نیازمند تعیین برچسب توسط مالک CRM
+213,آخرین تغییر وضعیت,Last Status Change,brd_laststatuschange,DateTime,تاریخ و زمان,بله,ترجمه کنترل‌شده
+214,دارای Task فنی,Has Technical Task,brd_hastechnicaltask,Boolean,بله/خیر,بله,ترجمه کنترل‌شده
+215,برچسب فارسی در CRM ثبت نشده,ثبت نشده,severitycodename,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+216,برچسب فارسی در CRM ثبت نشده,Related Case Count (Last Updated On),brd_relatedcasecount_date,DateTime,تاریخ و زمان,بله,نیازمند تعیین برچسب توسط مالک CRM
+217,برچسب فارسی در CRM ثبت نشده,ثبت نشده,primarycontactidyominame,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+218,برچسب فارسی در CRM ثبت نشده,Working On,brd_workingon,Lookup,ارتباط با رکورد دیگر,بله,نیازمند تعیین برچسب توسط مالک CRM
+219,برچسب فارسی در CRM ثبت نشده,Order,brd_order,Lookup,ارتباط با رکورد دیگر,بله,نیازمند تعیین برچسب توسط مالک CRM
+220,برچسب فارسی در CRM ثبت نشده,ثبت نشده,entitlementidname,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+221,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_followcasename,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+222,برچسب فارسی در CRM ثبت نشده,ثبت نشده,caseorigincodename,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+223,برچسب فارسی در CRM ثبت نشده,Project Old,brd_projectold,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+224,برچسب فارسی در CRM ثبت نشده,Sentiment Value,sentimentvalue,Double,عدد اعشاری دقیق,بله,نیازمند تعیین برچسب توسط مالک CRM
+225,برچسب فارسی در CRM ثبت نشده,Product Old,brd_productold,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+226,برچسب فارسی در CRM ثبت نشده,Estimated Size,brd_estimatedsize,Decimal,عدد اعشاری,بله,نیازمند تعیین برچسب توسط مالک CRM
+227,تاریخ سررسید,Due date,brd_duedate,DateTime,تاریخ و زمان,بله,ترجمه کنترل‌شده
+228,برچسب فارسی در CRM ثبت نشده,Portal-AssignTo,brd_portalassign,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+229,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_businesscategory2name,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+230,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_productservicename,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+231,برچسب فارسی در CRM ثبت نشده,Start Planning Date,brd_startplanningdate,DateTime,تاریخ و زمان,بله,نیازمند تعیین برچسب توسط مالک CRM
+232,یادداشت مورد,Note,brd_note,Memo,متن بلند,بله,ترجمه کنترل‌شده
+233,برچسب فارسی در CRM ثبت نشده,Customer Feedback Old,brd_customerfeedbackold,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+234,برچسب فارسی در CRM ثبت نشده,First Response SLA Status,firstresponseslastatus,Picklist,انتخابی,بله,نیازمند تعیین برچسب توسط مالک CRM
+235,برچسب فارسی در CRM ثبت نشده,ثبت نشده,customersatisfactioncodename,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+236,برچسب فارسی در CRM ثبت نشده,Version Old,brd_versionold,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+237,برچسب فارسی در CRM ثبت نشده,Order Old,brd_orderold,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+238,برچسب فارسی در CRM ثبت نشده,Currency,transactioncurrencyid,Lookup,ارتباط با رکورد دیگر,بله,نیازمند تعیین برچسب توسط مالک CRM
+239,آخرین تغییر‌دهنده,Modified By,modifiedby,Lookup,ارتباط با رکورد دیگر,بله,ترجمه کنترل‌شده
+240,برچسب فارسی در CRM ثبت نشده,Service Activity count,brd_serviceactivitycount,Decimal,عدد اعشاری,بله,نیازمند تعیین برچسب توسط مالک CRM
+241,برچسب فارسی در CRM ثبت نشده,ReleasePlan,brd_releaseplan,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+242,برچسب فارسی در CRM ثبت نشده,Plan Date,brd_plandate,DateTime,تاریخ و زمان,بله,نیازمند تعیین برچسب توسط مالک CRM
+243,شماره مورد,Case Number,ticketnumber,String,رشته‌ای,بله,ترجمه کنترل‌شده
+244,برچسب فارسی در CRM ثبت نشده,ثبت نشده,firstresponsesentname,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+245,برچسب فارسی در CRM ثبت نشده,ثبت نشده,routecasename,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+246,برچسب فارسی در CRM ثبت نشده,Owning Business Unit,owningbusinessunit,Lookup,ارتباط با رکورد دیگر,بله,نیازمند تعیین برچسب توسط مالک CRM
+247,برچسب فارسی در CRM ثبت نشده,TFSCreateDate,brd_tfscreatedate,DateTime,تاریخ و زمان,بله,نیازمند تعیین برچسب توسط مالک CRM
+248,حل‌شده از طریق Diag,Resolved By Diag,brd_resolvedbydiag,Boolean,بله/خیر,بله,ترجمه کنترل‌شده
+249,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_versionname,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+250,علت ریشه‌ای اصلی,Root Cause,brd_mainrootcause,Lookup,ارتباط با رکورد دیگر,بله,ترجمه کنترل‌شده
+251,برچسب فارسی در CRM ثبت نشده,Service Activity Count 2 (Last Updated On),new_serviceactivitycount2_date,DateTime,تاریخ و زمان,بله,نیازمند تعیین برچسب توسط مالک CRM
+252,نسخه,Version,brd_version,Lookup,ارتباط با رکورد دیگر,بله,ترجمه کنترل‌شده
+253,اولویت,Priority,prioritycode,Picklist,انتخابی,بله,ترجمه کنترل‌شده
+254,یادداشت انتشار,ReleaseNote,brd_releasenote,Memo,متن بلند,بله,ترجمه کنترل‌شده
+255,مخاطب,Contact,contactid,Lookup,ارتباط با رکورد دیگر,بله,ترجمه کنترل‌شده
+256,خدمت مورد,Case Service,brd_caseservice,Lookup,ارتباط با رکورد دیگر,بله,ترجمه کنترل‌شده
+257,برچسب فارسی در CRM ثبت نشده,ثبت نشده,modifiedbyexternalpartyname,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+258,برچسب فارسی در CRM ثبت نشده,Actual Effort,brd_actualeffort,Decimal,عدد اعشاری,بله,نیازمند تعیین برچسب توسط مالک CRM
+259,برچسب فارسی در CRM ثبت نشده,TFS Number,brd_tfsnumber,Decimal,عدد اعشاری,بله,نیازمند تعیین برچسب توسط مالک CRM
+260,برچسب فارسی در CRM ثبت نشده,Backlog Size,brd_backlogsize,Picklist,انتخابی,بله,نیازمند تعیین برچسب توسط مالک CRM
+261,برچسب فارسی در CRM ثبت نشده,sprinttimeold,brd_sprinttimeold,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+262,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_projectname,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+263,برچسب فارسی در CRM ثبت نشده,Last Review Result,brd_lastreviewresult,Memo,متن بلند,بله,نیازمند تعیین برچسب توسط مالک CRM
+264,برچسب فارسی در CRM ثبت نشده,Real End Date (State),brd_realenddate_state,Integer,عدد صحیح,بله,نیازمند تعیین برچسب توسط مالک CRM
+265,برچسب فارسی در CRM ثبت نشده,Quote,brd_quote,Lookup,ارتباط با رکورد دیگر,بله,نیازمند تعیین برچسب توسط مالک CRM
+266,برچسب فارسی در CRM ثبت نشده,ثبت نشده,primarycontactidname,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+267,تیم مالک,Owning Team,owningteam,Lookup,ارتباط با رکورد دیگر,بله,ترجمه کنترل‌شده
+268,برچسب فارسی در CRM ثبت نشده,Real Start Date (Last Updated On),brd_realstartdate_date,DateTime,تاریخ و زمان,بله,نیازمند تعیین برچسب توسط مالک CRM
+269,برچسب فارسی در CRM ثبت نشده,ثبت نشده,isescalatedname,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+270,برچسب فارسی در CRM ثبت نشده,Reopened Date,brd_reopeneddate,DateTime,تاریخ و زمان,بله,نیازمند تعیین برچسب توسط مالک CRM
+271,دلیل وضعیت,Status Reason,statuscode,Status,وضعیت,بله,ترجمه کنترل‌شده
+272,برچسب فارسی در CRM ثبت نشده,Effort Remaining,brd_effortremaining,Decimal,عدد اعشاری,بله,نیازمند تعیین برچسب توسط مالک CRM
+273,ارجاع به,Assign To,brd_assignto,Picklist,انتخابی,بله,ترجمه کنترل‌شده
+274,برچسب فارسی در CRM ثبت نشده,Create By Old,brd_createbyold,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+275,راهکار/نتیجه حل,Resolution,brd_resolution,Memo,متن بلند,بله,ترجمه کنترل‌شده
+276,برچسب فارسی در CRM ثبت نشده,Sprint Time,brd_sprinttime,Lookup,ارتباط با رکورد دیگر,بله,نیازمند تعیین برچسب توسط مالک CRM
+277,برچسب فارسی در CRM ثبت نشده,Modified By Old,brd_modifiedbyold,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+278,برچسب فارسی در CRM ثبت نشده,Decrement Entitlement Terms,decremententitlementterm,Boolean,بله/خیر,بله,نیازمند تعیین برچسب توسط مالک CRM
+279,ماژول پرگار,Pargar Module,brd_pargarmodule,Lookup,ارتباط با رکورد دیگر,بله,ترجمه کنترل‌شده
+280,برچسب فارسی در CRM ثبت نشده,ثبت نشده,prioritycodename,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+281,برچسب فارسی در CRM ثبت نشده,Total Complete Service Activities Duration,brd_totalcompleteserviceactivitiesduration,Integer,عدد صحیح,بله,نیازمند تعیین برچسب توسط مالک CRM
+282,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_releasetimename,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+283,نام مالک مورد,ثبت نشده,owneridname,String,رشته‌ای,بله,ترجمه کنترل‌شده
+284,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_ismilestonename,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+285,برچسب فارسی در CRM ثبت نشده,ثبت نشده,incidentstagecodename,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+286,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_accountname,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+287,برچسب فارسی در CRM ثبت نشده,ثبت نشده,createdonbehalfbyname,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+288,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_quoteproductname,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+289,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_resolvedbydiagname,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+290,برچسب فارسی در CRM ثبت نشده,Actual Duration (min) (Last Updated On),brd_actualdurationmin_date,DateTime,تاریخ و زمان,بله,نیازمند تعیین برچسب توسط مالک CRM
+291,برچسب فارسی در CRM ثبت نشده,Stage Id,stageid,Uniqueidentifier,شناسه یکتا,بله,نیازمند تعیین برچسب توسط مالک CRM
+292,برچسب فارسی در CRM ثبت نشده,ثبت نشده,entityimage_url,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+293,برچسب فارسی در CRM ثبت نشده,ثبت نشده,modifiedonbehalfbyyominame,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+294,برچسب فارسی در CRM ثبت نشده,TFSSprintYear,brd_tfssprintyear,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+295,مالک مورد,Owner,ownerid,Owner,مالک,بله,ترجمه کنترل‌شده
+296,برچسب فارسی در CRM ثبت نشده,First Response Sent,firstresponsesent,Boolean,بله/خیر,بله,نیازمند تعیین برچسب توسط مالک CRM
+297,برچسب فارسی در CRM ثبت نشده,Goal Version,brd_goalversion,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+298,برچسب فارسی در CRM ثبت نشده,Total Complete Service Activities Duration (State),brd_totalcompleteserviceactivitiesduration_state,Integer,عدد صحیح,بله,نیازمند تعیین برچسب توسط مالک CRM
+299,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_sprinttimename,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+300,برچسب فارسی در CRM ثبت نشده,Voice Id,rhs_voiceid,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+301,برچسب فارسی در CRM ثبت نشده,ProductOwner Date To Now,brd_productownerdatetonow,Decimal,عدد اعشاری,بله,نیازمند تعیین برچسب توسط مالک CRM
+302,برچسب فارسی در CRM ثبت نشده,Resolve By SLA Status,resolvebyslastatus,Picklist,انتخابی,بله,نیازمند تعیین برچسب توسط مالک CRM
+303,برچسب فارسی در CRM ثبت نشده,Last On Hold Time,lastonholdtime,DateTime,تاریخ و زمان,بله,نیازمند تعیین برچسب توسط مالک CRM
+304,برچسب فارسی در CRM ثبت نشده,SLA Old,brd_slaold,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+305,برچسب فارسی در CRM ثبت نشده,Child Cases,numberofchildincidents,Integer,عدد صحیح,بله,نیازمند تعیین برچسب توسط مالک CRM
+306,برچسب فارسی در CRM ثبت نشده,Parent Case,parentcaseid,Lookup,ارتباط با رکورد دیگر,بله,نیازمند تعیین برچسب توسط مالک CRM
+307,نام مشتری,ثبت نشده,customeridname,String,رشته‌ای,بله,ترجمه کنترل‌شده
+308,برچسب فارسی در CRM ثبت نشده,ResolveDuration,brd_resolveduration,Decimal,عدد اعشاری,بله,نیازمند تعیین برچسب توسط مالک CRM
+309,برچسب فارسی در CRM ثبت نشده,Social Profile,socialprofileid,Lookup,ارتباط با رکورد دیگر,بله,نیازمند تعیین برچسب توسط مالک CRM
+310,شرح مسئله,Description,description,Memo,متن بلند,بله,ترجمه کنترل‌شده
+311,برچسب فارسی در CRM ثبت نشده,Master Case,masterid,Lookup,ارتباط با رکورد دیگر,بله,نیازمند تعیین برچسب توسط مالک CRM
+312,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_developrejectreasonname,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+313,برچسب فارسی در CRM ثبت نشده,Service Stage,servicestage,Picklist,انتخابی,بله,نیازمند تعیین برچسب توسط مالک CRM
+314,برچسب فارسی در CRM ثبت نشده,Execution Risk,brd_executionrisk,Picklist,انتخابی,بله,نیازمند تعیین برچسب توسط مالک CRM
+315,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_plantypename,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+316,برچسب فارسی در CRM ثبت نشده,Received As,messagetypecode,Picklist,انتخابی,بله,نیازمند تعیین برچسب توسط مالک CRM
+317,برچسب فارسی در CRM ثبت نشده,Created By (Delegate),createdonbehalfby,Lookup,ارتباط با رکورد دیگر,بله,نیازمند تعیین برچسب توسط مالک CRM
+318,برچسب فارسی در CRM ثبت نشده,Import Sequence Number,importsequencenumber,Integer,عدد صحیح,بله,نیازمند تعیین برچسب توسط مالک CRM
+319,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_hasreleasenotename,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+320,برچسب فارسی در CRM ثبت نشده,Related Case Count (State),brd_relatedcasecount_state,Integer,عدد صحیح,بله,نیازمند تعیین برچسب توسط مالک CRM
+321,برچسب فارسی در CRM ثبت نشده,SLA,slaid,Lookup,ارتباط با رکورد دیگر,بله,نیازمند تعیین برچسب توسط مالک CRM
+322,برچسب فارسی در CRM ثبت نشده,Opportunity,brd_opportunity,Lookup,ارتباط با رکورد دیگر,بله,نیازمند تعیین برچسب توسط مالک CRM
+323,برچسب فارسی در CRM ثبت نشده,Number,brd_number,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+324,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_mainrootcausename,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+325,برچسب فارسی در CRM ثبت نشده,Time Zone Rule Version Number,timezoneruleversionnumber,Integer,عدد صحیح,بله,نیازمند تعیین برچسب توسط مالک CRM
+326,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_employeebacklogtypename,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+327,برچسب فارسی در CRM ثبت نشده,CompletedWork,brd_completedwork,Decimal,عدد اعشاری,بله,نیازمند تعیین برچسب توسط مالک CRM
+328,برچسب فارسی در CRM ثبت نشده,TFS State,brd_tfsstate,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+329,برچسب فارسی در CRM ثبت نشده,Backlog Reason,brd_backlogreason,Picklist,انتخابی,بله,نیازمند تعیین برچسب توسط مالک CRM
+330,برچسب فارسی در CRM ثبت نشده,Service Level,contractservicelevelcode,Picklist,انتخابی,بله,نیازمند تعیین برچسب توسط مالک CRM
+331,برچسب فارسی در CRM ثبت نشده,BacklogDate,brd_backlogdate,DateTime,تاریخ و زمان,بله,نیازمند تعیین برچسب توسط مالک CRM
+332,برچسب فارسی در CRM ثبت نشده,ثبت نشده,responsiblecontactidname,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+333,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_pargarmodulename,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+334,تاریخ پایان,Done Date,brd_donedate,DateTime,تاریخ و زمان,بله,ترجمه کنترل‌شده
+335,برچسب فارسی در CRM ثبت نشده,Customer Old,brd_customerold,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+336,برچسب فارسی در CRM ثبت نشده,Customer Type,customeridtype,EntityName,نام موجودیت,بله,نیازمند تعیین برچسب توسط مالک CRM
+337,برچسب فارسی در CRM ثبت نشده,Assign To ProductOwner Number,brd_assigntoproductownernumber,Decimal,عدد اعشاری,بله,نیازمند تعیین برچسب توسط مالک CRM
+338,علت ریشه‌ای,Root Cause,brd_rootcause,String,رشته‌ای,بله,ترجمه کنترل‌شده
+339,برچسب فارسی در CRM ثبت نشده,ثبت نشده,createdbyyominame,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+340,برچسب فارسی در CRM ثبت نشده,Resolve By KPI,resolvebykpiid,Lookup,ارتباط با رکورد دیگر,بله,نیازمند تعیین برچسب توسط مالک CRM
+341,برچسب فارسی در CRM ثبت نشده,Assign To Database Date,brd_assigntodatabasedate,DateTime,تاریخ و زمان,بله,نیازمند تعیین برچسب توسط مالک CRM
+342,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_backlogreasonname,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+343,برچسب فارسی در CRM ثبت نشده,ثبت نشده,modifiedbyexternalpartyyominame,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+344,برچسب فارسی در CRM ثبت نشده,ثبت نشده,slainvokedidname,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+345,برچسب فارسی در CRM ثبت نشده,Release Time Old,brd_releasetimeold,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+346,تاریخ شروع برنامه‌ریزی‌شده,Planned Start Date,brd_plannedstartdate,DateTime,تاریخ و زمان,بله,ترجمه کنترل‌شده
+347,برچسب فارسی در CRM ثبت نشده,Backlog Status Reason,brd_backlogstatusreason,Picklist,انتخابی,بله,نیازمند تعیین برچسب توسط مالک CRM
+348,برچسب فارسی در CRM ثبت نشده,ثبت نشده,contractdetailidname,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+349,وضعیت کلی,Status,statecode,State,وضعیت سیستمی,بله,ترجمه کنترل‌شده
+350,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_quotename,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+351,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_responsiblename,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+352,برچسب فارسی در CRM ثبت نشده,ثبت نشده,brd_servicedeliverymethodname,Virtual,محاسباتی/نمایشی,بله,نیازمند تعیین برچسب توسط مالک CRM
+353,ارجاع‌شده,Is Escalated,isescalated,Boolean,بله/خیر,بله,ترجمه کنترل‌شده
+354,برچسب فارسی در CRM ثبت نشده,Creation Date To Now,brd_creationdatetonow,Decimal,عدد اعشاری,بله,نیازمند تعیین برچسب توسط مالک CRM
+355,کاربر مالک,Owning User,owninguser,Lookup,ارتباط با رکورد دیگر,بله,ترجمه کنترل‌شده
+356,برچسب فارسی در CRM ثبت نشده,Last SLA applied Old,brd_lastslaappliedold,String,رشته‌ای,بله,نیازمند تعیین برچسب توسط مالک CRM
+357,برچسب فارسی در CRM ثبت نشده,Follow up Task Created,followuptaskcreated,Boolean,بله/خیر,بله,نیازمند تعیین برچسب توسط مالک CRM

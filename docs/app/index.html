@@ -49,6 +49,18 @@
       white-space: nowrap;
       font-size: .8rem;
     }
+    .temporary-change-badge {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid #f59e0b;
+      border-radius: 999px;
+      padding: 5px 11px;
+      background: #fff7ed;
+      color: #9a3412;
+      font-size: .74rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
     main { max-width: 1440px; margin: 28px auto; padding: 0 20px; }
     .notice {
       background: #fffbeb;
@@ -146,6 +158,15 @@
     .copilot-context-label { font-size:.72rem; font-weight:800; white-space:nowrap; }
     .copilot-context strong { font-size:.86rem; color:#14532d; overflow-wrap:anywhere; }
     .copilot-context small { color:#166534; direction:ltr; margin-right:auto; }
+    .intelligence-summary{display:grid;grid-template-columns:minmax(0,1.6fr) repeat(2,minmax(150px,.7fr));gap:10px;margin:0 0 18px}
+    .intelligence-summary-card{border:1px solid #bfdbfe;border-radius:12px;background:linear-gradient(135deg,#eff6ff,#fff);padding:12px 14px;min-height:84px}
+    .intelligence-summary-card h4{margin:0 0 4px;color:#1e3a8a;font-size:.8rem}.intelligence-summary-card p{margin:0;color:#334155;font-size:.78rem;line-height:1.8}.intelligence-summary-card strong{display:block;color:#2563eb;font-size:1.5rem;line-height:1.2}.intelligence-summary-card small{color:var(--muted);font-size:.7rem}
+    .quality-meter{height:8px;border-radius:999px;background:#e2e8f0;overflow:hidden;margin:7px 0 4px}.quality-meter span{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#f59e0b,#22c55e);width:0;transition:width .2s ease}
+    .next-action-card{border:2px solid #2563eb;background:linear-gradient(135deg,#eff6ff,#fff);padding:15px;border-radius:14px;margin:0 0 18px}.next-action-card h4{margin:0;color:#1e3a8a;font-size:.95rem}.next-action-main{font-size:1rem;font-weight:800;color:#172554;margin:7px 0}.next-action-meta{color:#475569;font-size:.76rem;margin:4px 0}.next-action-result{display:grid;grid-template-columns:1fr auto;gap:7px;margin-top:10px}.next-action-result input{border:1px solid #93c5fd;border-radius:8px;padding:8px;background:#fff;font:inherit;font-size:.78rem}.next-action-list{display:grid;gap:8px}.next-action-item{border:1px solid var(--line);border-radius:10px;padding:10px;background:#fff}.next-action-item strong{display:block;color:#1e3a8a}.next-action-item p{margin:3px 0;color:#64748b;font-size:.75rem}
+    .similar-cases-card{border:2px solid #7c3aed;background:linear-gradient(135deg,#faf5ff,#fff);padding:15px;border-radius:14px;margin:0 0 18px}.similar-cases-card h4{margin:0;color:#5b21b6;font-size:.95rem}.similar-filters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:12px 0}.similar-filters input{min-width:0;border:1px solid #c4b5fd;border-radius:8px;padding:8px;background:#fff;font:inherit;font-size:.76rem}.similar-filter-check{display:flex;align-items:center;gap:5px;color:#5b21b6;font-size:.75rem;padding:6px 2px}.similar-list{display:grid;gap:9px}.similar-case-item{border:1px solid #ddd6fe;border-right:5px solid #8b5cf6;border-radius:11px;padding:11px 12px;background:#fff}.similar-case-item.resolved{border-color:#86efac;border-right-color:#16a34a;background:linear-gradient(135deg,#f0fdf4,#fff)}.similar-case-head{display:flex;justify-content:space-between;gap:10px;align-items:start}.similar-case-head strong{color:#3730a3}.similar-case-score{white-space:nowrap;color:#6d28d9;font-weight:800;font-size:.82rem}.similar-case-meta{color:#64748b;font-size:.72rem;margin-top:3px}.similar-case-summary,.similar-case-resolution,.similar-case-reason{margin-top:7px;color:#334155;font-size:.76rem;line-height:1.8}.similar-case-resolution{padding:7px 9px;border-radius:8px;background:#ecfdf5;color:#166534}.similar-case-reason{color:#5b21b6}.similar-empty{padding:12px;border:1px dashed #c4b5fd;border-radius:10px;color:#64748b;font-size:.76rem;text-align:center}.similar-recommendation{margin:10px 0;padding:10px 12px;border-radius:10px;background:#fef3c7;border-right:4px solid #f59e0b;color:#92400e;font-size:.78rem;line-height:1.8}
+    .intelligence-detail{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0 0 18px}.intelligence-detail section{border:1px solid var(--line);border-radius:11px;padding:11px 13px;background:#fff}.intelligence-detail h4{margin:0 0 6px;font-size:.8rem;color:#1e3a8a}.intelligence-detail ul{margin:0;padding-right:18px;color:#475569;font-size:.75rem}.intelligence-detail li{margin:3px 0}.intelligence-empty{color:var(--muted);font-size:.75rem}
+    .similar-case-actions{display:flex;justify-content:flex-start;margin-top:8px}.similar-case-detail-btn{border:1px solid #8b5cf6;border-radius:8px;background:#fff;color:#6d28d9;padding:6px 10px;font:inherit;font-size:.72rem;cursor:pointer}.similar-case-detail-btn:hover{background:#f5f3ff}.case-detail-modal{position:fixed;inset:0;background:rgba(15,23,42,.42);display:none;align-items:center;justify-content:center;padding:24px;z-index:50}.case-detail-modal.open{display:flex}.case-detail-dialog{width:min(900px,96vw);max-height:90vh;overflow:auto;background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(15,23,42,.3);padding:20px}.case-detail-head{display:flex;justify-content:space-between;align-items:start;gap:12px;border-bottom:1px solid #e2e8f0;padding-bottom:12px}.case-detail-head h3{color:#1e3a8a}.case-detail-close{border:0;background:#eff6ff;color:#1d4ed8;border-radius:8px;padding:7px 11px;cursor:pointer;font:inherit}.case-detail-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:14px 0}.case-detail-field{border:1px solid #dbeafe;border-radius:9px;padding:9px}.case-detail-field.full{grid-column:1/-1}.case-detail-field small{display:block;color:#64748b}.case-detail-field div{margin-top:3px;color:#1e293b;white-space:pre-line;line-height:1.8}.case-detail-timeline{border-top:1px solid #e2e8f0;padding-top:12px}.case-detail-timeline h4{color:#1e3a8a}.case-detail-activity{border-right:3px solid #8b5cf6;padding:7px 10px;margin:7px 0;background:#faf5ff;border-radius:7px;color:#334155;font-size:.76rem;line-height:1.8}.case-detail-activity strong{color:#5b21b6}
+    .simulated-crm-card{border:2px solid #0ea5e9;background:linear-gradient(135deg,#ecfeff,#fff);padding:15px;border-radius:14px;margin:0 0 18px}.simulated-crm-card h4{margin:0;color:#0c4a6e;font-size:.95rem}.simulated-crm-grid{display:grid;grid-template-columns:180px 1fr;gap:8px;margin-top:10px}.simulated-crm-grid select,.simulated-crm-grid input,.simulated-crm-grid textarea{width:100%;border:1px solid #7dd3fc;border-radius:8px;padding:8px;background:#fff;font:inherit;font-size:.76rem}.simulated-crm-grid textarea{min-height:120px;resize:vertical;grid-column:1/-1}.simulated-crm-actions{display:flex;align-items:center;gap:8px;margin-top:9px;flex-wrap:wrap}.simulated-crm-status{color:#0369a1;font-size:.75rem}.simulated-crm-result{margin-top:10px;padding:9px 11px;border-radius:9px;background:#cffafe;color:#164e63;font-size:.76rem;line-height:1.8;display:none}.simulated-crm-result.show{display:block}
     .card {
       background: var(--surface);
       border: 1px solid var(--line);
@@ -331,6 +352,7 @@
     .case-search{margin-top:12px;padding:14px;border:1px solid #bfdbfe;border-radius:14px;background:linear-gradient(120deg,#eff6ff,#f8fbff)}
     .case-search label{display:block;color:#1e3a8a;font-size:.78rem;font-weight:700;margin-bottom:5px}
     .case-search-row{display:flex;gap:7px}.case-search input{flex:1;min-width:0;border:1px solid #93c5fd;border-radius:8px;padding:9px 11px;background:#fff;color:var(--ink);font:inherit;font-size:.8rem}.case-search input:focus{outline:3px solid #bfdbfe;outline-offset:1px}.case-search .btn{white-space:nowrap}.case-search .muted{margin-top:6px;font-size:.72rem}.case-results{display:grid;gap:8px;margin-top:12px;max-height:390px;overflow:auto;padding:2px}.case-result{width:100%;text-align:right;border:1px solid #dbe5f2;border-radius:12px;padding:10px 12px;background:#fff;color:var(--ink);cursor:pointer;transition:.18s}.case-result:hover{border-color:#60a5fa;background:#f8fbff;transform:translateY(-1px);box-shadow:0 5px 14px rgba(37,99,235,.12)}.case-result.selected{border:2px solid #2563eb;background:linear-gradient(120deg,#eff6ff,#fff);box-shadow:0 5px 15px rgba(37,99,235,.14)}.case-result-head{display:flex;justify-content:space-between;gap:10px;align-items:center}.case-result-ticket{color:#1d4ed8;font-size:.75rem;font-weight:800;direction:ltr}.case-result-title{font-size:.82rem;font-weight:700}.case-result-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:5px}.case-result-meta span{padding:2px 7px;border-radius:999px;background:#f1f5f9;color:#475569;font-size:.68rem}.case-results-empty{padding:22px;text-align:center;border:1px dashed #93c5fd;border-radius:11px;color:#64748b;background:#f8fbff;font-size:.8rem}
+      .temporary-change-badge{display:inline-flex;align-items:center;gap:6px;border:1px solid #f59e0b;border-radius:999px;padding:5px 11px;background:#fff7ed;color:#9a3412;font-size:.74rem;font-weight:800;white-space:nowrap}
   </style>
 </head>
 <body>
@@ -513,14 +535,58 @@
             <small id="copilotCaseId">—</small>
           </div>
 
+          <div class="intelligence-summary" aria-label="خلاصه هوشمند مورد">
+            <section class="intelligence-summary-card"><h4>خلاصه مشکل <span class="temporary-change-badge">تغییر موقت</span></h4><p id="intelligenceSummary">پس از انتخاب مورد، خلاصه مستند آن نمایش داده می‌شود.</p></section>
+            <section class="intelligence-summary-card"><h4>وضعیت فعلی <span class="temporary-change-badge">تغییر موقت</span></h4><p id="intelligenceStatus">—</p></section>
+            <section class="intelligence-summary-card"><h4>امتیاز کیفیت مورد <span class="temporary-change-badge">تغییر موقت</span></h4><strong id="qualityScore">—</strong><div class="quality-meter"><span id="qualityMeterFill"></span></div><small id="qualityExplanation">از ۱۰۰؛ بر اساس محتوا و شواهد</small></section>
+          </div>
+          <div class="intelligence-detail">
+            <section><h4>شواهد مهم <span class="temporary-change-badge">تغییر موقت</span></h4><ul id="evidenceList"><li class="intelligence-empty">پس از انتخاب مورد نمایش داده می‌شود.</li></ul></section>
+            <section><h4>موارد نامشخص <span class="temporary-change-badge">تغییر موقت</span></h4><ul id="unknownList"><li class="intelligence-empty">پس از انتخاب مورد نمایش داده می‌شود.</li></ul></section>
+            <section><h4>طبقه‌بندی پیشنهادی <span class="temporary-change-badge">تغییر موقت</span></h4><p id="classificationText" class="intelligence-empty">—</p></section>
+            <section><h4>اقدام بعدی پیشنهادی <span class="temporary-change-badge">تغییر موقت</span></h4><ul id="nextActionsList"><li class="intelligence-empty">—</li></ul></section>
+            <section><h4>هوشمندی Timeline <span class="temporary-change-badge">تغییر موقت</span></h4><p id="timelineIntelligence" class="intelligence-empty">—</p></section>
+          </div>
+
+          <section class="next-action-card" id="nextBestActionCard" aria-labelledby="nextActionHeading">
+            <h4 id="nextActionHeading">🎯 پیشنهاد اقدام بعدی <span class="temporary-change-badge">تغییر موقت</span></h4>
+            <div id="nextActionMain" class="next-action-main">پس از تحلیل مورد نمایش داده می‌شود.</div>
+            <div id="nextActionWhy" class="next-action-meta">چرا؟ —</div>
+            <div id="nextActionEvidence" class="next-action-meta">شواهد: —</div>
+            <div id="nextActionExpected" class="next-action-meta">نتیجه مورد انتظار: —</div>
+            <div class="next-action-result"><input id="nextActionResultInput" type="text" placeholder="نتیجه اقدام را وارد کنید"><button id="saveNextActionBtn" class="btn primary" type="button">ثبت نتیجه محلی</button></div>
+            <div id="nextActionStatus" class="muted" aria-live="polite"></div>
+            <div class="section-title"><h4>سایر اقدامات پیشنهادی</h4><span id="nextActionCount" class="count">۰</span></div>
+            <div id="nextActionList" class="next-action-list"></div>
+          </section>
+
+          <section class="similar-cases-card" id="similarCasesPanel" aria-labelledby="similarCasesHeading">
+            <div class="section-title" style="margin-top:0">
+              <h4 id="similarCasesHeading">موارد مشابه <span class="temporary-change-badge">تغییر موقت</span></h4>
+              <span id="similarCaseCount" class="count">۰</span>
+            </div>
+            <div id="similarResolutionRecommendation" class="similar-recommendation" style="display:none" role="status"></div>
+            <div class="similar-filters" aria-label="فیلتر موارد مشابه">
+              <input id="similarModuleFilter" type="search" placeholder="فیلتر Module">
+              <input id="similarVersionFilter" type="search" placeholder="فیلتر Version">
+              <input id="similarStatusFilter" type="search" placeholder="فیلتر وضعیت">
+              <label class="similar-filter-check"><input id="similarResolvedOnly" type="checkbox"> فقط حل‌شده</label>
+              <label class="similar-filter-check"><input id="similarHasResolution" type="checkbox"> دارای Resolution</label>
+              <input id="similarDateFrom" type="date" aria-label="از تاریخ">
+              <input id="similarDateTo" type="date" aria-label="تا تاریخ">
+            </div>
+            <div id="similarCasesList" class="similar-list" aria-live="polite"></div>
+            <button id="showAllSimilarBtn" class="btn secondary" type="button" style="margin-top:10px;display:none">مشاهده همه موارد مشابه</button>
+          </section>
+
           <div class="section-title" style="margin-top:0">
-            <h3>۳. پیشنهادهای اصلاحی</h3>
+            <h3>۳. پیشنهادهای اصلاحی <span class="temporary-change-badge">تغییر موقت</span></h3>
             <span id="questionCount" class="count">۰</span>
           </div>
           <div id="followupSuggestions"></div>
 
           <div class="section-title">
-            <h3>۴. مقالات مرتبط از KB</h3>
+            <h3>۴. مقالات مرتبط از KB <span class="temporary-change-badge">تغییر موقت</span></h3>
             <span id="kbCount" class="count">۰</span>
           </div>
           <div id="kbSuggestions"></div>
@@ -545,6 +611,24 @@
           <div class="alert" style="border-right-color:#2563eb;background:#eff6ff;color:#1e40af;margin-top:14px">
             Copilot تصمیم نهایی نمی‌گیرد. هر پیشنهاد باید توسط کارشناس بررسی، ویرایش یا رد شود.
           </div>
+        </article>
+
+        <article class="card" id="intelligenceActions">
+          <div class="section-title" style="margin-top:0"><h3>اقدام‌های خروجی <span class="temporary-change-badge">تغییر موقت</span></h3><span class="status">بدون ثبت در CRM</span></div>
+          <p class="muted">این دکمه‌ها فقط خروجی تحلیل را در کلیپ‌بورد کپی می‌کنند و هیچ داده‌ای در CRM نمی‌نویسند.</p>
+          <div class="actions"><button class="btn primary" id="reanalyzeBtn" type="button">🔄 تحلیل مجدد</button><button class="btn" id="copySummaryBtn" type="button">📋 کپی خلاصه</button><button class="btn" id="copyMissingBtn" type="button">📋 کپی اطلاعات موردنیاز</button><button class="btn" id="copyL2Btn" type="button">📋 کپی گزارش برای L2</button></div>
+        </article>
+
+        <article class="simulated-crm-card" id="simulatedCrmCard">
+          <h4>ثبت آزمایشی در CRM <span class="temporary-change-badge">تغییر موقت</span></h4>
+          <p class="muted">این فرم رفتار ثبت در CRM را شبیه‌سازی می‌کند. نتیجه فقط در Snapshot محلی ذخیره می‌شود و هیچ رکوردی در CRM ایجاد یا تغییر نمی‌کند.</p>
+          <div class="simulated-crm-grid">
+            <select id="simulatedRecordType" aria-label="نوع رکورد"><option value="note">Note ارتباطی</option><option value="post">Post داخلی</option><option value="task">Task داخلی L2</option><option value="l2-report">گزارش ارجاع L2</option></select>
+            <input id="simulatedSubject" type="text" placeholder="عنوان رکورد (اختیاری)">
+            <textarea id="simulatedBody" placeholder="متن تأییدشده را وارد یا از پیش‌نویس کپی کنید."></textarea>
+          </div>
+          <div class="simulated-crm-actions"><button id="simulateCrmBtn" class="btn primary" type="button">تأیید و شبیه‌سازی ثبت در CRM</button><span id="simulatedCrmStatus" class="simulated-crm-status">ابتدا یک مورد انتخاب کنید.</span></div>
+          <div id="simulatedCrmResult" class="simulated-crm-result" role="status"></div>
         </article>
 
         <article class="card">
@@ -611,6 +695,15 @@
     const activityDrawer = document.getElementById('activityDrawer');
     const activityDrawerToggle = document.getElementById('activityDrawerToggle');
     let currentCaseId = null;
+    let latestAnalysis = null;
+    let latestSimilarCases = [];
+    let showAllSimilar = false;
+
+    async function copyOutput(text, message) {
+      if (!text || !text.trim()) { showToast('ابتدا یک مورد را انتخاب و تحلیل کنید.'); return; }
+      try { await navigator.clipboard.writeText(text); showToast(message); }
+      catch (_) { showToast('کپی خودکار انجام نشد؛ دسترسی کلیپ‌بورد مرورگر را بررسی کنید.'); }
+    }
 
     caseInfoToggle?.addEventListener('click', () => {
       const open = !caseInfoAccordion.classList.contains('open');
@@ -750,6 +843,100 @@
       });
     }
 
+    function renderSimilarCases(items) {
+      latestSimilarCases = Array.isArray(items) ? items : [];
+      const moduleFilter = document.getElementById('similarModuleFilter').value.trim().toLowerCase();
+      const versionFilter = document.getElementById('similarVersionFilter').value.trim().toLowerCase();
+      const statusFilter = document.getElementById('similarStatusFilter').value.trim().toLowerCase();
+      const resolvedOnly = document.getElementById('similarResolvedOnly').checked;
+      const hasResolution = document.getElementById('similarHasResolution').checked;
+      const from = document.getElementById('similarDateFrom').value;
+      const to = document.getElementById('similarDateTo').value;
+      const filtered = latestSimilarCases.filter(item => {
+        const date = String(item.date || '').slice(0, 10);
+        return (!moduleFilter || String(item.module || '').toLowerCase().includes(moduleFilter))
+          && (!versionFilter || String(item.version || '').toLowerCase().includes(versionFilter))
+          && (!statusFilter || String(item.final_status || item.status || '').toLowerCase().includes(statusFilter))
+          && (!resolvedOnly || item.resolved)
+          && (!hasResolution || Boolean(item.resolution))
+          && (!from || date >= from)
+          && (!to || date <= to);
+      });
+      const visible = showAllSimilar ? filtered : filtered.slice(0, 5);
+      document.getElementById('similarCaseCount').textContent = toFaNumber(filtered.length);
+      const list = document.getElementById('similarCasesList');
+      list.replaceChildren();
+      if (!visible.length) {
+        const empty = document.createElement('div');
+        empty.className = 'similar-empty';
+        empty.textContent = latestSimilarCases.length ? 'مورد مشابهی با فیلترهای فعلی پیدا نشد.' : 'مورد مشابه مستند در داده‌های موجود پیدا نشد.';
+        list.appendChild(empty);
+      }
+      visible.forEach(item => {
+        const card = document.createElement('article');
+        card.className = `similar-case-item${item.resolved ? ' resolved' : ''}`;
+        const head = document.createElement('div'); head.className = 'similar-case-head';
+        const title = document.createElement('strong'); title.textContent = `${item.case_number || item.case_id} — ${item.title || 'بدون عنوان'}`;
+        const score = document.createElement('span'); score.className = 'similar-case-score'; score.textContent = `Similarity: ${toFaNumber(item.similarity_score)}٪`;
+        head.append(title, score); card.appendChild(head);
+        const meta = document.createElement('div'); meta.className = 'similar-case-meta'; meta.textContent = `وضعیت نهایی: ${item.final_status || item.status || 'ثبت نشده'} | Module: ${item.module || 'ثبت نشده'} | Version: ${item.version || 'ثبت نشده'} | تاریخ: ${formatTimelineDate(item.date)}`; card.appendChild(meta);
+        const summary = document.createElement('div'); summary.className = 'similar-case-summary'; summary.textContent = `خلاصه مشکل: ${item.summary || 'ثبت نشده'}`; card.appendChild(summary);
+        if (item.resolution) { const resolution = document.createElement('div'); resolution.className = 'similar-case-resolution'; resolution.textContent = `Resolution موفق ثبت‌شده: ${item.resolution}`; card.appendChild(resolution); }
+        const reason = document.createElement('div'); reason.className = 'similar-case-reason'; reason.textContent = `دلیل مشابه بودن: ${item.reason || (item.reasons || []).join('، ') || 'تطابق محتوایی کافی ثبت نشده است.'}`; card.appendChild(reason);
+        const actions = document.createElement('div'); actions.className = 'similar-case-actions';
+        const detailButton = document.createElement('button'); detailButton.type = 'button'; detailButton.className = 'similar-case-detail-btn'; detailButton.textContent = 'مشاهده جزئیات مورد';
+        detailButton.addEventListener('click', () => openSimilarCaseDetail(item.case_id)); actions.appendChild(detailButton); card.appendChild(actions);
+        list.appendChild(card);
+      });
+      const resolved = filtered.filter(item => item.resolved && item.resolution);
+      const recommendation = document.getElementById('similarResolutionRecommendation');
+      if (resolved.length) {
+        recommendation.style.display = 'block';
+        const methods = [...new Set(resolved.slice(0, 3).map(item => item.resolution))].join(' | ');
+        recommendation.textContent = `💡 در ${toFaNumber(resolved.length)} مورد مشابه Resolution ثبت‌شده وجود دارد. این موارد فقط برای مقایسه و تصمیم کارشناس پیشنهاد می‌شوند: ${methods}`;
+      } else { recommendation.style.display = 'none'; recommendation.textContent = ''; }
+      const button = document.getElementById('showAllSimilarBtn');
+      button.style.display = filtered.length > 5 ? 'inline-flex' : 'none';
+      button.textContent = showAllSimilar ? 'نمایش ۵ مورد برتر' : 'مشاهده همه موارد مشابه';
+    }
+
+    function appendDetailField(container, label, value, full = false) {
+      const field = document.createElement('div'); field.className = `case-detail-field${full ? ' full' : ''}`;
+      const small = document.createElement('small'); small.textContent = label;
+      const valueBox = document.createElement('div'); valueBox.textContent = value || 'در CRM ثبت نشده است';
+      field.append(small, valueBox); container.appendChild(field);
+    }
+
+    async function openSimilarCaseDetail(caseId) {
+      if (!caseId) return;
+      const modal = document.getElementById('similarCaseDetailModal');
+      const title = document.getElementById('similarDetailTitle');
+      const fields = document.getElementById('similarDetailFields');
+      const timeline = document.getElementById('similarDetailTimeline');
+      title.textContent = 'در حال دریافت جزئیات مورد...'; fields.replaceChildren(); timeline.replaceChildren(); modal.classList.add('open');
+      try {
+        const response = await fetch(`/api/cases/${encodeURIComponent(caseId)}`);
+        if (!response.ok) throw new Error('case fetch failed');
+        const item = await response.json();
+        title.textContent = `${item.ticket_number || item.crm_id} — ${item.title || 'عنوان ثبت نشده'}`;
+        appendDetailField(fields, 'وضعیت', item.status_code || item.state_code);
+        appendDetailField(fields, 'خدمت', item.service);
+        appendDetailField(fields, 'دسته‌بندی', item.category);
+        appendDetailField(fields, 'مالک', item.owner_name);
+        appendDetailField(fields, 'تاریخ ایجاد', formatTimelineDate(item.created_on));
+        appendDetailField(fields, 'آخرین تغییر', formatTimelineDate(item.modified_on));
+        appendDetailField(fields, 'شرح مسئله', item.description, true);
+        const activities = [
+          ...(item.notes || []).map(row => ({type:'Note ارتباطی', author:row.created_by_name, date:row.created_on || row.modified_on, text:row.note_text})),
+          ...(item.posts || []).map(row => ({type:'Post داخلی', author:row.created_by_name, date:row.created_on || row.modified_on, text:row.text || row.subject})),
+          ...(item.tasks || []).map(row => ({type:'Task داخلی L2', author:row.created_by_name, date:row.created_on || row.modified_on, text:`${row.subject || ''} ${row.description || ''}`})),
+        ].filter(row => row.text).sort((a,b) => String(b.date || '').localeCompare(String(a.date || '')));
+        const heading = document.createElement('h4'); heading.textContent = `Timeline متعلقات (${toFaNumber(activities.length)})`; timeline.appendChild(heading);
+        if (!activities.length) { const empty = document.createElement('p'); empty.className = 'intelligence-empty'; empty.textContent = 'متعلقی برای این مورد در Snapshot ثبت نشده است.'; timeline.appendChild(empty); }
+        activities.forEach(row => { const box = document.createElement('div'); box.className = 'case-detail-activity'; const strong = document.createElement('strong'); strong.textContent = `${row.type} — ${row.author || 'ثبت‌کننده در داده CRM مشخص نیست'} — ${formatTimelineDate(row.date)}`; const text = document.createElement('div'); text.textContent = row.text; box.append(strong, text); timeline.appendChild(box); });
+      } catch (_) { title.textContent = 'جزئیات مورد در دسترس نیست'; const empty = document.createElement('p'); empty.className = 'intelligence-empty'; empty.textContent = 'دریافت اطلاعات از Snapshot انجام نشد. دوباره تلاش کنید.'; timeline.appendChild(empty); }
+    }
+
     function renderCrmFields(item) {
       const grid = document.getElementById('crmFieldsGrid');
       if (!grid) return;
@@ -804,6 +991,7 @@
         const title = document.createElement('strong'); title.textContent = item.field || String(item);
         const reason = document.createElement('span'); reason.textContent = item.reason || 'برای این مورد اطلاعات کافی در CRM یا متعلقات آن پیدا نشد.';
         row.append(title, reason);
+        if (item.priority) { const priority = document.createElement('span'); priority.textContent = `اهمیت: ${item.priority}`; priority.style.fontWeight = '800'; row.appendChild(priority); }
         if (item.question) { const q = document.createElement('span'); q.textContent = `سؤال پیشنهادی: ${item.question}`; row.appendChild(q); }
         list.appendChild(row);
       });
@@ -938,11 +1126,86 @@
         answer.join('\n\n') + '\n\nوضعیت: پیش‌نویس — تأیید یا اصلاح با کارشناس';
     }
 
+    function renderIntelligence(analysis) {
+      document.getElementById('intelligenceSummary').textContent = analysis.summary || 'خلاصه مستند برای این مورد موجود نیست.';
+      document.getElementById('intelligenceStatus').textContent = analysis.current_status || 'نامشخص';
+      document.getElementById('intelligenceStatus').textContent += ` | ${analysis.suggested_status || '⚪ اطلاعات ناکافی'}`;
+      document.getElementById('qualityScore').textContent = toFaNumber(analysis.quality_score ?? '—');
+      document.getElementById('qualityMeterFill').style.width = `${Math.max(0, Math.min(100, Number(analysis.quality_score || 0)))}%`;
+      document.getElementById('qualityExplanation').textContent = analysis.quality_explanation || 'بر اساس اطلاعات و شواهد موجود.';
+      const evidenceList = document.getElementById('evidenceList');
+      evidenceList.replaceChildren();
+      (analysis.evidence || []).slice(0, 5).forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = `${item.type || 'شاهد'}: ${item.text || ''}${item.date ? ` — ${formatTimelineDate(item.date)}` : ''}`;
+        evidenceList.appendChild(li);
+      });
+      if (!evidenceList.children.length) evidenceList.innerHTML = '<li class="intelligence-empty">شاهد متنی قابل استناد پیدا نشد.</li>';
+      const unknownList = document.getElementById('unknownList');
+      unknownList.replaceChildren();
+      (analysis.unknowns || []).forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = `${item.title || 'مورد نامشخص'}: ${item.reason || ''}`;
+        unknownList.appendChild(li);
+      });
+      if (!unknownList.children.length) unknownList.innerHTML = '<li class="intelligence-empty">مورد نامشخصی شناسایی نشد.</li>';
+      const classification = analysis.classification || {};
+      document.getElementById('classificationText').textContent = classification.label
+        ? `${classification.label} — سطح اتکا: ${classification.confidence || 'نامشخص'}\n${classification.reason || ''}`
+        : 'طبقه‌بندی پیشنهادی موجود نیست.';
+      const nextActionsList = document.getElementById('nextActionsList');
+      nextActionsList.replaceChildren();
+      (analysis.next_actions || []).forEach(action => { const li = document.createElement('li'); li.textContent = action; nextActionsList.appendChild(li); });
+      if (!nextActionsList.children.length) nextActionsList.innerHTML = '<li class="intelligence-empty">اقدام بعدی مشخصی از داده فعلی استخراج نشد.</li>';
+      const timeline = analysis.timeline_intelligence || {};
+      const latest = timeline.latest_action;
+      document.getElementById('timelineIntelligence').textContent = latest
+        ? `${toFaNumber(timeline.activity_count || 0)} فعالیت؛ آخرین اقدام: ${latest.type || 'فعالیت'} — ${latest.text || ''}`
+        : 'فعالیت مرتبطی در Timeline پیدا نشد.';
+      renderNextBestActions(analysis.next_best_actions || []);
+      renderSimilarCases(analysis.similar_cases || []);
+    }
+
+    function renderNextBestActions(actions) {
+      const main = actions[0];
+      document.getElementById('nextActionCount').textContent = toFaNumber(actions.length);
+      document.getElementById('nextActionMain').textContent = main ? `${'⭐'.repeat(main.stars || 3)}  ${main.title}` : 'اقدام بعدی مشخصی از داده موجود استخراج نشد.';
+      document.getElementById('nextActionWhy').textContent = main ? `چرا؟ ${main.why}` : 'چرا؟ شواهد کافی موجود نیست.';
+      document.getElementById('nextActionEvidence').textContent = main ? `شواهد: ${main.evidence}` : 'شواهد: —';
+      document.getElementById('nextActionExpected').textContent = main ? `نتیجه مورد انتظار: ${main.expected_result}` : 'نتیجه مورد انتظار: —';
+      const list = document.getElementById('nextActionList'); list.replaceChildren();
+      actions.slice(1).forEach(action => { const box=document.createElement('div'); box.className='next-action-item'; const title=document.createElement('strong'); title.textContent=`${'⭐'.repeat(action.stars || 3)}  ${action.title}`; const p=document.createElement('p'); p.textContent=`چرا؟ ${action.why} | نتیجه مورد انتظار: ${action.expected_result}`; box.append(title,p); list.appendChild(box); });
+      if (!actions.slice(1).length) list.innerHTML='<div class="intelligence-empty">اقدام جایگزین دیگری پیشنهاد نشده است.</div>';
+      document.getElementById('nextActionStatus').textContent = main ? 'این پیشنهاد قطعی نیست و باید توسط کارشناس بررسی شود.' : '';
+    }
+
+    function applyLocalActionHistory(analysis) {
+      if (!currentCaseId || !analysis?.next_best_actions) return analysis;
+      let history = [];
+      try { history = JSON.parse(localStorage.getItem(`next-action:${currentCaseId}`) || '[]'); } catch (_) { history = []; }
+      if (!history.length) return analysis;
+      const completedIds = new Set(history.map(item => item.action_id));
+      const failed = history.filter(item => /ناموفق|برطرف نشد|شکست/i.test(item.result || ''));
+      analysis.next_best_actions = analysis.next_best_actions.filter(item => !completedIds.has(item.action_id));
+      if (failed.length) {
+        analysis.next_best_actions.unshift({
+          action_id: 'follow-local-failure', category: 'بررسی', stars: 5,
+          title: 'مرحله بعدی بررسی را پس از اقدام ناموفق قبلی انجام بده.',
+          why: `اقدام «${failed[failed.length - 1].title}» قبلاً ناموفق ثبت شده است؛ تکرار آن پیشنهاد نمی‌شود.`,
+          evidence: `نتیجه محلی ثبت‌شده: ${failed[failed.length - 1].result}`,
+          expected_result: 'فرضیه یا بررسی جایگزین با نتیجه قابل ثبت مشخص شود.',
+        });
+      }
+      return analysis;
+    }
+
     async function loadAnalysis(caseId) {
       try {
         const response = await fetch(`/api/cases/${encodeURIComponent(caseId)}/analysis`);
         if (!response.ok) return;
-        const analysis = await response.json();
+        const analysis = applyLocalActionHistory(await response.json());
+        latestAnalysis = analysis;
+        renderIntelligence(analysis);
         renderMissingItems(analysis.missing || [], 'فیلدهای پایه و شواهد متنی کافی است؛ تأیید نهایی با کارشناس است.');
         const questions = document.getElementById('followupSuggestions');
         questions.innerHTML = '';
@@ -981,6 +1244,60 @@
         // Client-side fallback remains visible if the local analysis endpoint is unavailable.
       }
     }
+
+    document.getElementById('reanalyzeBtn').addEventListener('click', () => {
+      if (currentCaseId) loadAnalysis(currentCaseId);
+      else showToast('ابتدا یک مورد را انتخاب کنید.');
+    });
+    ['similarModuleFilter', 'similarVersionFilter', 'similarStatusFilter', 'similarResolvedOnly', 'similarHasResolution', 'similarDateFrom', 'similarDateTo'].forEach(id => {
+      document.getElementById(id).addEventListener('input', () => { showAllSimilar = false; renderSimilarCases(latestSimilarCases); });
+      document.getElementById(id).addEventListener('change', () => { showAllSimilar = false; renderSimilarCases(latestSimilarCases); });
+    });
+    document.getElementById('showAllSimilarBtn').addEventListener('click', () => {
+      showAllSimilar = !showAllSimilar;
+      renderSimilarCases(latestSimilarCases);
+    });
+    document.getElementById('saveNextActionBtn').addEventListener('click', () => {
+      const result = document.getElementById('nextActionResultInput').value.trim();
+      const action = latestAnalysis?.next_best_actions?.[0];
+      if (!action) { showToast('ابتدا یک مورد را تحلیل کنید.'); return; }
+      if (!result) { showToast('نتیجه اقدام را وارد کنید.'); return; }
+      const key = `next-action:${currentCaseId}`;
+      const history = JSON.parse(localStorage.getItem(key) || '[]');
+      history.push({ action_id: action.action_id, title: action.title, result, created_at: new Date().toISOString() });
+      localStorage.setItem(key, JSON.stringify(history));
+      document.getElementById('nextActionStatus').textContent = 'نتیجه اقدام در مرورگر ذخیره شد؛ برای تحلیل مجدد کلیک کنید.';
+      document.getElementById('nextActionResultInput').value = '';
+    });
+    document.getElementById('copySummaryBtn').addEventListener('click', () => copyOutput(latestAnalysis?.summary || document.getElementById('answerDraft').textContent, 'خلاصه کپی شد.'));
+    document.getElementById('copyMissingBtn').addEventListener('click', () => {
+      const items = latestAnalysis?.missing || [];
+      copyOutput(items.map(item => `- ${item.field}: ${item.reason} (اهمیت: ${item.priority || 'نامشخص'})`).join('\n'), 'اطلاعات موردنیاز کپی شد.');
+    });
+    document.getElementById('copyL2Btn').addEventListener('click', () => {
+      const a = latestAnalysis;
+      const report = a ? `گزارش ارجاع به L2\n\nخلاصه: ${a.summary}\n\nطبقه‌بندی پیشنهادی: ${a.classification?.label || 'نامشخص'} (${a.classification?.confidence || 'نامشخص'})\n\nشواهد:\n${(a.evidence || []).slice(0, 5).map(item => `- ${item.type}: ${item.text}`).join('\n')}\n\nموارد نامشخص:\n${(a.unknowns || []).map(item => `- ${item.title}: ${item.reason}`).join('\n')}\n\nتوضیح: این گزارش پیش‌نویس است و بر اساس شواهد موجود نیازمند تأیید کارشناس است.` : '';
+      copyOutput(report, 'گزارش L2 کپی شد.');
+    });
+    document.getElementById('simulateCrmBtn').addEventListener('click', async () => {
+      const status = document.getElementById('simulatedCrmStatus');
+      const resultBox = document.getElementById('simulatedCrmResult');
+      const recordType = document.getElementById('simulatedRecordType').value;
+      const subject = document.getElementById('simulatedSubject').value.trim();
+      const body = document.getElementById('simulatedBody').value.trim() || document.getElementById('answerDraft').textContent.trim();
+      if (!currentCaseId) { status.textContent = 'ابتدا یک مورد انتخاب کنید.'; return; }
+      if (!body) { status.textContent = 'متن رکورد برای شبیه‌سازی الزامی است.'; return; }
+      status.textContent = 'در حال شبیه‌سازی ثبت...'; resultBox.classList.remove('show');
+      try {
+        const response = await fetch('/api/simulated-crm-operations', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({case_crm_id: currentCaseId, record_type: recordType, subject, body}) });
+        const payload = await response.json();
+        if (!response.ok || !payload.ok) throw new Error(payload.error || 'شبیه‌سازی ثبت انجام نشد.');
+        status.textContent = 'شبیه‌سازی با موفقیت انجام شد.';
+        resultBox.textContent = `${payload.message} شناسه عملیات: ${payload.operation_id} | نوع: ${recordType} | زمان: ${formatTimelineDate(payload.simulated_at)}`;
+        resultBox.classList.add('show');
+        document.getElementById('simulatedBody').value = '';
+      } catch (error) { status.textContent = `خطا: ${error.message}`; }
+    });
 
     async function loadLocalCases() {
       try {
@@ -1184,6 +1501,18 @@
   </script>
   <script>
     (function(){const nav=document.createElement('nav');nav.className='page-nav';nav.innerHTML='<a href="app-shell.html">⌂ صفحه اصلی</a><a href="settings.html">⚙ تنظیمات سیستم</a><button type="button" id="pageBack">← بازگشت به صفحه قبل</button><span>صفحه فعلی: بازبینی موارد</span>';const style=document.createElement('style');style.textContent='.page-nav{position:sticky;top:0;z-index:20;display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:9px 5vw;background:#fff;border-bottom:1px solid #dbe3ef;box-shadow:0 3px 12px rgba(15,23,42,.08);font:14px Vazirmatn,Tahoma,Arial,sans-serif;direction:rtl}.page-nav a,.page-nav button{border:1px solid #cbd5e1;border-radius:9px;padding:6px 11px;background:#fff;color:#1e40af;text-decoration:none;cursor:pointer;font:inherit}.page-nav span{color:#64748b;font-size:12px;margin-right:auto}@media(max-width:600px){.page-nav span{width:100%;margin-right:0}}';document.head.appendChild(style);document.body.insertBefore(nav,document.body.firstChild);document.getElementById('pageBack').onclick=()=>history.length>1?history.back():location.href='app-shell.html'})();
+  </script>
+  <div id="similarCaseDetailModal" class="case-detail-modal" role="dialog" aria-modal="true" aria-labelledby="similarDetailTitle">
+    <div class="case-detail-dialog">
+      <div class="case-detail-head"><h3 id="similarDetailTitle">جزئیات مورد مشابه <span class="temporary-change-badge">تغییر موقت</span></h3><button id="closeSimilarDetail" class="case-detail-close" type="button">بستن</button></div>
+      <div id="similarDetailFields" class="case-detail-fields"><p class="intelligence-empty">برای مشاهده جزئیات، یک مورد مشابه را انتخاب کنید.</p></div>
+      <div id="similarDetailTimeline" class="case-detail-timeline"></div>
+    </div>
+  </div>
+  <script>
+    document.getElementById('closeSimilarDetail').addEventListener('click', () => document.getElementById('similarCaseDetailModal').classList.remove('open'));
+    document.getElementById('similarCaseDetailModal').addEventListener('click', event => { if (event.target.id === 'similarCaseDetailModal') event.currentTarget.classList.remove('open'); });
+    document.addEventListener('keydown', event => { if (event.key === 'Escape') document.getElementById('similarCaseDetailModal')?.classList.remove('open'); });
   </script>
 </body>
 </html>

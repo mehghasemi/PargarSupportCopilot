@@ -1,0 +1,7 @@
+{
+  "schema_version": "1.0",
+  "created_at": "2026-09-09",
+  "purpose": "بازبینی انسانی شباهت موارد واقعی CRM؛ این فایل عمداً بدون متن مشتری نگهداری می‌شود.",
+  "label_values": ["similar", "not_similar", "uncertain"],
+  "items": []
+}

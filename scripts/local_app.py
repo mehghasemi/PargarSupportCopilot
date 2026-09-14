@@ -6,6 +6,7 @@ import json
 import argparse
 import sys
 import time
+import uuid
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
@@ -45,8 +46,10 @@ CASE_DISPLAY_FIELD_CATALOG = [
 DEFAULT_CASE_DISPLAY_FIELDS = [field["key"] for field in CASE_DISPLAY_FIELD_CATALOG]
 MAX_QUERY_LENGTH = 500
 MAX_SCENARIOS_PAYLOAD = 2_000_000
+SIMILARITY_METRICS_PATH = PROJECT_ROOT / "data" / "evaluation" / "similarity-metrics.json"
 ALLOWED_FEEDBACK_ACTIONS = {"accepted", "edited", "rejected"}
 ALLOWED_FEEDBACK_TYPES = {"suggestion", "article", "missing-field", "scenario-step"}
+ALLOWED_SIMULATED_RECORD_TYPES = {"note", "post", "task", "l2-report"}
 _identity_cache: dict[str, object] = {"user_id": None, "expires_at": 0.0}
 
 
@@ -182,6 +185,30 @@ class Handler(SimpleHTTPRequestHandler):
                 except (OSError, json.JSONDecodeError):
                     self._json({"error": "تاریخچه نگارش در دسترس نیست."}, 500)
                 return
+            if path in {"/api/similarity-metrics", "/api/evaluation/metrics", "/api/similarity-evaluation"}:
+                # Always return JSON. A missing report means that human labelling
+                # has not been completed yet; it is not a backend parse error.
+                default_metrics = {
+                    "source_file": None,
+                    "total_pairs": 0,
+                    "reviewed_pairs": 0,
+                    "pending_pairs": 0,
+                    "similar_pairs": 0,
+                    "not_similar_pairs": 0,
+                    "uncertain_pairs": 0,
+                    "sources_with_review": 0,
+                    "sources_with_relevant": 0,
+                    "precision_at_reviewed_candidates": None,
+                    "warning": "هنوز گزارش معیارها تولید یا برچسب‌گذاری نشده است.",
+                }
+                try:
+                    metrics = json.loads(SIMILARITY_METRICS_PATH.read_text(encoding="utf-8"))
+                    if not isinstance(metrics, dict):
+                        metrics = default_metrics
+                except (OSError, json.JSONDecodeError):
+                    metrics = default_metrics
+                self._json({"ok": True, "data": metrics, **metrics})
+                return
             if path in {"/api/scenarios", "/api/scenarios/export"}:
                 self._json(ScenarioStore().read())
                 return
@@ -222,11 +249,19 @@ class Handler(SimpleHTTPRequestHandler):
                     self._json({"error": "View این Snapshot برای کاربر فعلی مجاز نیست."}, 403)
                     return
                 case_path = path[len("/api/cases/"):]
+                if case_path.endswith("/simulated-crm-operations"):
+                    case_path = case_path[:-len("/simulated-crm-operations")].rstrip("/")
+                    self._json(store.list_simulated_crm_operations(case_path))
+                    return
                 if case_path.endswith("/analysis"):
                     case_path = case_path[:-len("/analysis")].rstrip("/")
                     case = store.get_case(case_path)
+                    corpus = []
+                    if case:
+                        corpus = [store.get_case(row["crm_id"]) for row in store.list_cases()]
+                        corpus = [row for row in corpus if row]
                     self._json(
-                        analyze_case(case) if case else {"error": "Case پیدا نشد"},
+                        analyze_case(case, similar_cases=corpus) if case else {"error": "Case پیدا نشد"},
                         200 if case else 404,
                     )
                     return
@@ -239,6 +274,41 @@ class Handler(SimpleHTTPRequestHandler):
 
     def do_POST(self) -> None:
         path = urlparse(self.path).path
+        if path == "/api/simulated-crm-operations":
+            try:
+                size = int(self.headers.get("Content-Length", "0"))
+                if size <= 0 or size > 100_000:
+                    raise ValueError("حجم عملیات شبیه‌سازی‌شده مجاز نیست.")
+                payload = json.loads(self.rfile.read(size) or b"{}")
+                case_crm_id = str(payload.get("case_crm_id") or "").strip()
+                record_type = str(payload.get("record_type") or "").strip().lower()
+                subject = str(payload.get("subject") or "").strip()
+                body = str(payload.get("body") or "").strip()
+                if not case_crm_id or not body:
+                    raise ValueError("Case و متن رکورد الزامی است.")
+                if record_type not in ALLOWED_SIMULATED_RECORD_TYPES:
+                    raise ValueError("نوع رکورد شبیه‌سازی‌شده معتبر نیست.")
+                if len(subject) > 500 or len(body) > 20_000:
+                    raise ValueError("حجم عنوان یا متن بیش از حد مجاز است.")
+                store = LocalStore()
+                try:
+                    store.initialize()
+                    if not store.get_case(case_crm_id):
+                        raise ValueError("Case انتخاب‌شده در Snapshot پیدا نشد.")
+                    operation = store.add_simulated_crm_operation(
+                        f"SIM-{uuid.uuid4().hex[:12].upper()}",
+                        case_crm_id, record_type, subject, body,
+                    )
+                finally:
+                    store.close()
+                self._json({
+                    "ok": True, "simulation": True,
+                    "message": "عملیات با موفقیت شبیه‌سازی شد؛ هیچ داده‌ای در CRM ثبت نشد.",
+                    **operation,
+                })
+            except (ValueError, json.JSONDecodeError) as exc:
+                self._json({"ok": False, "simulation": True, "error": str(exc)}, 400)
+            return
         if path == "/api/load-view":
             try:
                 size = int(self.headers.get("Content-Length", "0"))
